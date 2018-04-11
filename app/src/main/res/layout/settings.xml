@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <EditText
+                android:id="@+id/nameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="nameLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:id="@+id/drivenKmTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="drivenKmTitle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <SeekBar
+                android:id="@+id/drivenKm"
+                android:layout_width="match_parent"
+                android:layout_height="37dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:id="@+id/goalKmTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="goalKmTitle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:id="@+id/achievementsUserCreatedTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="achievementsUserCreatedTitle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <SeekBar
+                android:id="@+id/goalKm"
+                android:layout_width="match_parent"
+                android:layout_height="36dp" />
+
+            <ListView
+                android:id="@+id/achievementsUserCreated"
+                android:layout_width="match_parent"
+                android:layout_height="136dp">
+
+            </ListView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/achievementUserCreatedAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:backgroundTint="@android:color/black"
+                app:srcCompat="@android:drawable/ic_input_add" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:id="@+id/coDriverTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="coDriverTitle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <ListView
+                android:id="@+id/coDriver"
+                android:layout_width="match_parent"
+                android:layout_height="130dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/coDriverAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:backgroundTint="@android:color/black"
+                app:srcCompat="@android:drawable/ic_input_add" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:id="@+id/carLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/carLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <ListView
+                android:id="@+id/car"
+                android:layout_width="match_parent"
+                android:layout_height="129dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/carAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:backgroundTint="@android:color/black"
+                app:srcCompat="@android:drawable/ic_input_add" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>
