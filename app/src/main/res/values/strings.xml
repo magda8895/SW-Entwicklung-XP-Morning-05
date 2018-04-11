@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Roady</string>
     <string name="title_activity_driving_session_after">DrivingSessionAfter</string>
+    <string-array name="Weather">
+        <item>Dry</item>
+        <item>Rain</item>
+        <item>Snow</item>
+        <item>Ice</item>
+    </string-array>
+    <string-array name="RoadConditions">
+        <item>Clear</item>
+        <item>Crowd</item>
+        <item>Roadworks</item>
+        <item>Accident</item>
+    </string-array>
 </resources>
