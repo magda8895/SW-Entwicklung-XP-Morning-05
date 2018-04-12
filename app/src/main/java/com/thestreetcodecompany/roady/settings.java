@@ -40,7 +40,7 @@ public class settings extends View {
 
     private void init(AttributeSet attrs, int defStyle) {
         // Load attributes
-        final TypedArray a = getContext().obtainStyledAttributes(
+        /*final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.settings, defStyle, 0);
 
         mExampleString = a.getString(
@@ -60,7 +60,7 @@ public class settings extends View {
             mExampleDrawable.setCallback(this);
         }
 
-        a.recycle();
+        a.recycle();*/
 
         // Set up a default TextPaint object
         mTextPaint = new TextPaint();

@@ -21,15 +21,17 @@ public class DBBackend extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dbbackend);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.settings);
 
-        DBHandler dbh = new DBHandler();
-        dbh.makeDB();
-        dbh.makeTestData();
+        //setContentView(R.layout.activity_dbbackend);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
-        String pattern = "dd-mm-yyyy hh:mm:ss";
+        //DBHandler dbh = new DBHandler();
+        //dbh.makeDB();
+        //dbh.makeTestData();
+
+        /*String pattern = "dd-mm-yyyy hh:mm:ss";
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         try {
             Date date = format.parse("12-12-2012 05:21:12");
@@ -49,7 +51,7 @@ public class DBBackend extends AppCompatActivity {
                 MakeToast("hallo",getApplicationContext());
                 Helper.MakeSnackbar("Hallo",view);
             }
-        });
+        });*/
     }
 
 
