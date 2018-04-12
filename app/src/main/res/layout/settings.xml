@@ -64,6 +64,11 @@
                     android:text="goalKmTitle"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+                <SeekBar
+                    android:id="@+id/goalKm"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp" />
+
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="15dp" />
@@ -78,11 +83,6 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-                <SeekBar
-                    android:id="@+id/goalKm"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp" />
 
                 <ListView
                     android:id="@+id/achievementsUserCreated"
