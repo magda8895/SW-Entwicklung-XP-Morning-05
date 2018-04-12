@@ -156,10 +156,15 @@
                     android:layout_height="30dp" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/saveSettings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:clickable="true"
+                    android:text="Save" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
 
             </LinearLayout>
 
