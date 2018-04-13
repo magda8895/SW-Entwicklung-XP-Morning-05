@@ -9,11 +9,15 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
+import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -23,8 +27,25 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         final ListView listview = (ListView) findViewById(R.id.start_list);
-
         listview.setAdapter(createAdapter());
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.start_menuitem_new);
+        final FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.start_menuitem_old);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MakeSnackbar("Klick Neue Fahrt",view);
+            }
+        });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MakeToast("Klick Alte Fahrt",getApplicationContext());
+            }
+        });
+
 
     }
 
@@ -36,6 +57,8 @@ public class StartActivity extends AppCompatActivity {
         sessions.add(new DrivingSession(true,"12-12-2012 12:12:12",1200,karl));
         sessions.add(new DrivingSession(true,"12-12-2012 12:12:12",2000,karl));
         sessions.add(new DrivingSession(true,"12-12-2012 12:12:12",4000,karl));
+        sessions.add(new DrivingSession(true,"12-12-2012 12:12:12",7000,karl));
+        sessions.add(new DrivingSession(true,"12-12-2012 12:12:12",6000,karl));
 
         ArrayAdapter adapter = new ArrayAdapter<DrivingSession>(this,
                 R.layout.listitem_start,R.id.startitem_name, sessions) {
