@@ -9,12 +9,18 @@
     tools:showIn="@layout/activity_driving_session_after">
 
     <LinearLayout
-        android:layout_width="373dp"
+        android:layout_width="0dp"
         android:layout_height="499dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="6dp">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/startDateTimeText"
@@ -66,7 +72,6 @@
             android:weightSum="1.0">
 
             <TextView
-                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
@@ -84,12 +89,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1.0">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="End" />
 
             <EditText
                 android:id="@+id/editText5"
