@@ -33,21 +33,21 @@ public class DrivingSessionAfter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final Context c = this;
         setContentView(R.layout.activity_driving_session_after);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
         Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> adapterWeather = ArrayAdapter.createFromResource(this,
                 R.array.Weather, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        weatherSpinner.setAdapter(adapter1);
+        adapterWeather.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        weatherSpinner.setAdapter(adapterWeather);
 
-        Spinner roadConditionsSpinner = (Spinner) findViewById(R.id.spinnerRoadCondition);
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+        Spinner roadConditionsSpinner = findViewById(R.id.spinnerRoadCondition);
+        ArrayAdapter<CharSequence> adapterRoadCondition = ArrayAdapter.createFromResource(this,
                 R.array.RoadConditions, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        roadConditionsSpinner.setAdapter(adapter2);
+        adapterRoadCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roadConditionsSpinner.setAdapter(adapterRoadCondition);
 
 
 

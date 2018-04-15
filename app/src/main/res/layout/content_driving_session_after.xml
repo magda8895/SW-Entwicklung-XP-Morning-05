@@ -26,7 +26,8 @@
             android:id="@+id/textViewDateTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Date and Time" />
+            android:text="Date and Time"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -106,7 +107,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
-                android:text="Vehicle" />
+                android:text="Vehicle"
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/spinnerVehicle"
@@ -132,7 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Mileage" />
+                android:text="Mileage"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -154,6 +157,12 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/textViewMileageStartKM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="km" />
 
             </LinearLayout>
 
@@ -178,6 +187,12 @@
                     android:ems="10"
                     android:inputType="number" />
 
+                <TextView
+                    android:id="@+id/textViewMileageEndKM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="km" />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -198,14 +213,15 @@
                 android:id="@+id/textViewWeather"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="Weather" />
+                android:layout_weight="0.6"
+                android:text="Weather"
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/spinnerWeather"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.4" />
 
         </LinearLayout>
 
@@ -226,14 +242,15 @@
                 android:id="@+id/textViewRoadCondition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="Road condition" />
+                android:layout_weight="0.6"
+                android:text="Road condition"
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/spinnerRoadCondition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.4" />
         </LinearLayout>
 
         <View
