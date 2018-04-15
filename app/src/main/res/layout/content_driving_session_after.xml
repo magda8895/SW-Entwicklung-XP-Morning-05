@@ -23,125 +23,234 @@
         tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/startDateTimeText"
+            android:id="@+id/textViewDateTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start"
-            android:textSize="40px" />
-
-        <EditText
-            android:id="@+id/startDateTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="End"
-            android:textSize="40px" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="time" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Vehicle"
-            android:textSize="40px" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mileage"
-            android:textSize="40px" />
+            android:text="Date and Time" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1.0">
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewDateStart"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
+                android:layout_weight="0.4"
                 android:text="Start" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/buttonDateStart"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="End" />
+                android:layout_weight="0.3"
+                android:background="@android:color/transparent"
+                android:text="Date" />
+
+            <Button
+                android:id="@+id/buttonTimeStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:background="@android:color/transparent"
+                android:text="Time" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1.0">
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editText5"
+            <TextView
+                android:id="@+id/textViewDateEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:ems="10"
-                android:inputType="time" />
+                android:layout_weight="0.4"
+                android:text="End" />
 
-            <EditText
-                android:id="@+id/editText4"
+            <Button
+                android:id="@+id/buttonDateEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:ems="10"
-                android:inputType="time" />
+                android:layout_weight="0.3"
+                android:background="@android:color/transparent"
+                android:text="Date" />
+
+            <Button
+                android:id="@+id/buttonTimeEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:background="@android:color/transparent"
+                android:text="Time" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView7"
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="40dp"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="invisible" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Weather"
-            android:textSize="40px"
-            tools:layout_editor_absoluteX="79dp"
-            tools:layout_editor_absoluteY="341dp" />
+            android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/weatherSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/textViewVehicle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:text="Vehicle" />
 
-        <TextView
-            android:id="@+id/textView9"
+            <Spinner
+                android:id="@+id/spinnerVehicle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="40dp"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="invisible" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Road condition"
-            android:textSize="40px"
-            tools:layout_editor_absoluteX="79dp"
-            tools:layout_editor_absoluteY="341dp" />
+            android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/roadConditionsSpinner"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mileage" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewMileageStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Start" />
+
+                <EditText
+                    android:id="@+id/editTextMileageStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewMileageEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="End" />
+
+                <EditText
+                    android:id="@+id/editTextMileageEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="40dp"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="invisible" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewWeather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:text="Weather" />
+
+            <Spinner
+                android:id="@+id/spinnerWeather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="40dp"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewRoadCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:text="Road condition" />
+
+            <Spinner
+                android:id="@+id/spinnerRoadCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="40dp"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="invisible" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save" />
 
 
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
