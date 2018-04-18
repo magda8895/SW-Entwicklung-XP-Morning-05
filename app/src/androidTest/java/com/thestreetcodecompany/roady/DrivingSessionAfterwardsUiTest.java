@@ -68,22 +68,18 @@ public class DrivingSessionAfterwardsUiTest {
     }
 
     @Test
-    public void changeText_sameActivity() {
-        //onView(withId(R.id.startDateTime)).perform(click());
-        onView(withId(R.id.buttonDateStart)).perform(click());
+    public void setStartDateAndTime() {
+        UiTestsHelper.setSDate_andSetTime(R.id.buttonDateStart,R.id.buttonTimeStart,2018,3,2,22,12);
     }
 
     @Test
-    public void setStartDate_andStartTime() {
-        onView(withId(R.id.buttonDateStart)).perform(click());
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2018, 4,12 ));
-        onView(withText("OK")).perform(click());
-
-        onView(withId(R.id.buttonTimeStart)).perform(click());
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(12,11));
-        onView(withText("OK")).perform(click());
-
-        Assert.assertEquals("asd","asd");
+    public void setEndDateAndTime() {
+        UiTestsHelper.setSDate_andSetTime(R.id.buttonDateEnd,R.id.buttonTimeEnd,2018,3,2,23,50);
     }
+
+
+
+
+
 
 }
