@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * Created by Rutter on 23.03.2018.
+ * Latest changes: Schauberger (18.04.2018)
  */
 
 
@@ -45,17 +46,17 @@ public class DBHandler extends SugarApp {
 
     public void makeTestData()
     {
-        User user = new User("Karl Heinz", 14,1000);
+        User user = new User("Karl Heinz", 14, 1000);
         user.save();
-        Achievement a = new Achievement("king",1,500,"/",false,user);
+        Achievement a = new Achievement("king", 1, 500, "/", false, user);
         user.save();
-        Car c = new Car("Bugatti","GU-123YEAH",user);
-        user.save();
-        CoDriver cd = new CoDriver("Carlos",user);
+        Car car = new Car("Bugatti", "GU-123YEAH", user);
+        car.save();
+        CoDriver cd = new CoDriver("Carlos", user);
         cd.save();
-        DrivingSession ds = new DrivingSession(true,"12-12-2012 05:21:12",2099,user);
+        DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
         ds.save();
-        Coordinate cord = new Coordinate(1,39.2300F ,15.223F ,ds);
+        Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
         cord.save();
     }
 
@@ -72,10 +73,39 @@ public class DBHandler extends SugarApp {
         return users.get(0);
     }
 
+
+
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
-       return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+        return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
     }
 
 
+
+    public List<Car> getAllCars() {
+        List<Car> cars = Car.listAll(Car.class);
+
+        if (cars.size() <= 0) {
+            makeTestData();
+            cars = Car.listAll(Car.class);
+        }
+
+        return cars;
+    }
+
+
+/*
+    public String[] getAllCarsString() {
+        List<Car> cars = Car.listAll(Car.class);
+
+        if (cars.size() <= 0) {
+            makeTestData();
+            cars = Car.listAll(Car.class);
+        }
+
+        String[] carArray;
+
+        return carArray;
+    }
+*/
 }

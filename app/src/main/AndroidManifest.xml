@@ -11,8 +11,8 @@
         android:theme="@style/AppTheme"
         android:name="com.orm.SugarApp">
         <activity
-            android:name=".DBBackend"
-            android:label="@string/title_activity_dbbackend"
+            android:name=".DrivingSessionAfter"
+            android:label="@string/title_activity_driving_session_after"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

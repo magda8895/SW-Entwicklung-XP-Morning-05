@@ -8,17 +8,24 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.model.Car;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class DrivingSessionAfter extends AppCompatActivity {
@@ -48,6 +55,27 @@ public class DrivingSessionAfter extends AppCompatActivity {
                 R.array.RoadConditions, android.R.layout.simple_spinner_item);
         adapterRoadCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roadConditionsSpinner.setAdapter(adapterRoadCondition);
+
+
+
+        // DB Connect
+        DBHandler dbh = new DBHandler();
+
+        // list cars
+        List<Car> cars = dbh.getAllCars();
+        ArrayList<String> carArray = new ArrayList<>();
+        for (int i = 0; i < cars.size(); i++) {
+            carArray.add(cars.get(i).getName());
+        }
+
+        Spinner vehicleSpinner = findViewById(R.id.spinnerVehicle);
+        //ArrayAdapter<CharSequence> adapterVehicle = ArrayAdapter.createFromResource(this, carArray, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapterVehicle = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, carArray);
+        adapterVehicle.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        vehicleSpinner.setAdapter(adapterVehicle);
+
+
+        Log.d("cars", cars.toString());
 
 
 

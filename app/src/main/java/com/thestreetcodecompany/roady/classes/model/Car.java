@@ -14,11 +14,19 @@ public class Car extends SugarRecord {
     User user;
     boolean deleted;
 
-    public Car(){}
+    public Car() {}
 
     public Car(String name, String kfz, User user) {
         this.name = name;
         this.kfz = kfz;
         this.user = user;
+    }
+
+    public String toString() {
+        return "name: " + this.name + ", kfz: " + this.kfz + ", user: " + this.user;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
