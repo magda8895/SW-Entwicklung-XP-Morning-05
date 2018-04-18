@@ -4,4 +4,7 @@
     <string name="title_activity_start">StartActivity</string>
     <string name="lable_addnew">neue Fahrt</string>
     <string name="lable_addold">Fahrt nachtragen</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_nav">NavActivity</string>
 </resources>
