@@ -21,7 +21,7 @@ public class DBBackend extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
+        setContentView(R.layout.settings_frontend);
 
         //setContentView(R.layout.activity_dbbackend);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -31,7 +31,7 @@ public class DBBackend extends AppCompatActivity {
         //dbh.makeDB();
         //dbh.makeTestData();
 
-        /*String pattern = "dd-mm-yyyy hh:mm:ss";
+       /* String pattern = "dd-mm-yyyy hh:mm:ss";
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         try {
             Date date = format.parse("12-12-2012 05:21:12");
