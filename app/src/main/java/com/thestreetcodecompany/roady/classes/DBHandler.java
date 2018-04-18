@@ -77,5 +77,9 @@ public class DBHandler extends SugarApp {
         return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
     }
 
+    public List<Car> getAllCars(User user)
+    {
+        return Car.find(Car.class, "user = ?", "" + user.getId());
+    }
 
 }
