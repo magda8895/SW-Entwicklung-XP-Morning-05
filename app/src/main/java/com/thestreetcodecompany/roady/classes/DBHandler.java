@@ -6,12 +6,16 @@ import com.orm.SchemaGenerator;
 import com.orm.SugarApp;
 import com.orm.SugarContext;
 import com.orm.SugarDb;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.Coordinate;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
+
+import java.util.List;
 
 /**
  * Created by Rutter on 23.03.2018.
@@ -53,7 +57,25 @@ public class DBHandler extends SugarApp {
         ds.save();
         Coordinate cord = new Coordinate(1,39.2300F ,15.223F ,ds);
         cord.save();
-
     }
+
+    public User getTestUser() {
+
+        List<User> users = User.listAll(User.class);
+
+        if(users.size() <= 0)
+        {
+            makeTestData();
+            users = User.listAll(User.class);
+        }
+
+        return users.get(0);
+    }
+
+    public List<DrivingSession> getAllDrivingSessions(User user)
+    {
+        return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+    }
+
 
 }
