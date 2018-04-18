@@ -13,4 +13,5 @@
         <item>Roadworks</item>
         <item>Accident</item>
     </string-array>
+    <string name="title_activity_dbbackend">DBBackend</string>
 </resources>
