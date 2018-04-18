@@ -10,15 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".DBBackend"
-            android:label="@string/title_activity_dbbackend"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
 
         <meta-data
             android:name="DATABASE"
@@ -35,14 +26,10 @@
 
         <activity
             android:name=".StartActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".NavActivity"
-            android:label="@string/title_activity_nav"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

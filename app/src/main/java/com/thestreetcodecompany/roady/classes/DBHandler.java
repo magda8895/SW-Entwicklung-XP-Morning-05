@@ -59,6 +59,7 @@ public class DBHandler extends SugarApp {
         cord.save();
     }
 
+
     public User getTestUser() {
 
         List<User> users = User.listAll(User.class);
@@ -78,4 +79,19 @@ public class DBHandler extends SugarApp {
     }
 
 
+    /* vorher: DBBackend
+        DBHandler dbh = new DBHandler();
+        dbh.makeDB();
+        dbh.makeTestData();
+
+        String pattern = "dd-mm-yyyy hh:mm:ss";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        try {
+            Date date = format.parse("12-12-2012 05:21:12");
+            System.out.println("Date is: "+date);
+            MakeToast(date.toString(),getApplicationContext());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+     */
 }
