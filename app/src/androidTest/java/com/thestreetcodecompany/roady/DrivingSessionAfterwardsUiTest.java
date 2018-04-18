@@ -28,7 +28,7 @@ import static junit.framework.Assert.assertEquals;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ExampleInstrumentedTest {
+public class DrivingSessionAfterwardsUiTest {
 
     private String dateToBeEntered;
 
@@ -51,7 +51,8 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void changeText_sameActivity() {
-        onView(withId(R.id.startDateTime)).perform(click());
+        //onView(withId(R.id.startDateTime)).perform(click());
+        onView(withId(R.id.buttonDateStart)).perform(click());
     }
 
 
