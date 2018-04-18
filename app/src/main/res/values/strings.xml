@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Roady</string>
     <string name="title_activity_dbbackend">DBBackend</string>
+    <string name="title_activity_settings_backend">SettingsBackend</string>
 </resources>
