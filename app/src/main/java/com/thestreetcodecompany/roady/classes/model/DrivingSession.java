@@ -61,4 +61,20 @@ public class DrivingSession  extends SugarRecord {
         return date;
     }
 
+    public int getDistance()
+    {
+        //TODO: Distanz berechnen
+        return (int)km_start;
+    }
+    public String getTimeSpan()
+    {
+        //TODO: Datum ausgeben
+        return "02.05.2018";
+    }
+
+    public String getName()
+    {
+        return "Graz - Wien";
+    }
+
 }

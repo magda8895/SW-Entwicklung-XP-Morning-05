@@ -12,6 +12,16 @@ public class User extends SugarRecord{
     String name;
     float driven_km;
     float goal_km;
+
+
+    public int getDriven_km() {
+        return (int) driven_km;
+    }
+
+    public int getGoal_km() {
+        return (int) goal_km;
+    }
+
     boolean deleted;
 
 
@@ -24,5 +34,8 @@ public class User extends SugarRecord{
         this.driven_km = driven_km;
         this.goal_km = goal_km;
     }
+
+
+
 
 }
