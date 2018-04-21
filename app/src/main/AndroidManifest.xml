@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
+       <!-- <activity
             android:name=".DBBackend"
             android:label="@string/title_activity_dbbackend"
             android:theme="@style/AppTheme.NoActionBar">
@@ -19,14 +19,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <meta-data
             android:name="DATABASE"
             android:value="roady.db" />
         <meta-data
             android:name="VERSION"
-            android:value="5" />
+            android:value="6" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />

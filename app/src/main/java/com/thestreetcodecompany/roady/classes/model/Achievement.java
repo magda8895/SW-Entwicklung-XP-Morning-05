@@ -26,4 +26,8 @@ public class Achievement extends SugarRecord {
         this.reached = reached;
         this.user = user;
     }
+
+    public String getName() {
+        return name;
+    }
 }

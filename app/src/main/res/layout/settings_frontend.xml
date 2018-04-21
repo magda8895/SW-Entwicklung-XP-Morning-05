@@ -51,7 +51,8 @@
                 <SeekBar
                     android:id="@+id/drivenKm"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp" />
+                    android:layout_height="37dp"
+                    android:max = "3000" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -67,13 +68,14 @@
                 <SeekBar
                     android:id="@+id/goalKm"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp" />
+                    android:layout_height="36dp"
+                    android:max="3000" />
 
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="15dp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/achievementsUserCreatedTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="15dp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/coDriverTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -127,7 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="15dp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/carLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +162,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:text="Save" />
+                    android:text="Save"
+                    android:onClick="save_settings"/>
 
                 <Space
                     android:layout_width="match_parent"
