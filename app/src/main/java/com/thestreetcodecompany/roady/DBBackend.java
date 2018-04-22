@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.Helper;
-import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,7 +32,7 @@ public class DBBackend extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         try {
             Date date = format.parse("12-12-2012 05:21:12");
-            System.out.println("Date is: "+date);
+            System.out.println("Date is: " + date);
             MakeToast(date.toString(),getApplicationContext());
         } catch (ParseException e) {
             e.printStackTrace();
@@ -50,6 +49,7 @@ public class DBBackend extends AppCompatActivity {
                 Helper.MakeSnackbar("Hallo",view);
             }
         });
+
     }
 
 

@@ -25,16 +25,16 @@ import java.util.List;
 
 public class DBHandler extends SugarApp {
 
-    public DBHandler(){}
+    public DBHandler() {}
 
     public void makeDB()
     {
         User user = new User();
         user.save();
-        Achievement a = new Achievement();
-        user.save();
-        Car c = new Car();
-        user.save();
+        Achievement achievement = new Achievement();
+        achievement.save();
+        Car car = new Car();
+        car.save();
         CoDriver cd = new CoDriver();
         cd.save();
         Coordinate cord = new Coordinate();
@@ -48,8 +48,8 @@ public class DBHandler extends SugarApp {
     {
         User user = new User("Karl Heinz", 14, 1000);
         user.save();
-        Achievement a = new Achievement("king", 1, 500, "/", false, user);
-        user.save();
+        Achievement achievement = new Achievement("king", 1, 500, "/", false, user);
+        achievement.save();
         Car car = new Car("Bugatti", "GU-123YEAH", user);
         car.save();
         CoDriver cd = new CoDriver("Carlos", user);
