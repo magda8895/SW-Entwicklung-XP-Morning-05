@@ -15,7 +15,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,17 +40,34 @@ public class DrivingSessionAfter extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+        //Start Mileage
+        final EditText editTextMileageStart = findViewById(R.id.editTextMileageStart);
+        String editTextMileageStartValue = editTextMileageStart.getText().toString();
+        //End Mileage
+        final EditText editTextMileageEnd = findViewById(R.id.editTextMileageEnd);
+        String editTextMileageEndValue = editTextMileageEnd.getText().toString();
+
+
+        // Vehicle
+        Spinner vehicleSpinner = findViewById(R.id.spinnerVehicle);
+
+        // CoDriver
+        Spinner codriverSpinner = findViewById(R.id.spinnerCoDriver);
+
+        // Weather Condition
         Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
         ArrayAdapter<CharSequence> adapterWeather = ArrayAdapter.createFromResource(this,
                 R.array.Weather, android.R.layout.simple_spinner_item);
         adapterWeather.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         weatherSpinner.setAdapter(adapterWeather);
 
+        // Road Condition
         Spinner roadConditionsSpinner = findViewById(R.id.spinnerRoadCondition);
         ArrayAdapter<CharSequence> adapterRoadCondition = ArrayAdapter.createFromResource(this,
                 R.array.RoadConditions, android.R.layout.simple_spinner_item);
         adapterRoadCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roadConditionsSpinner.setAdapter(adapterRoadCondition);
+
 
 
 
@@ -194,4 +214,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
             }
     };
 
-}
+
+
+};
