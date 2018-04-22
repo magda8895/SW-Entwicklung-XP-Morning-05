@@ -4,31 +4,23 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.orm.query.Select;
-import com.orm.SugarApp;
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
-import com.thestreetcodecompany.roady.classes.model.Coordinate;
-import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
 
 public class SettingsBackend extends AppCompatActivity {
     private User user;
@@ -39,16 +31,18 @@ public class SettingsBackend extends AppCompatActivity {
         setContentView(R.layout.settings_frontend);
 
         //get View Elements
-        final ListView listview_achievements = (ListView) findViewById(R.id.achievementsUserCreated);
-        final ListView listview_codriver = (ListView) findViewById(R.id.coDriver);
-        final ListView listview_car = (ListView) findViewById(R.id.car);
+        final ListView listview_achievements = (ListView) findViewById(R.id.achievementsUserCreatedList);
+        final ListView listview_codriver = (ListView) findViewById(R.id.coDriverList);
+        final ListView listview_car = (ListView) findViewById(R.id.carList);
         final FloatingActionButton fab_achievemtents = (FloatingActionButton) findViewById(R.id.achievementUserCreatedAdd);
         final FloatingActionButton fab_codriver = (FloatingActionButton) findViewById(R.id.coDriverAdd);
         final FloatingActionButton fab_car = (FloatingActionButton) findViewById(R.id.carAdd);
-        final EditText editText_achievements = (EditText) findViewById(R.id.achievementsUserCreatedTitle);
-        final TextView editText_codriver = (EditText) findViewById(R.id.coDriverTitle);
-        final EditText editText_car = (EditText) findViewById(R.id.carLabel);
-        final EditText edittext_name = (EditText) findViewById(R.id.nameLabel);
+        final EditText editText_achievements = (EditText) findViewById(R.id.achievementsUserCreated);
+        final EditText editText_achievements_km = (EditText) findViewById(R.id.achievementsUserCreatedKm);
+        final EditText editText_codriver = (EditText) findViewById(R.id.coDriverName);
+        final EditText editText_car_name = (EditText) findViewById(R.id.carName);
+        final EditText editText_car_kfz = (EditText) findViewById(R.id.carKfz);
+        final EditText edittext_name = (EditText) findViewById(R.id.userName);
         final SeekBar seekbar_drivenkm = (SeekBar) findViewById(R.id.drivenKm);
         final SeekBar seekbar_goalkm = (SeekBar) findViewById(R.id.goalKm);
         final Button button_savesettings = (Button) findViewById(R.id.saveSettings);
@@ -68,20 +62,24 @@ public class SettingsBackend extends AppCompatActivity {
 
         //set List Adapter
         listview_car.setAdapter(createCarAdapter(cars));
+        adaptListViewHeight(listview_car);
         listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
+        adaptListViewHeight(listview_codriver);
         listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+        adaptListViewHeight(listview_achievements);
 
 
 
         fab_achievemtents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String achievement = editText_achievements.getText().toString();
-                String[] split = achievement.split(", ");
-                Achievement a = new Achievement(split[0], Integer.parseInt(split[1]), Float.valueOf(split[2]), split[3], Boolean.valueOf(split[4]), user);
+                String name = editText_achievements.getText().toString();
+                float km = Float.valueOf(editText_achievements_km.getText().toString());
+                Achievement a = new Achievement(name, 2, km, "No Image", false, user);
                 a.save();
                 achievements.add(a);
                 listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+                adaptListViewHeight(listview_achievements);
             }
         });
 
@@ -93,18 +91,20 @@ public class SettingsBackend extends AppCompatActivity {
                 co.save();
                 co_drivers.add(co);
                 listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
+                adaptListViewHeight(listview_codriver);
             }
         });
 
         fab_car.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String car = editText_car.getText().toString();
-                String[] split = car.split(", ");
-                Car c = new Car(split[0], split[1], user);
+                String name = editText_car_name.getText().toString();
+                String kfz = editText_car_kfz.getText().toString();
+                Car c = new Car(name, kfz, user);
                 c.save();
                 cars.add(c);
                 listview_car.setAdapter(createCarAdapter(cars));
+                adaptListViewHeight(listview_car);
             }
         });
 
@@ -156,6 +156,8 @@ public class SettingsBackend extends AppCompatActivity {
 
                 tv_name.setText(co_drivers.get(position).getName());
 
+
+
                 return view;
             }
         };
@@ -178,6 +180,29 @@ public class SettingsBackend extends AppCompatActivity {
             }
         };
         return adapter;
+    }
+
+
+    public static void adaptListViewHeight(ListView listview) {
+
+        ListAdapter adapter = listview.getAdapter();
+        int height = 0;
+        int divider_height = listview.getDividerHeight();
+        int i = 0;
+
+        while(i < adapter.getCount())
+        {
+            View item = adapter.getView(i, null, listview);
+            item.measure(0, 0);
+            height += item.getMeasuredHeight() + divider_height;
+            i++;
+        }
+
+        ViewGroup.LayoutParams listviewParams = listview.getLayoutParams();
+        listviewParams.height = height;
+
+        listview.setLayoutParams(listviewParams);
+        listview.requestLayout();
     }
 
 }

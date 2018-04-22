@@ -14,7 +14,6 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
@@ -40,16 +39,16 @@ public class RoadyInstrumentedTest {
 
     @Test
     public void testSettingButtons() throws Exception {
-        onView(withId(R.id.nameLabel)).perform(clearText());
-        onView(withId(R.id.nameLabel)).perform(typeText("Alex"), closeSoftKeyboard());
-        onView(withId(R.id.nameLabel)).perform(typeText("Christina"), closeSoftKeyboard());
+        onView(withId(R.id.name)).perform(clearText());
+        onView(withId(R.id.name)).perform(typeText("Alex"), closeSoftKeyboard());
+        onView(withId(R.id.name)).perform(typeText("Christina"), closeSoftKeyboard());
         onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
     }
 
     @Test
     public void addNewUser() throws Exception {
-        onView(withId(R.id.nameLabel)).perform(clearText());
-        onView(withId(R.id.nameLabel)).perform(typeText("Max Mustermann"), closeSoftKeyboard());
+        onView(withId(R.id.name)).perform(clearText());
+        onView(withId(R.id.name)).perform(typeText("Max Mustermann"), closeSoftKeyboard());
         onView(withId(R.id.saveSettings))
                 .perform(scrollTo(), click());
         onView(withId(R.id.saveSettings)).perform(click());
@@ -57,25 +56,25 @@ public class RoadyInstrumentedTest {
 
     @Test
     public void addNewAchievement() throws Exception {
-        onView(withId(R.id.achievementsUserCreatedTitle)).perform(scrollTo());
-        onView(withId(R.id.achievementsUserCreatedTitle)).perform(clearText());
-        onView(withId(R.id.achievementsUserCreatedTitle)).perform(typeText("Star, 2, 1000, /, false"), closeSoftKeyboard());
+        onView(withId(R.id.achievementsUserCreated)).perform(scrollTo());
+        onView(withId(R.id.achievementsUserCreated)).perform(clearText());
+        onView(withId(R.id.achievementsUserCreated)).perform(typeText("Star, 2, 1000, /, false"), closeSoftKeyboard());
         onView(withId(R.id.achievementUserCreatedAdd)).perform(scrollTo(), click());
     }
 
     @Test
     public void addNewCoDriver() throws Exception {
         onView(withId(R.id.coDriver)).perform(scrollTo());
-        onView(withId(R.id.coDriverTitle)).perform(clearText());
-        onView(withId(R.id.coDriverTitle)).perform(typeText("Martina Musterfrau"), closeSoftKeyboard());
+        onView(withId(R.id.coDriver)).perform(clearText());
+        onView(withId(R.id.coDriver)).perform(typeText("Martina Musterfrau"), closeSoftKeyboard());
         onView(withId(R.id.coDriverAdd)).perform(scrollTo(), click());
     }
 
     @Test
     public void addNewCar() throws Exception {
-        onView(withId(R.id.car)).perform(scrollTo());
-        onView(withId(R.id.carLabel)).perform(clearText());
-        onView(withId(R.id.carLabel)).perform(typeText("Mustang, G-111HA"), closeSoftKeyboard());
+        onView(withId(R.id.carList)).perform(scrollTo());
+        onView(withId(R.id.carList)).perform(clearText());
+        onView(withId(R.id.carList)).perform(typeText("Mustang, G-111HA"), closeSoftKeyboard());
         onView(withId(R.id.carAdd)).perform(scrollTo(), click());
     }
 
