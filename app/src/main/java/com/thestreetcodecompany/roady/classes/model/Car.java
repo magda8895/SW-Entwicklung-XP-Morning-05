@@ -4,6 +4,7 @@ import com.orm.SugarRecord;
 
 /**
  * Created by Rutter on 23.03.2018.
+ * Last changed by Schauberger on 23.04.2018
  */
 
 public class Car extends SugarRecord {

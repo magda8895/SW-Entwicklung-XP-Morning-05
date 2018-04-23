@@ -33,7 +33,7 @@ public class DBBackend extends AppCompatActivity {
         try {
             Date date = format.parse("12-12-2012 05:21:12");
             System.out.println("Date is: " + date);
-            MakeToast(date.toString(),getApplicationContext());
+            MakeToast(date.toString(), getApplicationContext());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -45,8 +45,8 @@ public class DBBackend extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MakeToast("hallo",getApplicationContext());
-                Helper.MakeSnackbar("Hallo",view);
+                MakeToast("hallo", getApplicationContext());
+                Helper.MakeSnackbar("Hallo", view);
             }
         });
 

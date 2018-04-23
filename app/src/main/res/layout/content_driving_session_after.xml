@@ -106,7 +106,7 @@
                 android:id="@+id/textViewVehicle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
+                android:layout_weight="0.6"
                 android:text="Vehicle"
                 android:textSize="18sp" />
 
@@ -114,7 +114,7 @@
                 android:id="@+id/spinnerVehicle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.4" />
         </LinearLayout>
 
         <View
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number" />
+                    android:inputType="number|numberDecimal" />
 
                 <TextView
                     android:id="@+id/textViewMileageStartKM"
@@ -185,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number" />
+                    android:inputType="number|numberDecimal" />
 
                 <TextView
                     android:id="@+id/textViewMileageEndKM"

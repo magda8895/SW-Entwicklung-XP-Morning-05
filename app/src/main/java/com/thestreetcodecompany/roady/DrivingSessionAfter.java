@@ -15,14 +15,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.model.Car;
+import com.thestreetcodecompany.roady.classes.model.CoDriver;
+import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -154,6 +158,37 @@ public class DrivingSessionAfter extends AppCompatActivity {
             }
         });*/
 
+
+        final Button save = findViewById(R.id.buttonSave);
+        save.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // TODO: check all input
+                String name = "GRZ - VIE";
+                Date dateTime_start = calStart.getTime();
+                Date dateTime_end = calEnd.getTime();
+
+                Spinner carSpinner = findViewById(R.id.spinnerVehicle);
+                String car = carSpinner.getSelectedItem().toString();
+
+                TextView kmStart = findViewById(R.id.textViewMileageStartKM);
+                float km_start = Integer.parseInt(kmStart.getText().toString());
+
+                TextView kmEnd = findViewById(R.id.textViewMileageEndKM);
+                float km_end = Integer.parseInt(kmEnd.getText().toString());
+
+                //TextView coDriver = findViewById(R.id.spinnerCoDriver);
+                //String co_driver = coDriver.getText().toString();
+                String co_driver = "Dummy";
+
+                int weather = 0;
+                int street_condition = 0;
+
+                // save to db
+                DrivingSession newSession = new DrivingSession(name, dateTime_start, dateTime_end, car,
+                        km_start, km_end, co_driver, weather, street_condition);
+                newSession.save();
+            }
+        });
 
     }
 

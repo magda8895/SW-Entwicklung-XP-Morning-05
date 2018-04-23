@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Created by Rutter on 23.03.2018.
- * Latest changes: Schauberger (18.04.2018)
+ * Last changed by Schauberger on 23.04.2018
  */
 
 
@@ -74,6 +74,20 @@ public class DBHandler extends SugarApp {
     }
 
 
+    public CoDriver getTestCoDriver() {
+
+        List<CoDriver> coDrivers = CoDriver.listAll(CoDriver.class);
+
+        if(coDrivers.size() <= 0)
+        {
+            makeTestData();
+            coDrivers = CoDriver.listAll(CoDriver.class);
+        }
+
+        return coDrivers.get(0);
+    }
+
+
 
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
@@ -93,19 +107,4 @@ public class DBHandler extends SugarApp {
         return cars;
     }
 
-
-/*
-    public String[] getAllCarsString() {
-        List<Car> cars = Car.listAll(Car.class);
-
-        if (cars.size() <= 0) {
-            makeTestData();
-            cars = Car.listAll(Car.class);
-        }
-
-        String[] carArray;
-
-        return carArray;
-    }
-*/
 }

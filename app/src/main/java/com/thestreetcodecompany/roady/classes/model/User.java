@@ -6,7 +6,7 @@ import com.orm.SugarRecord;
  * Created by Rutter on 23.03.2018.
  */
 
-public class User extends SugarRecord{
+public class User extends SugarRecord {
 
     //int id;
     String name;
