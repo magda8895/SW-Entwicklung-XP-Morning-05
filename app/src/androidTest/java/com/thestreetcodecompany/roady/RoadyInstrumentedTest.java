@@ -39,16 +39,16 @@ public class RoadyInstrumentedTest {
 
     @Test
     public void testSettingButtons() throws Exception {
-        onView(withId(R.id.name)).perform(clearText());
-        onView(withId(R.id.name)).perform(typeText("Alex"), closeSoftKeyboard());
-        onView(withId(R.id.name)).perform(typeText("Christina"), closeSoftKeyboard());
+        onView(withId(R.id.userName)).perform(clearText());
+        onView(withId(R.id.userName)).perform(typeText("Alex"), closeSoftKeyboard());
+        onView(withId(R.id.userName)).perform(typeText("Christina"), closeSoftKeyboard());
         onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
     }
 
     @Test
     public void addNewUser() throws Exception {
-        onView(withId(R.id.name)).perform(clearText());
-        onView(withId(R.id.name)).perform(typeText("Max Mustermann"), closeSoftKeyboard());
+        onView(withId(R.id.userName)).perform(clearText());
+        onView(withId(R.id.userName)).perform(typeText("Max Mustermann"), closeSoftKeyboard());
         onView(withId(R.id.saveSettings))
                 .perform(scrollTo(), click());
         onView(withId(R.id.saveSettings)).perform(click());
@@ -58,23 +58,27 @@ public class RoadyInstrumentedTest {
     public void addNewAchievement() throws Exception {
         onView(withId(R.id.achievementsUserCreated)).perform(scrollTo());
         onView(withId(R.id.achievementsUserCreated)).perform(clearText());
-        onView(withId(R.id.achievementsUserCreated)).perform(typeText("Star, 2, 1000, /, false"), closeSoftKeyboard());
+        onView(withId(R.id.achievementsUserCreatedKm)).perform(clearText());
+        onView(withId(R.id.achievementsUserCreated)).perform(typeText("Star"));
+        onView(withId(R.id.achievementsUserCreatedKm)).perform(typeText("1000"), closeSoftKeyboard());
         onView(withId(R.id.achievementUserCreatedAdd)).perform(scrollTo(), click());
     }
 
     @Test
     public void addNewCoDriver() throws Exception {
-        onView(withId(R.id.coDriver)).perform(scrollTo());
-        onView(withId(R.id.coDriver)).perform(clearText());
-        onView(withId(R.id.coDriver)).perform(typeText("Martina Musterfrau"), closeSoftKeyboard());
+        onView(withId(R.id.coDriverName)).perform(scrollTo());
+        onView(withId(R.id.coDriverName)).perform(clearText());
+        onView(withId(R.id.coDriverName)).perform(typeText("Martina Musterfrau"), closeSoftKeyboard());
         onView(withId(R.id.coDriverAdd)).perform(scrollTo(), click());
     }
 
     @Test
     public void addNewCar() throws Exception {
-        onView(withId(R.id.carList)).perform(scrollTo());
-        onView(withId(R.id.carList)).perform(clearText());
-        onView(withId(R.id.carList)).perform(typeText("Mustang, G-111HA"), closeSoftKeyboard());
+        onView(withId(R.id.carName)).perform(scrollTo());
+        onView(withId(R.id.carName)).perform(clearText());
+        onView(withId(R.id.carKfz)).perform(clearText());
+        onView(withId(R.id.carName)).perform(typeText("Mustang"));
+        onView(withId(R.id.carKfz)).perform(typeText("G-111HA"), closeSoftKeyboard());
         onView(withId(R.id.carAdd)).perform(scrollTo(), click());
     }
 
