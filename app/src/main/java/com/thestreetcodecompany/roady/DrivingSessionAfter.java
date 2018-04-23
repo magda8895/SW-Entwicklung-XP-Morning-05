@@ -22,6 +22,7 @@ import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -170,11 +171,15 @@ public class DrivingSessionAfter extends AppCompatActivity {
                 Spinner carSpinner = findViewById(R.id.spinnerVehicle);
                 String car = carSpinner.getSelectedItem().toString();
 
-                TextView kmStart = findViewById(R.id.textViewMileageStartKM);
-                float km_start = Integer.parseInt(kmStart.getText().toString());
+                TextView kmStart = findViewById(R.id.editTextMileageStart);
+                float km_start = Float.parseFloat(kmStart.getText().toString());
 
-                TextView kmEnd = findViewById(R.id.textViewMileageEndKM);
-                float km_end = Integer.parseInt(kmEnd.getText().toString());
+                TextView kmEnd = findViewById(R.id.editTextMileageEnd);
+                float km_end = Float.parseFloat(kmEnd.getText().toString());
+
+                // DB Connect
+                DBHandler dbh = new DBHandler();
+                User user = dbh.getTestUser();
 
                 //TextView coDriver = findViewById(R.id.spinnerCoDriver);
                 //String co_driver = coDriver.getText().toString();
@@ -185,7 +190,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                 // save to db
                 DrivingSession newSession = new DrivingSession(name, dateTime_start, dateTime_end, car,
-                        km_start, km_end, co_driver, weather, street_condition);
+                        km_start, km_end, user, co_driver, weather, street_condition);
                 newSession.save();
             }
         });

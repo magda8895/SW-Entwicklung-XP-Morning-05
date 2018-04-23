@@ -19,4 +19,8 @@ public class CoDriver extends SugarRecord {
         this.name = name;
         this.user = user;
     }
+
+    public String getName() {
+        return this.name;
+    }
 }
