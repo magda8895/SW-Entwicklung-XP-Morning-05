@@ -8,6 +8,9 @@ import org.hamcrest.Matchers;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -26,6 +29,24 @@ public class UiTestsHelper {
         onView(withId(buttonTimeId)).perform(click());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(hour,minute));
         onView(withText("OK")).perform(click());
+    }
+
+    public static void setText(int editTextId, String EditTextTestInput) {
+        onView(withId(editTextId))
+                .perform(typeText(EditTextTestInput), closeSoftKeyboard())
+                .check(matches(withText(EditTextTestInput)));
+    }
+
+    public static void setSpinnerwithoutData(int spinnerId) {
+        onView(withId(spinnerId))
+                .perform(click());
+    }
+
+    public static void setSpinner(int spinnerId, String spinnerString) {
+        onView(withId(spinnerId))
+                .perform(click());
+        onView(withText(spinnerString)).perform(click())
+                .check(matches(withText(spinnerString)));
     }
 
 

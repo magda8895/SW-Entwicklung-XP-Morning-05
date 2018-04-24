@@ -90,46 +90,39 @@ public class DrivingSessionAfterwardsUiTest {
     }
 
     @Test
+    public void setName() {
+    UiTestsHelper.setText(R.id.editTextName, "Max Mustermann");
+    }
+
+    @Test
     public void setStartMileage() {
-        onView(withId(R.id.editTextMileageStart))
-                .perform(typeText("123123"), closeSoftKeyboard())
-                .check(matches(withText("123123")));
+        UiTestsHelper.setText(R.id.editTextMileageStart, "123123");
     }
 
     @Test
     public void setEndMileage() {
-        onView(withId(R.id.editTextMileageEnd))
-                .perform(typeText("9876543"), closeSoftKeyboard())
-                .check(matches(withText("9876543")));
+        UiTestsHelper.setText(R.id.editTextMileageEnd, "9876543");
     }
+
     @Test
     public void setVehicle() {
-        onView(withId(R.id.spinnerVehicle))
-                .perform(click());
+        UiTestsHelper.setSpinnerwithoutData(R.id.spinnerVehicle);
     }
 
     @Test
     public void setCoDriver() {
-        onView(withId(R.id.spinnerCoDriver))
-                .perform(click());
+        UiTestsHelper.setSpinnerwithoutData(R.id.spinnerCoDriver);
     }
 
     @Test
     public void setWeather() {
-        onView(withId(R.id.spinnerWeather))
-                .perform(click());
-        onView(withText("Snow")).perform(click())
-                .check(matches(withText("Snow")));
+        UiTestsHelper.setSpinner(R.id.spinnerWeather, "Snow");
 
     }
 
     @Test
     public void setRoadCondition() {
-        onView(withId(R.id.spinnerRoadCondition))
-                .perform(click());
-        onView(withText("Crowd")).perform(click())
-                .check(matches(withText("Crowd")));
-
+        UiTestsHelper.setSpinner(R.id.spinnerRoadCondition, "Crowd");
     }
 
 
