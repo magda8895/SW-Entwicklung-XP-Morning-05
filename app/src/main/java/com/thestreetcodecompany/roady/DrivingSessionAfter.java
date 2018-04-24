@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.model.Car;
@@ -35,7 +36,8 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
     final Calendar calStart = Calendar.getInstance();
     final Calendar calEnd = Calendar.getInstance();
-    final Calendar calNow = Calendar.getInstance();
+    final SimpleDateFormat formatDate = new SimpleDateFormat("EEE, d MMM yyyy");
+    final SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
     int buttonID = 0;
 
     @Override
@@ -45,6 +47,62 @@ public class DrivingSessionAfter extends AppCompatActivity {
         setContentView(R.layout.activity_driving_session_after);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        // show date and time
+        calStart.add(Calendar.HOUR_OF_DAY, -1);
+        calStart.set(Calendar.MINUTE, 0);
+        calEnd.set(Calendar.MINUTE, 0);
+
+        Button startDate = findViewById(R.id.buttonDateStart);
+        startDate.setText(formatDate.format(calStart.getTime()));
+
+        Button startTime = findViewById(R.id.buttonTimeStart);
+        startTime.setText(formatTime.format(calStart.getTime()));
+
+        Button endDate = findViewById(R.id.buttonDateEnd);
+        endDate.setText(formatDate.format(calEnd.getTime()));
+
+        Button endTime = findViewById(R.id.buttonTimeEnd);
+        endTime.setText(formatTime.format(calEnd.getTime()));
+
+
+
+
+        // DB Connect
+        final DBHandler dbh = new DBHandler();
+
+        // list cars
+        List<Car> cars = dbh.getAllCars();
+        ArrayList<String> carArray = new ArrayList<>();
+        for (int i = 0; i < cars.size(); i++) {
+            carArray.add(cars.get(i).getName());
+        }
+
+        Spinner vehicleSpinner = findViewById(R.id.spinnerVehicle);
+        ArrayAdapter<String> adapterVehicle = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, carArray);
+        adapterVehicle.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        vehicleSpinner.setAdapter(adapterVehicle);
+
+        Log.d("cars", cars.toString());
+
+
+
+        // list coDriver
+        List<CoDriver> coDrivers = dbh.getAllCoDrivers();
+        ArrayList<String> coDriverArray = new ArrayList<>();
+        for (int i = 0; i < coDrivers.size(); i++) {
+            coDriverArray.add(coDrivers.get(i).getName());
+        }
+
+        final Spinner coDriverSpinner = findViewById(R.id.spinnerCoDriver);
+        ArrayAdapter<String> adapterCoDriver = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, coDriverArray);
+        adapterCoDriver.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        coDriverSpinner.setAdapter(adapterCoDriver);
+
+        Log.d("coDrivers", coDrivers.toString());
+
+
 
 
         Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
@@ -61,38 +119,18 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
 
-        // DB Connect
-        DBHandler dbh = new DBHandler();
-
-        // list cars
-        List<Car> cars = dbh.getAllCars();
-        ArrayList<String> carArray = new ArrayList<>();
-        for (int i = 0; i < cars.size(); i++) {
-            carArray.add(cars.get(i).getName());
-        }
-
-        Spinner vehicleSpinner = findViewById(R.id.spinnerVehicle);
-        //ArrayAdapter<CharSequence> adapterVehicle = ArrayAdapter.createFromResource(this, carArray, android.R.layout.simple_spinner_item);
-        ArrayAdapter<String> adapterVehicle = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, carArray);
-        adapterVehicle.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        vehicleSpinner.setAdapter(adapterVehicle);
-
-
-        Log.d("cars", cars.toString());
-
 
 
         // Start Date
-        final Button startDate = findViewById(R.id.buttonDateStart);
         startDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 buttonID = v.getId();
 
                 final int mYear, mMonth, mDay;
-                mYear = calNow.get(Calendar.YEAR);
-                mMonth = calNow.get(Calendar.MONTH);
-                mDay = calNow.get(Calendar.DAY_OF_MONTH);
+                mYear = calStart.get(Calendar.YEAR);
+                mMonth = calStart.get(Calendar.MONTH);
+                mDay = calStart.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(c, datePickerListener, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -100,15 +138,14 @@ public class DrivingSessionAfter extends AppCompatActivity {
         });
 
         // Start Time
-        final Button startTime = findViewById(R.id.buttonTimeStart);
         startTime.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 buttonID = v.getId();
 
                 final int mHour, mMinute;
-                mHour = calNow.get(Calendar.HOUR_OF_DAY);
-                mMinute = calNow.get(Calendar.MINUTE);
+                mHour = calStart.get(Calendar.HOUR_OF_DAY);
+                mMinute = calStart.get(Calendar.MINUTE);
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(c, timePickerListener, mHour, mMinute, true);
                 timePickerDialog.show();
@@ -118,16 +155,15 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
         // End Date
-        final Button endDate = findViewById(R.id.buttonDateEnd);
         endDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 buttonID = v.getId();
 
                 final int mYear, mMonth, mDay;
-                mYear = calNow.get(Calendar.YEAR);
-                mMonth = calNow.get(Calendar.MONTH);
-                mDay = calNow.get(Calendar.DAY_OF_MONTH);
+                mYear = calEnd.get(Calendar.YEAR);
+                mMonth = calEnd.get(Calendar.MONTH);
+                mDay = calEnd.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(c, datePickerListener, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -135,67 +171,105 @@ public class DrivingSessionAfter extends AppCompatActivity {
         });
 
         // End Time
-        final Button endTime = findViewById(R.id.buttonTimeEnd);
         endTime.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 buttonID = v.getId();
 
                 final int mHour, mMinute;
-                mHour = calNow.get(Calendar.HOUR_OF_DAY);
-                mMinute = calNow.get(Calendar.MINUTE);
+                mHour = calEnd.get(Calendar.HOUR_OF_DAY);
+                mMinute = calEnd.get(Calendar.MINUTE);
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(c, timePickerListener, mHour, mMinute, true);
                 timePickerDialog.show();
             }
         });
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
 
         final Button save = findViewById(R.id.buttonSave);
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // TODO: check all input
-                String name = "GRZ - VIE";
-                Date dateTime_start = calStart.getTime();
-                Date dateTime_end = calEnd.getTime();
 
-                Spinner carSpinner = findViewById(R.id.spinnerVehicle);
-                String car = carSpinner.getSelectedItem().toString();
+                try {
 
-                TextView kmStart = findViewById(R.id.editTextMileageStart);
-                float km_start = Float.parseFloat(kmStart.getText().toString());
+                    TextView nameText = findViewById(R.id.editTextName);
+                    String name = nameText.getText().toString();
 
-                TextView kmEnd = findViewById(R.id.editTextMileageEnd);
-                float km_end = Float.parseFloat(kmEnd.getText().toString());
+                    if (name == null || name.isEmpty()) {
+                        throw new DrivingSessionException("please enter a name");
+                    }
 
-                // DB Connect
-                DBHandler dbh = new DBHandler();
-                User user = dbh.getTestUser();
 
-                //TextView coDriver = findViewById(R.id.spinnerCoDriver);
-                //String co_driver = coDriver.getText().toString();
-                String co_driver = "Dummy";
+                    Date dateTime_start = calStart.getTime();
+                    Date dateTime_end = calEnd.getTime();
 
-                int weather = 0;
-                int street_condition = 0;
+                    if (!dateTime_end.after(dateTime_start)) {
+                        throw new DrivingSessionException("can't finish driving before starting - check dates");
+                    }
 
-                // save to db
-                DrivingSession newSession = new DrivingSession(name, dateTime_start, dateTime_end, car,
-                        km_start, km_end, user, co_driver, weather, street_condition);
-                newSession.save();
+
+                    Spinner carSpinner = findViewById(R.id.spinnerVehicle);
+                    String car = carSpinner.getSelectedItem().toString();
+
+
+                    float km_start = -1;
+                    TextView kmStart = findViewById(R.id.editTextMileageStart);
+                    if (!kmStart.getText().toString().isEmpty()) {
+                        km_start = Float.parseFloat(kmStart.getText().toString());
+                    }
+
+                    float km_end = -1;
+                    TextView kmEnd = findViewById(R.id.editTextMileageEnd);
+                    if (!kmEnd.getText().toString().isEmpty()) {
+                        km_end = Float.parseFloat(kmEnd.getText().toString());
+                    }
+
+                    if (km_start < 0 || km_end < 0) {
+                        throw new DrivingSessionException("please enter mileage");
+                    } else if (km_end - km_start < 0) {
+                        throw new DrivingSessionException("end mileage must be higher than start");
+                    } else if (km_end - km_start == 0) {
+                        throw new DrivingSessionException("start and end mileage can't be same");
+                    }
+
+
+                    // DB Connect
+                    //DBHandler dbh = new DBHandler();
+                    User user = dbh.getTestUser();
+
+                    if (user == null) {
+                        throw new DrivingSessionException("please add a user in settings first");
+                    }
+
+
+                    Spinner coDriverSpinner = findViewById(R.id.spinnerCoDriver);
+                    String co_driver = coDriverSpinner.getSelectedItem().toString();
+
+                    int weather = 0;
+                    int street_condition = 0;
+
+                    // save to db
+                    DrivingSession newSession = new DrivingSession(name, dateTime_start, dateTime_end, car, co_driver,
+                            km_start, km_end, weather, street_condition, user);
+                    newSession.save();
+
+                    // make toast
+                    Toast.makeText(c, "saved successfully", Toast.LENGTH_SHORT).show();
+
+                } catch (DrivingSessionException ex) {
+
+                    ex.printStackTrace();
+
+                    // make toast
+                    Toast.makeText(c, ex.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
     }
+
 
 
 
@@ -206,8 +280,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
 
-            final Button button;
-            SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy");
+            Button button;
 
             switch (buttonID) {
                 case R.id.buttonDateStart:
@@ -216,7 +289,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     calStart.set(Calendar.DAY_OF_MONTH, selectedDay);
 
                     button = findViewById(buttonID);
-                    button.setText(format.format(calStart.getTime()));
+                    button.setText(formatDate.format(calStart.getTime()));
                     break;
 
                 case R.id.buttonDateEnd:
@@ -225,7 +298,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     calEnd.set(Calendar.DAY_OF_MONTH, selectedDay);
 
                     button = findViewById(buttonID);
-                    button.setText(format.format(calEnd.getTime()));
+                    button.setText(formatDate.format(calEnd.getTime()));
                     break;
             }
 
@@ -237,8 +310,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
         new TimePickerDialog.OnTimeSetListener() {
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
 
-                final Button button;
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                Button button;
 
                 switch (buttonID) {
                     case R.id.buttonTimeStart:
@@ -246,7 +318,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                         calStart.set(Calendar.MINUTE, selectedMinute);
 
                         button = findViewById(buttonID);
-                        button.setText(format.format(calStart.getTime()));
+                        button.setText(formatTime.format(calStart.getTime()));
                         break;
 
                     case R.id.buttonTimeEnd:
@@ -254,10 +326,27 @@ public class DrivingSessionAfter extends AppCompatActivity {
                         calEnd.set(Calendar.MINUTE, selectedMinute);
 
                         button = findViewById(buttonID);
-                        button.setText(format.format(calEnd.getTime()));
+                        button.setText(formatTime.format(calEnd.getTime()));
                         break;
                 }
             }
     };
 
+}
+
+
+
+/**
+ * driving session exception
+ */
+class DrivingSessionException extends Exception
+{
+    // Parameterless Constructor
+    public DrivingSessionException() {}
+
+    // Constructor that accepts a message
+    public DrivingSessionException(String message)
+    {
+        super(message);
+    }
 }
