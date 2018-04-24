@@ -30,4 +30,18 @@
     <string name="settings">Einstellungen</string>
     <string name="achievement">Erfolge</string>
     <string name="export">Exportieren</string>
+    <string name="title_activity_settings_backend">SettingsBackend</string>
+
+    <string name="user_name_label">Name</string>
+    <string name="driven_km_label">Already Driven Kilometers</string>
+    <string name="goal_km_label">Goal Kilometers</string>
+    <string name="achievements_user_created_label">Achievements</string>
+    <string name="achievements_user_created_name">New Achievement</string>
+    <string name="achievements_user_created_km">km</string>
+    <string name="co_driver_label">Co-Drivers</string>
+    <string name="co_driver_name">New Co-Driver</string>
+    <string name="car_label">Cars</string>
+    <string name="car_kfz">KFZ</string>
+    <string name="car_name">New Car</string>
+    <string name="save_settings">Save Settings</string>
 </resources>

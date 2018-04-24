@@ -21,4 +21,9 @@ public class Car extends SugarRecord {
         this.kfz = kfz;
         this.user = user;
     }
+
+    public String getName() {
+        return (String)name;
+    }
+
 }

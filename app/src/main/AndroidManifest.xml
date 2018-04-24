@@ -10,6 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+       <!-- <activity
+            android:name=".DBBackend"
+            android:label="@string/title_activity_dbbackend"
+        android:theme="@style/AppTheme">
 
         <meta-data
             android:name="DATABASE"
@@ -30,6 +34,30 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>-->
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="roady.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="7" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.thestreetcodecompany.roady.classes.model" />
+        <activity
+            android:name=".SettingsBackend"
+            android:label="@string/title_activity_settings_backend"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -48,9 +48,13 @@ public class DBHandler extends SugarApp {
         User user = new User("Karl Heinz", 14,1000);
         user.save();
         Achievement a = new Achievement("king",1,500,"/",false,user);
-        user.save();
-        Car c = new Car("Bugatti","GU-123YEAH",user);
-        user.save();
+        a.save();
+        Car c = new Car("Bugatti","GU-123YEAH", user);
+        c.save();
+        Car c2 = new Car("Audi A6", "G-AUDI1", user);
+        c2.save();
+        Car c3 = new Car("VW Golf", "SL-234KK", user);
+        c3.save();
         CoDriver cd = new CoDriver("Carlos",user);
         cd.save();
         DrivingSession ds = new DrivingSession(true,"12-12-2012 05:21:12",2099,user);
@@ -58,7 +62,6 @@ public class DBHandler extends SugarApp {
         Coordinate cord = new Coordinate(1,39.2300F ,15.223F ,ds);
         cord.save();
     }
-
 
     public User getTestUser() {
 
@@ -69,29 +72,21 @@ public class DBHandler extends SugarApp {
             makeTestData();
             users = User.listAll(User.class);
         }
+        int size = users.size() - 1;
 
-        return users.get(0);
+        return users.get(size);
     }
 
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
-       return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+        return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
     }
 
+//    public List<Car> getAllCars(User user)
+//    {
+//        System.out.println("in get all cars ");
+//        //return Car.find(Car.class, "user = ?", "" + user.getId());
+//         return Car.findWithQuery(Car.class, "Select * from Car where user = ?", user.getName());
+//    }
 
-    /* vorher: DBBackend
-        DBHandler dbh = new DBHandler();
-        dbh.makeDB();
-        dbh.makeTestData();
-
-        String pattern = "dd-mm-yyyy hh:mm:ss";
-        SimpleDateFormat format = new SimpleDateFormat(pattern);
-        try {
-            Date date = format.parse("12-12-2012 05:21:12");
-            System.out.println("Date is: "+date);
-            MakeToast(date.toString(),getApplicationContext());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-     */
 }
