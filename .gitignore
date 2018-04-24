@@ -1,2 +1,6 @@
 
-app/build\.gradle
+app/build/*
+gradle/*
+.gradle/*
+.idea/*
+local.properties
