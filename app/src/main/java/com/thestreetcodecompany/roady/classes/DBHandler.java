@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Created by Rutter on 23.03.2018.
- * Last changed by Schauberger on 23.04.2018
+ * Last changed by Schauberger on 24.04.2018
  */
 
 
@@ -105,6 +105,18 @@ public class DBHandler extends SugarApp {
         }
 
         return cars;
+    }
+
+
+    public List<CoDriver> getAllCoDrivers() {
+        List<CoDriver> coDrivers = CoDriver.listAll(CoDriver.class);
+
+        if (coDrivers.size() <= 0) {
+            makeTestData();
+            coDrivers = CoDriver.listAll(CoDriver.class);
+        }
+
+        return coDrivers;
     }
 
 }

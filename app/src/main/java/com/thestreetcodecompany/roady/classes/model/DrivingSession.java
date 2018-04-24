@@ -13,23 +13,23 @@ import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 /**
  * Created by Rutter on 23.03.2018.
- * Last changed by Schauberger on 23.04.2018
+ * Last changed by Schauberger on 24.04.2018
  */
 
 public class DrivingSession extends SugarRecord {
 
     //id
-    boolean active;
-    String name;
-    Date dateTime_start;
-    Date dateTime_end;
-    Car car;
-    float km_start;
-    float km_end;
-    CoDriver coDriver;
-    int weather;
-    int street_condition;
-    User user;
+    private boolean active;
+    private String name;
+    private Date dateTime_start;
+    private Date dateTime_end;
+    private Car car;
+    private CoDriver coDriver;
+    private float km_start;
+    private float km_end;
+    private int weather;
+    private int street_condition;
+    private User user;
     boolean deleted;
 
 
@@ -42,8 +42,8 @@ public class DrivingSession extends SugarRecord {
         this.user = user;
     }
 
-    public DrivingSession(String name, Date dateTime_start, Date dateTime_end, String car,
-                          float km_start, float km_end, User user, String coDriver, int weather, int street_condition) {
+    public DrivingSession(String name, Date dateTime_start, Date dateTime_end, String car, String coDriver,
+                          float km_start, float km_end, int weather, int street_condition, User user) {
 
         setName(name);
 
@@ -51,17 +51,77 @@ public class DrivingSession extends SugarRecord {
         setDateTimeEnd(dateTime_end);
 
         setCar(car);
+        setCoDriver(coDriver);
 
         setKmStart(km_start);
         setKmEnd(km_end);
 
-        setUser(user);
-        setCoDriver(coDriver);
-
         setWeather(weather);
         setStreetCondition(street_condition);
+
+        setUser(user);
     }
 
+
+    // getter
+    public String getName()
+    {
+        if (this.name != null && !this.name.isEmpty()) {
+            return this.name;
+        } else {
+            return "Graz - Wien (Dummy)";
+        }
+    }
+
+    public Date getDateTimeStart() {
+        return this.dateTime_start;
+    }
+
+    public Date getDateTimeEnd() {
+        return this.dateTime_end;
+    }
+
+    public Car getCar() {
+        return this.car;
+    }
+
+    public CoDriver getCoDriver() {
+        return coDriver;
+    }
+
+    public float getKmStart() {
+        return this.km_start;
+    }
+
+    public float getKmEnd() {
+        return this.km_end;
+    }
+
+    public int getWeather() {
+        return this.weather;
+    }
+
+    public int getStreetCondition() {
+        return this.street_condition;
+    }
+
+    public float getDistance()
+    {
+        float distance = 0;
+        if ((this.km_end - this.km_start) > 0) {
+            distance = this.km_end - this.km_start;
+        }
+        return distance;
+    }
+
+    public String getTimeSpan()
+    {
+        //TODO: Datum ausgeben
+        return "02.05.2018";
+    }
+
+
+    // setter
     public void setName(String name) {
         this.name = name;
     }
@@ -123,43 +183,11 @@ public class DrivingSession extends SugarRecord {
     }
 
 
-    public int getWeather() {
-        return this.weather;
-    }
-
-
-    public String getName()
-    {
-        if (this.name != null && !this.name.isEmpty()) {
-            return this.name;
-        } else {
-            return "Graz - Wien (Dummy)";
-        }
-    }
-
-    public float getDistance()
-    {
-        float distance = 0;
-        if ((this.km_end - this.km_start) > 0) {
-            distance = this.km_end - this.km_start;
-        } else {
-            distance = (float) 0.0;
-        }
-        return distance;
-    }
-
-    public String getTimeSpan()
-    {
-        //TODO: Datum ausgeben
-        return "02.05.2018";
-    }
-
-
-    public Date formatDateTime(String dateTime) {
-        String pattern = "dd-mm-yyyy hh:mm:ss";
+    // format date time
+    private Date formatDateTime(String dateTime) {
+        String pattern = "dd-MM-yyyy hh:mm:ss";
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         Date date = new Date();
-        //date.setHours(0);
         try {
             date = format.parse(dateTime);
         } catch (ParseException e) {
