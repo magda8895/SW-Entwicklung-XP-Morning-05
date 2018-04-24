@@ -28,5 +28,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.github.satyan:sugar:1.5'
     compile 'com.github.clans:fab:1.6.4'
-
 }

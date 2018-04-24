@@ -47,10 +47,11 @@ public class StartActivity extends AppCompatActivity
 
         //get View Elements
         final ListView listview = (ListView) findViewById(R.id.start_list);
-        final com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_menuitem_new);
-        final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_menuitem_old);
+        final com.github.clans.fab.FloatingActionMenu fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
+        final com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_new);
+        final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_old);
         final TextView display = (TextView) findViewById(R.id.start_display);
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
 
         //get Data
         DBHandler dbh = new DBHandler();
@@ -65,8 +66,6 @@ public class StartActivity extends AppCompatActivity
         display.setText(user.getDriven_km() + "/" + user.getGoal_km() + " km");
         progressBar.setMax(user.getGoal_km());
         progressBar.setProgress(user.getDriven_km());
-
-
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +85,7 @@ public class StartActivity extends AppCompatActivity
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MakeToast("Klick Item: index: " + i,getApplicationContext());
+                MakeSnackbar("Klick Item: index: " + i,view);
             }
         });
 

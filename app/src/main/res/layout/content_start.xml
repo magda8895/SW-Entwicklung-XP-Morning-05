@@ -9,7 +9,7 @@
     tools:context=".StartActivity">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/start_progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="268dp"
         android:layout_height="36dp"
@@ -92,22 +92,26 @@
 
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/start_menuitem_new"
+            android:id="@+id/start_fab_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/fab_add"
             fab:fab_label="@string/lable_addnew"
             fab:fab_size="mini"
-            fab:menu_showShadow="false" />
+            fab:menu_showShadow="false"
+            tools:layout_editor_absoluteX="166dp"
+            tools:layout_editor_absoluteY="5dp" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/start_menuitem_old"
+            android:id="@+id/start_fab_old"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/fab_add"
             fab:fab_label="@string/lable_addold"
             fab:fab_size="mini"
-            fab:menu_showShadow="false" />
+            fab:menu_showShadow="false"
+            tools:layout_editor_absoluteX="166dp"
+            tools:layout_editor_absoluteY="59dp" />
     </com.github.clans.fab.FloatingActionMenu>
 
 
