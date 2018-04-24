@@ -19,21 +19,22 @@ import java.util.List;
 
 /**
  * Created by Rutter on 23.03.2018.
+ * Last changed by Schauberger on 24.04.2018
  */
 
 
 public class DBHandler extends SugarApp {
 
-    public DBHandler(){}
+    public DBHandler() {}
 
     public void makeDB()
     {
         User user = new User();
         user.save();
-        Achievement a = new Achievement();
-        user.save();
-        Car c = new Car();
-        user.save();
+        Achievement achievement = new Achievement();
+        achievement.save();
+        Car car = new Car();
+        car.save();
         CoDriver cd = new CoDriver();
         cd.save();
         Coordinate cord = new Coordinate();
@@ -45,7 +46,7 @@ public class DBHandler extends SugarApp {
 
     public void makeTestData()
     {
-        User user = new User("Karl Heinz", 14,1000);
+        User user = new User("Karl Heinz", 14, 1000);
         user.save();
         Achievement a = new Achievement("king",1,500,"/",false,user);
         a.save();
@@ -57,9 +58,9 @@ public class DBHandler extends SugarApp {
         c3.save();
         CoDriver cd = new CoDriver("Carlos",user);
         cd.save();
-        DrivingSession ds = new DrivingSession(true,"12-12-2012 05:21:12",2099,user);
+        DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
         ds.save();
-        Coordinate cord = new Coordinate(1,39.2300F ,15.223F ,ds);
+        Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
         cord.save();
     }
 
@@ -77,6 +78,22 @@ public class DBHandler extends SugarApp {
         return users.get(size);
     }
 
+
+    public CoDriver getTestCoDriver() {
+
+        List<CoDriver> coDrivers = CoDriver.listAll(CoDriver.class);
+
+        if(coDrivers.size() <= 0)
+        {
+            makeTestData();
+            coDrivers = CoDriver.listAll(CoDriver.class);
+        }
+
+        return coDrivers.get(0);
+    }
+
+
+
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
         return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
@@ -88,5 +105,29 @@ public class DBHandler extends SugarApp {
 //        //return Car.find(Car.class, "user = ?", "" + user.getId());
 //         return Car.findWithQuery(Car.class, "Select * from Car where user = ?", user.getName());
 //    }
+
+
+    public List<Car> getAllCars() {
+        List<Car> cars = Car.listAll(Car.class);
+
+        if (cars.size() <= 0) {
+            makeTestData();
+            cars = Car.listAll(Car.class);
+        }
+
+        return cars;
+    }
+
+
+    public List<CoDriver> getAllCoDrivers() {
+        List<CoDriver> coDrivers = CoDriver.listAll(CoDriver.class);
+
+        if (coDrivers.size() <= 0) {
+            makeTestData();
+            coDrivers = CoDriver.listAll(CoDriver.class);
+        }
+
+        return coDrivers;
+    }
 
 }
