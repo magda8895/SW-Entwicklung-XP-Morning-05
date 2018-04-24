@@ -71,12 +71,12 @@ public class DrivingSessionAfterwardsUiTest {
         calendar = Calendar.getInstance();
     }
 
+
     @Test
     public void app_context_test() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-        assertEquals("com." +
-         ".roady", appContext.getPackageName());
+        assertEquals("com.thestreetcodecompany.roady", appContext.getPackageName());
     }
 
     @Test
