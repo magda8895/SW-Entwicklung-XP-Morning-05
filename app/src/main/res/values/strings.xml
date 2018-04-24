@@ -14,4 +14,7 @@
         <item>Accident</item>
     </string-array>
     <string name="title_activity_dbbackend">DBBackend</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="lable_addnew">neue Fahrt</string>
+    <string name="lable_addold">Fahrt nachtragen</string>
 </resources>
