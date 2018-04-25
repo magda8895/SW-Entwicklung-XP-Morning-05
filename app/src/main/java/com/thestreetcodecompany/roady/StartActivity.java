@@ -2,6 +2,7 @@ package com.thestreetcodecompany.roady;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,6 +33,7 @@ public class StartActivity extends AppCompatActivity
     ListView listview;
     ProgressBar progressBar;
     TextView display;
+    com.github.clans.fab.FloatingActionMenu fab_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +53,20 @@ public class StartActivity extends AppCompatActivity
 
         //get View Elements
         listview = (ListView) findViewById(R.id.start_list);
-        final com.github.clans.fab.FloatingActionMenu fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
+        fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
         final com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_new);
         final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_old);
         display = (TextView) findViewById(R.id.start_display);
         progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
 
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.start_container);
+
+        cl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab_menu.close(true);
+            }
+        });
         //get Data
         DBHandler dbh = new DBHandler();
         User user = dbh.getTestUser();
@@ -70,6 +80,7 @@ public class StartActivity extends AppCompatActivity
         display.setText(user.getDrivenKm() + "/" + user.getGoalKm() + " km");
         progressBar.setMax((int)user.getGoalKm());
         progressBar.setProgress((int)user.getDrivenKm());
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +101,7 @@ public class StartActivity extends AppCompatActivity
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                fab_menu.close(true);
                 MakeSnackbar("Klick Item: index: " + i,view);
             }
         });
@@ -113,6 +125,8 @@ public class StartActivity extends AppCompatActivity
         display.setText(user.getDrivenKm() + "/" + user.getGoalKm() + " km");
         progressBar.setProgress((int)user.getDrivenKm());
         //progressBar.refreshDrawableState();
+
+        fab_menu.close(true);
     }
 
 
