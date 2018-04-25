@@ -71,9 +71,9 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
         // DB Connect
         final DBHandler dbh = new DBHandler();
-
+        User user = dbh.getTestUser();
         // list cars
-        List<Car> cars = dbh.getAllCars();
+        List<Car> cars = user.getCars();
         ArrayList<String> carArray = new ArrayList<>();
         for (int i = 0; i < cars.size(); i++) {
             carArray.add(cars.get(i).getName());
@@ -88,7 +88,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
         // list coDriver
-        List<CoDriver> coDrivers = dbh.getAllCoDrivers();
+        List<CoDriver> coDrivers = user.getCoDrivers();
         ArrayList<String> coDriverArray = new ArrayList<>();
         for (int i = 0; i < coDrivers.size(); i++) {
             coDriverArray.add(coDrivers.get(i).getName());

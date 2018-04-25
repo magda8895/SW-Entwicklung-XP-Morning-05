@@ -101,14 +101,15 @@ public class StartActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        MakeToast("es workt",getApplicationContext());
-
         DBHandler dbh = new DBHandler();
         User user = dbh.getTestUser();
         final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
 
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
+
+        //set Progressbar
+        
     }
 
 
@@ -131,11 +132,12 @@ public class StartActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_achievements) {
-
+            MakeToast("achievements",getApplicationContext());
         } else if (id == R.id.nav_export) {
-
+            MakeToast("export",getApplicationContext());
         } else if (id == R.id.nav_settings) {
-
+            Intent i = new Intent(getApplicationContext(), SettingsBackend.class);
+            startActivity(i);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

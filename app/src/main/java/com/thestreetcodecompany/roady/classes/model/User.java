@@ -60,5 +60,20 @@ public class User extends SugarRecord {
         this.goal_km = goal_km;
     }
 
+    public List<Car> getCars() {
+        List<Car> cars = Car.find(Car.class, "user = ?", "" + getId());
+        return cars;
+    }
+
+    public List<CoDriver> getCoDrivers() {
+        List<CoDriver> coDrivers = CoDriver.find(CoDriver.class, "user = ?", "" + getId());
+        return coDrivers;
+    }
+
+    public List<Achievement> getAchievements() {
+        List<Achievement> achievements = Achievement.find(Achievement.class, "user = ?", "" + getId());
+        return achievements;
+    }
+
 
 }

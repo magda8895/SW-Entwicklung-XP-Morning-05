@@ -26,7 +26,16 @@ public class Car extends SugarRecord {
 
     // toString
     public String toString() {
-        return "name: " + getName() + ", kfz: " + getKfz() + ", user: " + getUser().getName();
+        String user_str;
+        if(user == null)
+        {
+            user_str = "no user";
+        }
+        else {
+            user_str = getName();
+        }
+
+        return "name: " + getName() + ", kfz: " + getKfz() + ", user: " + user_str;
     }
 
 
