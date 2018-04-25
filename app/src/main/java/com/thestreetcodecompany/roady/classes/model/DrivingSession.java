@@ -1,15 +1,14 @@
 package com.thestreetcodecompany.roady.classes.model;
 
+import android.util.Log;
+
 import com.orm.SugarRecord;
 import com.thestreetcodecompany.roady.classes.DBHandler;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 /**
  * Created by Rutter on 23.03.2018.
@@ -114,6 +113,16 @@ public class DrivingSession extends SugarRecord {
         return distance;
     }
 
+    @Override
+    public long save(){
+        Log.v("Test","SAVE DRVINGSESSION");
+        Log.v("Test","Distance: " + getDistance());
+        user.addDriven_km(getDistance());
+        user.save();
+        Log.v("Test","Distance: " + user.getDrivenKm());
+        return super.save();
+    }
+
     public String getTimeSpan()
     {
         //TODO: Datum ausgeben
@@ -195,5 +204,6 @@ public class DrivingSession extends SugarRecord {
         }
         return date;
     }
+
 
 }

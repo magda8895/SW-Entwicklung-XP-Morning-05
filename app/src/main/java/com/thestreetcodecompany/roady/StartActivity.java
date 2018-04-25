@@ -30,7 +30,8 @@ public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listview;
-
+    ProgressBar progressBar;
+    TextView display;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +54,8 @@ public class StartActivity extends AppCompatActivity
         final com.github.clans.fab.FloatingActionMenu fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
         final com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_new);
         final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_old);
-        final TextView display = (TextView) findViewById(R.id.start_display);
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
+        display = (TextView) findViewById(R.id.start_display);
+        progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
 
         //get Data
         DBHandler dbh = new DBHandler();
@@ -108,8 +109,10 @@ public class StartActivity extends AppCompatActivity
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
-        //set Progressbar
-        
+        //set Progressbar / Display
+        display.setText(user.getDrivenKm() + "/" + user.getGoalKm() + " km");
+        progressBar.setProgress((int)user.getDrivenKm());
+        //progressBar.refreshDrawableState();
     }
 
 

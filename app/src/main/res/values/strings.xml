@@ -14,20 +14,14 @@
         <item>Roadworks</item>
         <item>Accident</item>
     </string-array>
-    <string name="title_activity_dbbackend">DBBackend</string>
-    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_start">Home</string>
     <string name="lable_addnew">neue Fahrt</string>
     <string name="lable_addold">Fahrt nachtragen</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_activity_nav">NavActivity</string>
-    <string name="title_activity_test">TestActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-
     <string name="settings">Einstellungen</string>
     <string name="achievement">Erfolge</string>
     <string name="export">Exportieren</string>
