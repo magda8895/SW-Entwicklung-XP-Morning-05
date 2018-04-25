@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Roady</string>
-    <string name="title_activity_driving_session_after">Driving Session</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_driving_session_after">Add Driving Session</string>
     <string-array name="Weather">
         <item>Dry</item>
         <item>Rain</item>
