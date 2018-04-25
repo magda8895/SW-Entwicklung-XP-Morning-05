@@ -38,4 +38,5 @@
     <string name="car_kfz">KFZ</string>
     <string name="car_name">New Car</string>
     <string name="save_settings">Save Settings</string>
+    <string name="title_activity_new_driving_session">NewDrivingSession</string>
 </resources>

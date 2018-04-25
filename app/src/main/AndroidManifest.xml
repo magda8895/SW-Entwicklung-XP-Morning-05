@@ -55,13 +55,13 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.thestreetcodecompany.roady.classes.model" />
 
-
         <activity
             android:name=".StartActivity"
             android:label="@string/title_activity_start"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -78,10 +78,21 @@
         <activity
             android:name=".DrivingSessionAfter"
             android:label="@string/title_activity_driving_session_after"
-            android:parentActivityName="com.thestreetcodecompany.roady.StartActivity"
+            android:parentActivityName=".StartActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".NewDrivingSession"
+            android:label="@string/title_activity_new_driving_session"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
