@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Roady</string>
-    <string name="title_activity_driving_session_after">Add Driving Session</string>
     <string-array name="Weather">
         <item>Dry</item>
         <item>Rain</item>
@@ -14,6 +13,8 @@
         <item>Accident</item>
     </string-array>
     <string name="title_activity_start">Home</string>
+
+    <string name="title_activity_driving_session_after">Add Driving Session</string>
     <string name="lable_addnew">LiveDrive</string>
     <string name="lable_addold">Add Driving Session</string>
 
@@ -38,4 +39,5 @@
     <string name="car_kfz">KFZ</string>
     <string name="car_name">New Car</string>
     <string name="save_settings">Save Settings</string>
+    <string name="title_activity_achievements">Achievements</string>
 </resources>
