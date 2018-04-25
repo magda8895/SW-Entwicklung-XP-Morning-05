@@ -11,7 +11,7 @@ public class AchievementsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Context c = this;
-        setContentView(R.layout.activity_driving_session_after);
+        setContentView(R.layout.activity_achievements);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }

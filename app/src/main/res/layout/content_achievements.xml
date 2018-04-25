@@ -29,8 +29,10 @@
             tools:ignore="MissingConstraints">
 
             <TextView
+                android:id="@+id/textViewHello"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="es workt again" />
 
         </LinearLayout>
     </ScrollView>

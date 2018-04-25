@@ -66,7 +66,7 @@ public class StartActivity extends AppCompatActivity
 
 
         //set Display
-        display.setText(user.getDrivenKm() + "/" + user.getGoalKm() + " km");
+        display.setText((int) user.getDrivenKm() + " / " + (int) user.getGoalKm() + " km");
         progressBar.setMax((int)user.getGoalKm());
         progressBar.setProgress((int)user.getDrivenKm());
 
@@ -74,7 +74,7 @@ public class StartActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MakeSnackbar("Klick Neue Fahrt",view);
+                MakeSnackbar("New Driving Session",view);
             }
         });
 
@@ -89,7 +89,7 @@ public class StartActivity extends AppCompatActivity
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MakeSnackbar("Klick Item: index: " + i,view);
+                MakeSnackbar("Click Item: index: " + i,view);
             }
         });
 
@@ -131,7 +131,8 @@ public class StartActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_achievements) {
-
+            Intent i = new Intent(getApplicationContext(), AchievementsActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_export) {
 
         } else if (id == R.id.nav_settings) {
