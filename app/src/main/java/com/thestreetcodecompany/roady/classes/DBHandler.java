@@ -46,9 +46,9 @@ public class DBHandler extends SugarApp {
 
     public void makeTestData()
     {
-        User user = new User("Karl Heinz", 14, 1000);
+        User user = new User("Karl Heinz", 67, 1000);
         user.save();
-        Achievement a = new Achievement("king",1,500,"/",false,user);
+        Achievement a = new Achievement("king",1,500,"/",false, user);
         a.save();
         Car c = new Car("Bugatti","GU-123YEAH", user);
         c.save();
@@ -56,7 +56,7 @@ public class DBHandler extends SugarApp {
         c2.save();
         Car c3 = new Car("VW Golf", "SL-234KK", user);
         c3.save();
-        CoDriver cd = new CoDriver("Carlos",user);
+        CoDriver cd = new CoDriver("Carlos", user);
         cd.save();
         DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
         ds.save();
@@ -73,7 +73,6 @@ public class DBHandler extends SugarApp {
             makeTestData();
             users = User.listAll(User.class);
         }
-        int size = users.size() - 1;
 
         return users.get(0);
     }
@@ -89,7 +88,7 @@ public class DBHandler extends SugarApp {
             coDrivers = CoDriver.listAll(CoDriver.class);
         }
 
-        return coDrivers.get(0);
+        return coDrivers.get(coDrivers.size() - 1);
     }
 
 

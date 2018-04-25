@@ -3,6 +3,7 @@ package com.thestreetcodecompany.roady;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -75,9 +76,8 @@ public class StartActivity extends AppCompatActivity
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
-
         //set Display
-        display.setText(user.getDrivenKm() + "/" + user.getGoalKm() + " km");
+        display.setText(user.getDrivenKm() + " / " + user.getGoalKm() + " km");
         progressBar.setMax((int)user.getGoalKm());
         progressBar.setProgress((int)user.getDrivenKm());
 
@@ -86,7 +86,7 @@ public class StartActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MakeSnackbar("Klick Neue Fahrt",view);
+                MakeSnackbar("Click Start Driving",view);
             }
         });
 
@@ -102,9 +102,15 @@ public class StartActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 fab_menu.close(true);
-                MakeSnackbar("Klick Item: index: " + i,view);
+                MakeSnackbar("Click item: index: " + i,view);
             }
         });
+
+
+        // change nav name
+        //TextView textNavName = findViewById(R.id.navName);
+        //textNavName.setText("" + user.getName());
+        //Log.d("user", user.toString());
 
 
     }
@@ -122,7 +128,7 @@ public class StartActivity extends AppCompatActivity
         listview.setAdapter(createAdapter(sessions));
 
         //set Progressbar / Display
-        display.setText(user.getDrivenKm() + "/" + user.getGoalKm() + " km");
+        display.setText(user.getDrivenKm() + " / " + user.getGoalKm() + " km");
         progressBar.setProgress((int)user.getDrivenKm());
         //progressBar.refreshDrawableState();
 
@@ -160,10 +166,10 @@ public class StartActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public ArrayAdapter createAdapter(final List<DrivingSession> sessions){
 
 
 
+    public ArrayAdapter createAdapter(final List<DrivingSession> sessions) {
 
         ArrayAdapter adapter = new ArrayAdapter<DrivingSession>(this,
                 R.layout.listitem_start,R.id.startitem_name, sessions) {
@@ -176,8 +182,8 @@ public class StartActivity extends AppCompatActivity
                 TextView tv_distance = (TextView) view.findViewById(R.id.startitem_distance);
 
                 tv_name.setText(sessions.get(position).getName());
-                tv_time.setText("" + sessions.get(position).getTimeSpan());
-                tv_distance.setText("" + sessions.get(position).getDistance() + " km");
+                tv_time.setText(sessions.get(position).getDateStringStart());
+                tv_distance.setText(sessions.get(position).getDistance() + " km");
 
                 return view;
             }

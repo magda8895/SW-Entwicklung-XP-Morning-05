@@ -186,7 +186,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                 try {
 
-                    TextView nameText = findViewById(R.id.editTextName);
+                    TextView nameText = findViewById(R.id.editTextRoute);
                     String name = nameText.getText().toString();
 
                     if (name == null || name.isEmpty()) {

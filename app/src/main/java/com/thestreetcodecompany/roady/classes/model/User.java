@@ -64,6 +64,7 @@ public class User extends SugarRecord {
         this.goal_km = goal_km;
     }
 
+    // additional
     public List<Car> getCars() {
         List<Car> cars = Car.find(Car.class, "user = ?", "" + getId());
         return cars;

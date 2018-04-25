@@ -8,6 +8,7 @@ import com.thestreetcodecompany.roady.classes.DBHandler;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EmptyStackException;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
 public class DrivingSession extends SugarRecord {
 
     //id
-    private boolean active;
+    private boolean active = false;
     private String name;
     private Date dateTime_start;
     private Date dateTime_end;
@@ -35,10 +36,10 @@ public class DrivingSession extends SugarRecord {
     public DrivingSession() {}
 
     public DrivingSession(boolean active, String dateTime_start, float km_start, User user) {
-        this.active = active;
+        setActive(active);
         setDateTimeStringStart(dateTime_start);
-        this.km_start = km_start;
-        this.user = user;
+        setKmStart(km_start);
+        setUser(user);
     }
 
     public DrivingSession(String name, Date dateTime_start, Date dateTime_end, String car, String coDriver,
@@ -63,6 +64,10 @@ public class DrivingSession extends SugarRecord {
 
 
     // getter
+    public boolean getActive() {
+        return this.active;
+    }
+
     public String getName()
     {
         if (this.name != null && !this.name.isEmpty()) {
@@ -123,14 +128,24 @@ public class DrivingSession extends SugarRecord {
         return super.save();
     }
 
-    public String getTimeSpan()
-    {
-        //TODO: Datum ausgeben
-        return "02.05.2018";
+    public String getDateStringStart() {
+        String pattern = "dd. MMM yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        return dateFormat.format(getDateTimeStart());
+    }
+
+    public String getDateStringEnd() {
+        String pattern = "dd. MMM yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        return dateFormat.format(getDateTimeEnd());
     }
 
 
     // setter
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
