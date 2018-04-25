@@ -249,6 +249,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                     // make toast
                     Toast.makeText(c, "saved successfully", Toast.LENGTH_SHORT).show();
+                    finish();
 
                 } catch (DrivingSessionException ex) {
 
@@ -258,6 +259,8 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     Toast.makeText(c, ex.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
+
+
             }
         });
 

@@ -9,7 +9,7 @@
             android:icon="@drawable/ic_stars"
             android:title="@string/achievement" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_export"
             android:icon="@drawable/ic_export"
             android:title="@string/export" />
         <item

@@ -1,5 +1,6 @@
 package com.thestreetcodecompany.roady;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,8 @@ import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    ListView listview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,7 @@ public class StartActivity extends AppCompatActivity
 
 
         //get View Elements
-        final ListView listview = (ListView) findViewById(R.id.start_list);
+        listview = (ListView) findViewById(R.id.start_list);
         final com.github.clans.fab.FloatingActionMenu fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
         final com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_new);
         final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_old);
@@ -78,7 +81,8 @@ public class StartActivity extends AppCompatActivity
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MakeToast("Klick Alte Fahrt",getApplicationContext());
+                Intent i = new Intent(getApplicationContext(), DrivingSessionAfter.class);
+                startActivity(i);
             }
         });
 
@@ -91,6 +95,22 @@ public class StartActivity extends AppCompatActivity
 
 
     }
+
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        MakeToast("es workt",getApplicationContext());
+
+        DBHandler dbh = new DBHandler();
+        User user = dbh.getTestUser();
+        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+
+        //set List Adapter
+        listview.setAdapter(createAdapter(sessions));
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -109,16 +129,14 @@ public class StartActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-/*
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_achievements) {
 
-        } else if (id == R.id.nav_slideshow) {
+        if (id == R.id.nav_achievements) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_export) {
 
-        } */
+        } else if (id == R.id.nav_settings) {
+
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -152,4 +170,8 @@ public class StartActivity extends AppCompatActivity
 
     }
 
+
+
 }
+
+

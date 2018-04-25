@@ -78,6 +78,7 @@
         <activity
             android:name=".DrivingSessionAfter"
             android:label="@string/title_activity_driving_session_after"
+            android:parentActivityName="com.thestreetcodecompany.roady.StartActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
