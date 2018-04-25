@@ -29,7 +29,7 @@ public class DBHandler extends SugarApp {
 
     public void makeDB()
     {
-        User user = new User();
+        /*User user = new User();
         user.save();
         Achievement achievement = new Achievement();
         achievement.save();
@@ -40,7 +40,7 @@ public class DBHandler extends SugarApp {
         Coordinate cord = new Coordinate();
         cord.save();
         DrivingSession ds = new DrivingSession();
-        ds.save();
+        ds.save();*/
 
     }
 
@@ -75,7 +75,7 @@ public class DBHandler extends SugarApp {
         }
         int size = users.size() - 1;
 
-        return users.get(size);
+        return users.get(0);
     }
 
 
@@ -106,9 +106,9 @@ public class DBHandler extends SugarApp {
 //         return Car.findWithQuery(Car.class, "Select * from Car where user = ?", user.getName());
 //    }
 
-
-    public List<Car> getAllCars() {
-        List<Car> cars = Car.listAll(Car.class);
+/*
+    public List<Car> getCarsByUser(User user) {
+        List<Car> cars = Car.find(Car.class, "user = ?", "" + user.getId());
 
         if (cars.size() <= 0) {
             makeTestData();
@@ -117,8 +117,6 @@ public class DBHandler extends SugarApp {
 
         return cars;
     }
-
-
     public List<CoDriver> getAllCoDrivers() {
         List<CoDriver> coDrivers = CoDriver.listAll(CoDriver.class);
 
@@ -129,5 +127,9 @@ public class DBHandler extends SugarApp {
 
         return coDrivers;
     }
+*/
+
+
+
 
 }

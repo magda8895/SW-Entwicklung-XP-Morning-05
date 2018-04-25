@@ -47,7 +47,7 @@
             android:value="roady.db" />
         <meta-data
             android:name="VERSION"
-            android:value="9" />
+            android:value="11" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -66,11 +66,9 @@
         </activity>
         <activity
             android:name=".SettingsBackend"
-            android:label="@string/title_activity_settings_backend"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -80,7 +78,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity

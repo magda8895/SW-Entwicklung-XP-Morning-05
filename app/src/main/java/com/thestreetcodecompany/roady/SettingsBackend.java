@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -28,8 +30,9 @@ public class SettingsBackend extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_frontend);
-
+        setContentView(R.layout.activity_settings);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
         //get View Elements
         final ListView listview_achievements = (ListView) findViewById(R.id.achievementsUserCreatedList);
         final ListView listview_codriver = (ListView) findViewById(R.id.coDriverList);
@@ -52,9 +55,11 @@ public class SettingsBackend extends AppCompatActivity {
         dbh.makeDB();
         dbh.makeTestData();
         user = dbh.getTestUser();
-        final List<Car> cars = dbh.getAllCars();
-        final List<CoDriver> co_drivers = dbh.getAllCoDrivers();
-        //final List<Achievement> achievements = dbh.getAllAchievments();
+
+        final List<Car> cars = user.getCars();
+        final List<CoDriver> co_drivers = user.getCoDrivers();
+        final List<Achievement> achievements = user.getAchievements();
+
 
         edittext_name.setText(user.getName());
         seekbar_drivenkm.setProgress((int)user.getDrivenKm());
@@ -65,7 +70,7 @@ public class SettingsBackend extends AppCompatActivity {
         adaptListViewHeight(listview_car);
         listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
         adaptListViewHeight(listview_codriver);
-        //listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+        listview_achievements.setAdapter(createAchievmentAdapter(achievements));
         adaptListViewHeight(listview_achievements);
 
 
@@ -77,8 +82,8 @@ public class SettingsBackend extends AppCompatActivity {
                 float km = Float.valueOf(editText_achievements_km.getText().toString());
                 Achievement a = new Achievement(name, 2, km, "No Image", false, user);
                 a.save();
-                //achievements.add(a);
-                //listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+                achievements.add(a);
+                listview_achievements.setAdapter(createAchievmentAdapter(achievements));
                 adaptListViewHeight(listview_achievements);
             }
         });
