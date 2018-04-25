@@ -99,7 +99,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
         adapterCoDriver.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         coDriverSpinner.setAdapter(adapterCoDriver);
 
-        Log.d("coDrivers", coDrivers.toString());
+        //Log.d("coDrivers", coDrivers.toString());
 
 
         Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
