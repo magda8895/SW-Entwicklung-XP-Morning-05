@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
-android {
+android{
+
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.thestreetcodecompany.roady"
@@ -26,6 +27,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
     compile 'com.github.satyan:sugar:1.5'
     compile 'com.github.clans:fab:1.6.4'
 }
+

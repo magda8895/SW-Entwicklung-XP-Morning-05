@@ -1,8 +1,9 @@
 package com.thestreetcodecompany.roady;
 
-        import android.content.Context;
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -24,8 +25,8 @@ import java.util.List;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.DrawerMatchers.isOpen;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -86,9 +87,12 @@ public class StartInstrumentedTest {
         onView(withId(R.id.start_list)).check(matches(isDisplayed()));
         onView (withId (R.id.start_list)).check (ViewAssertions.matches (Matchers.withListSize (sessions.size())));
     }
+
     @Test
-    public void testNavigation() {
-        onView(withId(R.id.drawer_layout)).perform(swipeRight());
+    public void testNavigationDrawer() throws Exception{
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
     }
 
 }
