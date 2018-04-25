@@ -69,8 +69,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
         endTime.setText(formatTime.format(calEnd.getTime()));
 
 
-
-
         // DB Connect
         final DBHandler dbh = new DBHandler();
 
@@ -89,7 +87,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Log.d("cars", cars.toString());
 
 
-
         // list coDriver
         List<CoDriver> coDrivers = dbh.getAllCoDrivers();
         ArrayList<String> coDriverArray = new ArrayList<>();
@@ -105,8 +102,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Log.d("coDrivers", coDrivers.toString());
 
 
-
-
         Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
         ArrayAdapter<CharSequence> adapterWeather = ArrayAdapter.createFromResource(this,
                 R.array.Weather, android.R.layout.simple_spinner_item);
@@ -119,9 +114,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
                 R.array.RoadConditions, android.R.layout.simple_spinner_item);
         adapterRoadCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roadConditionsSpinner.setAdapter(adapterRoadCondition);
-
-
-
 
 
         // Start Date
@@ -156,7 +148,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
         });
 
 
-
         // End Date
         endDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -187,7 +178,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-
 
 
         final Button save = findViewById(R.id.buttonSave);
@@ -274,8 +264,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
     }
 
 
-
-
     private DatePickerDialog.OnDateSetListener datePickerListener
             = new DatePickerDialog.OnDateSetListener() {
 
@@ -310,30 +298,33 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
     private TimePickerDialog.OnTimeSetListener timePickerListener =
-        new TimePickerDialog.OnTimeSetListener() {
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+            new TimePickerDialog.OnTimeSetListener() {
+                public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
 
-                Button button;
+                    Button button;
 
-                switch (buttonID) {
-                    case R.id.buttonTimeStart:
-                        calStart.set(Calendar.HOUR_OF_DAY, selectedHour);
-                        calStart.set(Calendar.MINUTE, selectedMinute);
+                    switch (buttonID) {
+                        case R.id.buttonTimeStart:
+                            calStart.set(Calendar.HOUR_OF_DAY, selectedHour);
+                            calStart.set(Calendar.MINUTE, selectedMinute);
 
-                        button = findViewById(buttonID);
-                        button.setText(formatTime.format(calStart.getTime()));
-                        break;
+                            button = findViewById(buttonID);
+                            button.setText(formatTime.format(calStart.getTime()));
+                            break;
 
-                    case R.id.buttonTimeEnd:
-                        calEnd.set(Calendar.HOUR_OF_DAY, selectedHour);
-                        calEnd.set(Calendar.MINUTE, selectedMinute);
+                        case R.id.buttonTimeEnd:
+                            calEnd.set(Calendar.HOUR_OF_DAY, selectedHour);
+                            calEnd.set(Calendar.MINUTE, selectedMinute);
 
-                        button = findViewById(buttonID);
-                        button.setText(formatTime.format(calEnd.getTime()));
-                        break;
+                            button = findViewById(buttonID);
+                            button.setText(formatTime.format(calEnd.getTime()));
+                            break;
+                    }
                 }
-            }
-    };
+            };
+
+
+}
 
 
 

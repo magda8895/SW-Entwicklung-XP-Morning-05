@@ -60,19 +60,5 @@ public class User extends SugarRecord {
         this.goal_km = goal_km;
     }
 
-    public String getName() {
-        return name;
-    }
-    public int getDriven_km() {
-        return (int) driven_km;
-    }
 
-    // do not use - will be deleted
-    public int getDriven_km() {
-        return (int) driven_km;
-    }
-
-    public int getGoal_km() {
-        return (int) goal_km;
-    }
 }

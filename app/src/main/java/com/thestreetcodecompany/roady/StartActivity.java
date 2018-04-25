@@ -63,9 +63,9 @@ public class StartActivity extends AppCompatActivity
 
 
         //set Display
-        display.setText(user.getDriven_km() + "/" + user.getGoal_km() + " km");
-        progressBar.setMax(user.getGoal_km());
-        progressBar.setProgress(user.getDriven_km());
+        display.setText(user.getDrivenKm() + "/" + user.getGoalKm() + " km");
+        progressBar.setMax((int)user.getGoalKm());
+        progressBar.setProgress((int)user.getDrivenKm());
 
 
         fab.setOnClickListener(new View.OnClickListener() {

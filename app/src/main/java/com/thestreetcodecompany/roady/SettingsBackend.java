@@ -52,20 +52,20 @@ public class SettingsBackend extends AppCompatActivity {
         dbh.makeDB();
         dbh.makeTestData();
         user = dbh.getTestUser();
-        final List<Car> cars = user.getAllCars();
-        final List<CoDriver> co_drivers = user.getAllCoDrivers();
-        final List<Achievement> achievements = user.getAllAchievments();
+        final List<Car> cars = dbh.getAllCars();
+        final List<CoDriver> co_drivers = dbh.getAllCoDrivers();
+        //final List<Achievement> achievements = dbh.getAllAchievments();
 
         edittext_name.setText(user.getName());
-        seekbar_drivenkm.setProgress(user.getDriven_km());
-        seekbar_goalkm.setProgress(user.getGoal_km());
+        seekbar_drivenkm.setProgress((int)user.getDrivenKm());
+        seekbar_goalkm.setProgress((int)user.getGoalKm());
 
         //set List Adapter
         listview_car.setAdapter(createCarAdapter(cars));
         adaptListViewHeight(listview_car);
         listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
         adaptListViewHeight(listview_codriver);
-        listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+        //listview_achievements.setAdapter(createAchievmentAdapter(achievements));
         adaptListViewHeight(listview_achievements);
 
 
@@ -77,8 +77,8 @@ public class SettingsBackend extends AppCompatActivity {
                 float km = Float.valueOf(editText_achievements_km.getText().toString());
                 Achievement a = new Achievement(name, 2, km, "No Image", false, user);
                 a.save();
-                achievements.add(a);
-                listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+                //achievements.add(a);
+                //listview_achievements.setAdapter(createAchievmentAdapter(achievements));
                 adaptListViewHeight(listview_achievements);
             }
         });
