@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Most recent"
+                android:text="@string/textview_achievements_recent"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -92,12 +92,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Conditions"
+                android:text="@string/textview_achievements_all"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <GridView
-                android:id="@+id/gridView"
+                android:id="@+id/gridViewCondition"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="4"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="10dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
+                />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/textViewLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Levels"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+
+            <GridView
+                android:id="@+id/gridViewLevel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:numColumns="4"

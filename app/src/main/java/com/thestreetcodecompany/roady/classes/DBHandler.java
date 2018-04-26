@@ -49,24 +49,61 @@ public class DBHandler extends SugarApp {
     {
         User user = new User("Karl Heinz", 67, 1000);
         user.save();
-        Achievement a = new Achievement("king", "bronze", 1, 500, R.drawable.ic_stars, true, user);
-        a.save();
-        Achievement a2 = new Achievement("king", "silver", 1, 500, R.drawable.ic_stars, false, user);
+
+        Achievement a1 = new Achievement("Rain", "Drive while it's raining", 0, 0, R.drawable.ic_stars, true, user);
+        a1.save();
+        Achievement a2 = new Achievement("Snow", "Drive while it's snowing", 1, 0, R.drawable.ic_stars, false, user);
         a2.save();
-        Achievement a3 = new Achievement("king", "gold", 1, 500, R.drawable.ic_stars, false, user);
+        Achievement a3 = new Achievement("Ice", "Drive while the road is icy", 2, 0, R.drawable.ic_stars, false, user);
         a3.save();
-        Achievement a4 = new Achievement("king", "platinum", 1, 500, R.drawable.ic_stars, false, user);
+        Achievement a4 = new Achievement("Night", "Dive at night", 3, 0, R.drawable.ic_stars, false, user);
         a4.save();
-        Car c = new Car("Bugatti","GU-123YEAH", user);
-        c.save();
+
+        Achievement a5 = new Achievement("Came a long way (Bronze)", "Drive 1000 km", 4, 1000, R.drawable.ic_stars, true, user);
+        a5.save();
+        Achievement a6 = new Achievement("Came a long way (Silver)", "Drive 2000 km", 4, 2000, R.drawable.ic_stars, false, user);
+        a6.save();
+        Achievement a7 = new Achievement("Came a long way (Gold)", "Drive 3000 km", 4, 3000, R.drawable.ic_stars, false, user);
+        a7.save();
+        Achievement a8 = new Achievement("Came a long way (Platinum)", "Drive 5000 km", 4, 5000, R.drawable.ic_stars, false, user);
+        a8.save();
+
+        Achievement a9 = new Achievement("Everyday is driving day (Bronze)", "Drive 2 days in a row", 5, 2, R.drawable.ic_stars, false, user);
+        a9.save();
+        Achievement a10 = new Achievement("Everyday is driving day (Silver)", "Drive 3 days in a row", 5, 3, R.drawable.ic_stars, false, user);
+        a10.save();
+        Achievement a11 = new Achievement("Everyday is driving day (Gold)", "Drive 4 days in a row", 5, 4, R.drawable.ic_stars, false, user);
+        a11.save();
+        Achievement a12 = new Achievement("Everyday is driving day (Platinum)", "Drive 7 days in a row", 5, 7, R.drawable.ic_stars, false, user);
+        a12.save();
+
+        Achievement a13 = new Achievement("All day long (Bronze)", "Drive 1h", 6, 1, R.drawable.ic_stars, true, user);
+        a13.save();
+        Achievement a14 = new Achievement("All day long (Silver)", "Drive 2h", 6, 2, R.drawable.ic_stars, true, user);
+        a14.save();
+        Achievement a15 = new Achievement("All day long (Gold)", "Drive 3h", 6, 3, R.drawable.ic_stars, false, user);
+        a15.save();
+        Achievement a16 = new Achievement("All day long (Platinum)", "Drive 5h", 6, 5, R.drawable.ic_stars, false, user);
+        a16.save();
+
+        Achievement a17 = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_stars, false, user);
+        a17.save();
+        Achievement a18 = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_stars, false, user);
+        a18.save();
+
+        Car c1 = new Car("Bugatti","GU-123YEAH", user);
+        c1.save();
         Car c2 = new Car("Audi A6", "G-AUDI1", user);
         c2.save();
         Car c3 = new Car("VW Golf", "SL-234KK", user);
         c3.save();
+
         CoDriver cd = new CoDriver("Carlos", user);
         cd.save();
+
         DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
         ds.save();
+
         Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
         cord.save();
     }

@@ -5,6 +5,7 @@
     android:id="@+id/linearLayoutAchievement"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="6dp"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -12,7 +13,6 @@
         android:id="@+id/imageViewAchievement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="8dp"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         app:srcCompat="@drawable/ic_stars" />
@@ -22,5 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@android:color/black" />
 </LinearLayout>

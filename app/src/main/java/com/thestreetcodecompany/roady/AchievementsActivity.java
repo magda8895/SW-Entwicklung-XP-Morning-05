@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.thestreetcodecompany.roady.classes.model.User;
 
 import org.w3c.dom.Text;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AchievementsActivity extends AppCompatActivity {
@@ -34,8 +36,58 @@ public class AchievementsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new gridAdapter(this));
+
+        // DB Connect
+        DBHandler dbh = new DBHandler();
+        User user = dbh.getTestUser();
+
+
+        // Conditions
+        List<Achievement> achievementsCondition = Achievement.find(Achievement.class, "type <= ?", "3");
+        GridView gridViewCondition = (GridView) findViewById(R.id.gridViewCondition);
+        gridViewCondition.setAdapter(new gridAdapter(this, achievementsCondition));
+
+
+        List<Achievement> achievementsLevel = Achievement.find(Achievement.class, "type < ?", "0");
+
+        // Streak
+        List<Achievement> achievementsStreak = Achievement.find(Achievement.class, "type = ? and reached = 1", "5");
+        if (achievementsStreak.isEmpty()) {
+            achievementsLevel.add(Achievement.find(Achievement.class, "type = ?", "5").get(0));
+        } else {
+            achievementsLevel.add(achievementsStreak.get(achievementsStreak.size() - 1));
+        }
+
+        // Distance
+        List<Achievement> achievementsDistance = Achievement.find(Achievement.class, "type = ? and reached = 1", "4");
+        if (achievementsDistance.isEmpty()) {
+            achievementsLevel.add(Achievement.find(Achievement.class, "type = ?", "4").get(0));
+        } else {
+            achievementsLevel.add(achievementsDistance.get(achievementsDistance.size() - 1));
+        }
+
+        // Time
+        List<Achievement> achievementsTime = Achievement.find(Achievement.class, "type = ? and reached = 1", "6");
+        //List<Achievement> achievementsTime = Achievement.findWithQuery(Achievement.class, "Select * from Achievement where type = 6 and reached = true LIMIT 4");
+        if (achievementsTime.isEmpty()) {
+            Log.d("achievements time", "found: " + achievementsTime.size());
+            achievementsLevel.add(Achievement.find(Achievement.class, "type = ?", "6").get(0));
+        } else {
+            Log.d("achievements time", "found: " + achievementsTime.size());
+            achievementsLevel.add(achievementsTime.get(achievementsTime.size() - 1));
+        }
+
+        // Fast & Furious
+        List<Achievement> achievementsFastAndFurious = Achievement.find(Achievement.class, "type = ? and reached = 1", "7");
+        if (achievementsFastAndFurious.isEmpty()) {
+            achievementsLevel.add(Achievement.find(Achievement.class, "type = ?", "7").get(0));
+        } else {
+            achievementsLevel.add(achievementsFastAndFurious.get(achievementsFastAndFurious.size() - 1));
+        }
+
+        // initialize grid
+        GridView gridViewLevel = (GridView) findViewById(R.id.gridViewLevel);
+        gridViewLevel.setAdapter(new gridAdapter(this, achievementsLevel));
 
     }
 }
@@ -45,9 +97,11 @@ public class AchievementsActivity extends AppCompatActivity {
 
 class gridAdapter extends BaseAdapter {
     private Context mContext;
+    private List<Achievement> achievements;
 
-    public gridAdapter(Context c) {
-        mContext = c;
+    public gridAdapter(Context c, List<Achievement> achievements) {
+        this.mContext = c;
+        this.achievements = achievements;
     }
 
     public int getCount() {
@@ -62,36 +116,6 @@ class gridAdapter extends BaseAdapter {
         return 0;
     }
 
-    /*// create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LinearLayout layout;
-        ImageView imageView;
-        TextView textView;
-
-        if (convertView == null) {
-            // if it's not recycled, initialize some attributes
-            layout = new LinearLayout(mContext);
-            layout.setOrientation(LinearLayout.VERTICAL);
-
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(128, 128));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
-
-            textView = new TextView(mContext);
-            textView.setText("test");
-        } else {
-            layout = (LinearLayout) convertView;
-        }
-
-        imageView.setImageResource(achievements.get(position).getImage());
-
-        layout.addView(imageView);
-        layout.addView(textView);
-
-        return imageView;
-    }*/
-
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
 
@@ -100,10 +124,24 @@ class gridAdapter extends BaseAdapter {
             v = li.inflate(R.layout.achievement_item, null);
 
             ImageView iv = (ImageView) v.findViewById(R.id.imageViewAchievement);
-            iv.setImageResource(achievements.get(position).getImage());
-
             TextView tv = (TextView) v.findViewById(R.id.textViewAchievementTitle);
-            tv.setText(achievements.get(position).getTitle());
+
+            if (achievements.get(position).getReached()) {
+                iv.setImageResource(achievements.get(position).getImage());
+                tv.setText(achievements.get(position).getTitle());
+            } else {
+                iv.setAlpha((float) 0.36);
+                tv.setAlpha((float) 0.36);
+
+                if (achievements.get(position).getType() == 7) {
+                    iv.setImageResource(R.drawable.ic_help_black_24dp);
+                    tv.setText("Hidden");
+                } else {
+                    iv.setImageResource(R.drawable.ic_stars);
+                    tv.setText(achievements.get(position).getTitle());
+                }
+            }
+
         } else {
             v = convertView;
         }
@@ -111,13 +149,4 @@ class gridAdapter extends BaseAdapter {
         return v;
     }
 
-    private Integer[] mThumbIds = {
-            R.drawable.ic_stars, R.drawable.ic_settings,
-            R.drawable.ic_stars, R.drawable.ic_settings
-    };
-
-    //get Data
-    DBHandler dbh = new DBHandler();
-    User user = dbh.getTestUser();
-    private List<Achievement> achievements = user.getAchievements();
 }

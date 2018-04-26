@@ -32,6 +32,8 @@
     <string name="car_name">New Car</string>
     <string name="save_settings">Save Settings</string>
     <string name="title_activity_achievements">Achievements</string>
+    <string name="textview_achievements_all">All</string>
+    <string name="textview_achievements_recent">Most recent</string>
 
     <string-array name="Weather">
         <item>Dry</item>
