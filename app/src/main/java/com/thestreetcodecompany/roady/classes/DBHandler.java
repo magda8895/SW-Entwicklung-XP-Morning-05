@@ -8,6 +8,7 @@ import com.orm.SugarContext;
 import com.orm.SugarDb;
 import com.orm.query.Condition;
 import com.orm.query.Select;
+import com.thestreetcodecompany.roady.R;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
@@ -48,8 +49,14 @@ public class DBHandler extends SugarApp {
     {
         User user = new User("Karl Heinz", 67, 1000);
         user.save();
-        Achievement a = new Achievement("king", "dummy achievement", 1, 500, "/", false, user);
+        Achievement a = new Achievement("king", "bronze", 1, 500, R.drawable.ic_stars, true, user);
         a.save();
+        Achievement a2 = new Achievement("king", "silver", 1, 500, R.drawable.ic_stars, false, user);
+        a2.save();
+        Achievement a3 = new Achievement("king", "gold", 1, 500, R.drawable.ic_stars, false, user);
+        a3.save();
+        Achievement a4 = new Achievement("king", "platinum", 1, 500, R.drawable.ic_stars, false, user);
+        a4.save();
         Car c = new Car("Bugatti","GU-123YEAH", user);
         c.save();
         Car c2 = new Car("Audi A6", "G-AUDI1", user);

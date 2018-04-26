@@ -4,6 +4,7 @@ import com.orm.SugarRecord;
 
 /**
  * Created by Rutter on 23.03.2018.
+ * Last changed by Schauberger on 26.04.2018
  */
 
 public class Achievement extends SugarRecord {
@@ -12,14 +13,15 @@ public class Achievement extends SugarRecord {
     private String description;
     private int type;
     private float value;
-    private String imageLink;
+    private int imageLink;
     private boolean reached;
     private User user;
     boolean deleted;
 
+
     public Achievement() {}
 
-    public Achievement(String title, String description, int type, float value, String imageLink, boolean reached, User user) {
+    public Achievement(String title, String description, int type, float value, int imageLink, boolean reached, User user) {
         setTitle(title);
         setDescription(description);
         setType(type);
@@ -28,6 +30,7 @@ public class Achievement extends SugarRecord {
         setReached(reached);
         setUser(user);
     }
+
 
     // getter
     public String getTitle() { return this.title; }
@@ -38,7 +41,7 @@ public class Achievement extends SugarRecord {
 
     public float getValue() { return this.value; }
 
-    public String getImage() { return this.imageLink; }
+    public int getImage() { return this.imageLink; }
 
     public boolean getReached() { return this.reached; }
 
@@ -54,7 +57,7 @@ public class Achievement extends SugarRecord {
 
     public void setValue(float value) { this.value = value; }
 
-    public void setImage(String imageLink) { this.imageLink = imageLink; }
+    public void setImage(int imageLink) { this.imageLink = imageLink; }
 
     public void setReached(boolean reached) { this.reached = reached; }
 
