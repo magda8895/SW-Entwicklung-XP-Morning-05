@@ -1,32 +1,11 @@
 <resources>
     <string name="app_name">Roady</string>
-    <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_driving_session_after">Add Driving Session</string>
-    <string-array name="Weather">
-        <item>Dry</item>
-        <item>Rain</item>
-        <item>Snow</item>
-        <item>Ice</item>
-    </string-array>
-    <string-array name="RoadConditions">
-        <item>Clear</item>
-        <item>Crowd</item>
-        <item>Roadworks</item>
-        <item>Accident</item>
-    </string-array>
-    <string name="title_activity_dbbackend">DBBackend</string>
-    <string name="title_activity_start">StartActivity</string>
-    <string name="lable_addnew">neue Fahrt</string>
-    <string name="lable_addold">Fahrt nachtragen</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_activity_nav">NavActivity</string>
-    <string name="title_activity_test">TestActivity</string>
 
     <string name="title_activity_start">Dashboard</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_driving_session_after">Add Driving Session</string>
     <string name="title_activity_settings_backend">Settings</string>
+    <string name="title_activity_dbbackend">DBBackend</string>
 
     <string name="lable_addnew">Start Driving</string>
     <string name="lable_addold">Add Driving Session</string>
@@ -38,7 +17,6 @@
     <string name="settings">Settings</string>
     <string name="achievement">Achievements</string>
     <string name="export">Export</string>
-    <string name="title_activity_settings_backend">SettingsBackend</string>
 
 
     <string name="user_name_label">Name</string>
@@ -53,6 +31,7 @@
     <string name="car_kfz">KFZ</string>
     <string name="car_name">New Car</string>
     <string name="save_settings">Save Settings</string>
+    <string name="title_activity_achievements">Achievements</string>
 
     <string-array name="Weather">
         <item>Dry</item>

@@ -48,7 +48,7 @@ public class DBHandler extends SugarApp {
     {
         User user = new User("Karl Heinz", 67, 1000);
         user.save();
-        Achievement a = new Achievement("king",1,500,"/",false, user);
+        Achievement a = new Achievement("king", "dummy achievement", 1, 500, "/", false, user);
         a.save();
         Car c = new Car("Bugatti","GU-123YEAH", user);
         c.save();

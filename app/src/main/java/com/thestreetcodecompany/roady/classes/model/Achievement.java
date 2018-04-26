@@ -8,26 +8,55 @@ import com.orm.SugarRecord;
 
 public class Achievement extends SugarRecord {
     //id
-    String name;
-    int type;
-    float km;
-    String imageLink;
-    boolean reached;
-    User user;
+    private String title;
+    private String description;
+    private int type;
+    private float value;
+    private String imageLink;
+    private boolean reached;
+    private User user;
     boolean deleted;
 
     public Achievement() {}
 
-    public Achievement(String name, int type, float km, String imageLink, boolean reached, User user) {
-        this.name = name;
-        this.type = type;
-        this.km = km;
-        this.imageLink = imageLink;
-        this.reached = reached;
-        this.user = user;
+    public Achievement(String title, String description, int type, float value, String imageLink, boolean reached, User user) {
+        setTitle(title);
+        setDescription(description);
+        setType(type);
+        setValue(value);
+        setImage(imageLink);
+        setReached(reached);
+        setUser(user);
     }
 
-    public String getName() {
-        return name;
-    }
+    // getter
+    public String getTitle() { return this.title; }
+
+    public String getDescription() { return this.description; }
+
+    public int getType() { return this.type; }
+
+    public float getValue() { return this.value; }
+
+    public String getImage() { return this.imageLink; }
+
+    public boolean getReached() { return this.reached; }
+
+    public User getUser() { return this.user; }
+
+
+    // setter
+    public void setTitle(String title) { this.title = title; }
+
+    public void setDescription(String description) { this.description = description; }
+
+    public void setType(int type) { this.type = type; }
+
+    public void setValue(float value) { this.value = value; }
+
+    public void setImage(String imageLink) { this.imageLink = imageLink; }
+
+    public void setReached(boolean reached) { this.reached = reached; }
+
+    public void setUser(User user) { this.user = user; }
 }
