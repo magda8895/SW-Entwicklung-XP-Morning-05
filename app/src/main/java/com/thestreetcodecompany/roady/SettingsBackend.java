@@ -31,8 +31,9 @@ public class SettingsBackend extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Toolbar toolbar = findViewById(R.id.toolbar2);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //get View Elements
         final ListView listview_achievements = (ListView) findViewById(R.id.achievementsUserCreatedList);
         final ListView listview_codriver = (ListView) findViewById(R.id.coDriverList);
@@ -52,8 +53,8 @@ public class SettingsBackend extends AppCompatActivity {
 
         //get Data
         DBHandler dbh = new DBHandler();
-        dbh.makeDB();
-        dbh.makeTestData();
+        //dbh.makeDB();
+        //dbh.makeTestData();
         user = dbh.getTestUser();
 
         final List<Car> cars = user.getCars();

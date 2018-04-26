@@ -111,7 +111,7 @@ public class DrivingSessionAfterwardsUiTest {
 
     @Test
     public void setCoDriver() {
-        UiTestsHelper.setSpinnerwithoutData(R.id.spinnerCoDriver);
+        UiTestsHelper.setSpinner(R.id.spinnerCoDriver,"Carlos");
     }
 
     @Test

@@ -63,7 +63,7 @@ public class StartInstrumentedTest {
     public void testDistanceData() {
         DBHandler dbh = new DBHandler();
         User user = dbh.getTestUser();
-        onView(withText(user.getDriven_km() + "/" + user.getGoal_km() + " km")).check(matches(isDisplayed()));
+        onView(withText(user.getDrivenKm() + "/" + user.getGoalKm() + " km")).check(matches(isDisplayed()));
     }
     @Test
     public void testProgress() {

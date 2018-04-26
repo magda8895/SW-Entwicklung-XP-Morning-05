@@ -39,13 +39,17 @@ public class User extends SugarRecord {
     }
 
     public float getDrivenKm() {
-        return this.driven_km;
+        return driven_km;
     }
 
     public float getGoalKm() {
         return this.goal_km;
     }
 
+    public void addDriven_km(float distance)
+    {
+        driven_km += distance;
+    }
 
     // setter
     public void setName(String name) {
@@ -60,6 +64,7 @@ public class User extends SugarRecord {
         this.goal_km = goal_km;
     }
 
+    // additional
     public List<Car> getCars() {
         List<Car> cars = Car.find(Car.class, "user = ?", "" + getId());
         return cars;

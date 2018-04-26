@@ -2,6 +2,8 @@ package com.thestreetcodecompany.roady;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,7 +32,9 @@ public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listview;
-
+    ProgressBar progressBar;
+    TextView display;
+    com.github.clans.fab.FloatingActionMenu fab_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +54,20 @@ public class StartActivity extends AppCompatActivity
 
         //get View Elements
         listview = (ListView) findViewById(R.id.start_list);
-        final com.github.clans.fab.FloatingActionMenu fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
+        fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
         final com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_new);
         final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_old);
-        final TextView display = (TextView) findViewById(R.id.start_display);
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
+        display = (TextView) findViewById(R.id.start_display);
+        progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
 
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.start_container);
+
+        cl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab_menu.close(true);
+            }
+        });
         //get Data
         DBHandler dbh = new DBHandler();
         User user = dbh.getTestUser();
@@ -64,17 +76,17 @@ public class StartActivity extends AppCompatActivity
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
-
         //set Display
-        display.setText((int) user.getDrivenKm() + " / " + (int) user.getGoalKm() + " km");
+        display.setText(user.getDrivenKm() + " / " + user.getGoalKm() + " km");
         progressBar.setMax((int)user.getGoalKm());
         progressBar.setProgress((int)user.getDrivenKm());
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MakeSnackbar("New Driving Session",view);
+                MakeSnackbar("Click Start Driving",view);
             }
         });
 
@@ -89,9 +101,16 @@ public class StartActivity extends AppCompatActivity
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MakeSnackbar("Click Item: index: " + i,view);
+                fab_menu.close(true);
+                MakeSnackbar("Click item: index: " + i,view);
             }
         });
+
+
+        // change nav name
+        //TextView textNavName = findViewById(R.id.navName);
+        //textNavName.setText("" + user.getName());
+        //Log.d("user", user.toString());
 
 
     }
@@ -108,8 +127,12 @@ public class StartActivity extends AppCompatActivity
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
-        //set Progressbar
-        
+        //set Progressbar / Display
+        display.setText(user.getDrivenKm() + " / " + user.getGoalKm() + " km");
+        progressBar.setProgress((int)user.getDrivenKm());
+        //progressBar.refreshDrawableState();
+
+        fab_menu.close(true);
     }
 
 
@@ -144,10 +167,10 @@ public class StartActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public ArrayAdapter createAdapter(final List<DrivingSession> sessions){
 
 
 
+    public ArrayAdapter createAdapter(final List<DrivingSession> sessions) {
 
         ArrayAdapter adapter = new ArrayAdapter<DrivingSession>(this,
                 R.layout.listitem_start,R.id.startitem_name, sessions) {
@@ -160,8 +183,8 @@ public class StartActivity extends AppCompatActivity
                 TextView tv_distance = (TextView) view.findViewById(R.id.startitem_distance);
 
                 tv_name.setText(sessions.get(position).getName());
-                tv_time.setText("" + sessions.get(position).getTimeSpan());
-                tv_distance.setText("" + sessions.get(position).getDistance() + " km");
+                tv_time.setText(sessions.get(position).getDateStringStart());
+                tv_distance.setText(sessions.get(position).getDistance() + " km");
 
                 return view;
             }
