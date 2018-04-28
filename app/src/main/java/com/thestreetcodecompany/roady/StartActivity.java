@@ -161,6 +161,9 @@ public class StartActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent i = new Intent(getApplicationContext(), SettingsBackend.class);
             startActivity(i);
+        } else if (id == R.id.nav_infos) {
+            Intent intent = new Intent(getApplicationContext(), InfosActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
