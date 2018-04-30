@@ -34,26 +34,17 @@ public class InfosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_infos);
 
         barChart = findViewById(R.id.bar_chart);
-        pieChart = findViewById(R.id.pieChart);
-        pieChart2 = findViewById(R.id.pieChart2);
 
         List<DrivingSession> sessions = DrivingSession.listAll(DrivingSession.class);
 
         List<Integer> sums = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> weatherSums = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> roadSums = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
 
         for(DrivingSession session: sessions) {
             Calendar c = Calendar.getInstance();
             c.setTime(session.getDateTimeStart());
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 2;
             sums.set(dayOfWeek, sums.get(dayOfWeek) + (int)(session.getDistance()));
-
-            weatherSums.set(session.getStreetCondition(), weatherSums.get(session.getStreetCondition()) + 1);
-            roadSums.set(session.getStreetCondition(), roadSums.get(session.getStreetCondition()) + 1);
         }
-
-        Log.i("InfosActivity", weatherSums.toString());
 
         List<BarEntry> entries = new ArrayList<>();
         for(int i = 0; i < sums.size(); i++) {
@@ -95,41 +86,5 @@ public class InfosActivity extends AppCompatActivity {
         barChart.fitScreen();
 
         barChart.invalidate();
-
-        List<PieEntry> weatherEntries = new ArrayList<>();
-        for(int i = 0; i < weatherSums.size(); i++) {
-            int weatherSum = weatherSums.get(i);
-            if(weatherSum != 0) {
-                weatherEntries.add(new PieEntry(weatherSum, new String[] {"Dry", "Rain", "Snow", "Ice"}[i]));
-            }
-        }
-
-        PieDataSet pieDataSet = new PieDataSet(weatherEntries, "weatherData");
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-
-        pieChart.setDrawHoleEnabled(false);
-        pieChart.getLegend().setEnabled(false);
-        pieChart.getDescription().setEnabled(false);
-
-        pieChart.invalidate();
-
-        List<PieEntry> roadEntries = new ArrayList<>();
-        for(int i = 0; i < roadSums.size(); i++) {
-            int roadSum = roadSums.get(i);
-            if(roadSum != 0) {
-                roadEntries.add(new PieEntry(roadSum, new String[] {"Clear", "Crowd", "Roadworks", "Accident"}[i]));
-            }
-        }
-
-        PieDataSet pieDataSet2 = new PieDataSet(roadEntries, "weatherData");
-        PieData pieData2 = new PieData(pieDataSet2);
-        pieChart2.setData(pieData2);
-
-        pieChart2.setDrawHoleEnabled(false);
-        pieChart2.getLegend().setEnabled(false);
-        pieChart2.getDescription().setEnabled(false);
-
-        pieChart2.invalidate();
     }
 }
