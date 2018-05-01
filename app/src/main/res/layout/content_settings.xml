@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="@string/user_name_label"
+                    android:hint="@string/user_name_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <Space
@@ -114,7 +114,7 @@
                         android:layout_width="177dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/achievements_user_created_name"
+                        android:hint="@string/achievements_user_created_name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <EditText
@@ -124,7 +124,7 @@
                         android:layout_weight="1"
                         android:ems="10"
                         android:inputType="textPersonName"
-                        android:text="100.0"
+                        android:hint="100.0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <TextView
@@ -187,7 +187,7 @@
                         android:layout_width="313dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/co_driver_name"
+                        android:hint="@string/co_driver_name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <Space
@@ -203,7 +203,6 @@
                         android:clickable="true"
                         android:tint="@android:color/background_light"
                         app:backgroundTint="@color/colorPrimaryDark"
-                        app:elevation="0dp"
                         app:srcCompat="@android:drawable/ic_input_add" />
                 </LinearLayout>
 
@@ -244,7 +243,7 @@
                         android:layout_width="163dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/car_name"
+                        android:hint="@string/car_name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <EditText
@@ -254,7 +253,7 @@
                         android:layout_weight="1"
                         android:ems="10"
                         android:inputType="textPersonName"
-                        android:text="@string/car_kfz"
+                        android:hint="@string/car_kfz"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <Space
