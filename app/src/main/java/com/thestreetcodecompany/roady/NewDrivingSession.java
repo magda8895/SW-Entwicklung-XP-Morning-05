@@ -14,13 +14,21 @@ import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Chronometer;
+import android.widget.Toast;
 public class NewDrivingSession extends AppCompatActivity {
 
     final Calendar calStart = Calendar.getInstance();
     final Calendar calEnd = Calendar.getInstance();
     final Calendar calNow = Calendar.getInstance();
     int buttonID = 0;
+
 
 
 
@@ -37,6 +45,7 @@ public class NewDrivingSession extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(NewDrivingSession.this,StopWatch.class));
+
             }
         });
 
