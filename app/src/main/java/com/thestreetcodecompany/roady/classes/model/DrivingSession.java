@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by Rutter on 23.03.2018.
- * Last changed by Schauberger on 24.04.2018 
+ * Last changed by Schauberger on 24.04.2018
  */
 
 public class DrivingSession extends SugarRecord {
