@@ -43,4 +43,5 @@
         <item>Roadworks</item>
         <item>Accident</item>
     </string-array>
+    <string name="title_activity_new_driving_session">NewDrivingSession</string>
 </resources>
