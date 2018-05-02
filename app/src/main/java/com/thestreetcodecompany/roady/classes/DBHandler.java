@@ -15,6 +15,7 @@ import com.thestreetcodecompany.roady.classes.model.Coordinate;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,8 +59,20 @@ public class DBHandler extends SugarApp {
         c3.save();
         CoDriver cd = new CoDriver("Carlos", user);
         cd.save();
+        //Driving sessions
         DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
         ds.save();
+        ds = new DrivingSession(true, "12-12-2012 05:21:12", 123, user);
+        ds.save();
+        ds = new DrivingSession(true, "13-12-2012 05:21:12", 203, user);
+        ds.save();
+        ds = new DrivingSession(true, "14-12-2012 05:21:12", 200, user);
+        ds.save();
+        ds = new DrivingSession(true, "15-12-2012 05:21:12", 20, user);
+        ds.save();
+        ds = new DrivingSession(true, "16-12-2012 05:21:12", 99, user);
+        ds.save();
+
         Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
         cord.save();
     }
@@ -96,6 +109,12 @@ public class DBHandler extends SugarApp {
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
         return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+    }
+
+    public List<DrivingSession> getAllDrivingSessionsTimePeriod(User user, Date start, Date end)
+    {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        return DrivingSession.find(DrivingSession.class, "user = ? and dateTime_start >= ? and dateTime_end < ? ", whereArgs);
     }
 
 //    public List<Car> getAllCars(User user)

@@ -243,7 +243,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     int street_condition = 0;
 
                     // save to db
-                    DrivingSession newSession = new DrivingSession(name, dateTime_start, dateTime_end, car, co_driver,
+                    DrivingSession newSession = new DrivingSession(name, dateTime_start.getTime(), dateTime_end.getTime(), car, co_driver,
                             km_start, km_end, weather, street_condition, user);
                     newSession.save();
 
