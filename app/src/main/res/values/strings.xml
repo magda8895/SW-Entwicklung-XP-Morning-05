@@ -34,6 +34,7 @@
     <string name="title_activity_achievements">Achievements</string>
     <string name="textview_achievements_all">All</string>
     <string name="textview_achievements_recent">Most recent</string>
+    <string name="achievements_hidden">Hidden</string>
 
     <string-array name="Weather">
         <item>Dry</item>

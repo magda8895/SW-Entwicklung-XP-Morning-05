@@ -1,11 +1,9 @@
 package com.thestreetcodecompany.roady;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +11,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.User;
 
-import org.w3c.dom.Text;
-
 import java.util.Collections;
 import java.util.List;
+
+
 
 public class AchievementsActivity extends AppCompatActivity {
 
@@ -43,44 +39,43 @@ public class AchievementsActivity extends AppCompatActivity {
 
 
         // Conditions
-        List<Achievement> achievementsCondition = Achievement.find(Achievement.class, "type <= ?", "3");
+        List<Achievement> achievementsCondition = user.getAchievementsCondition();
         GridView gridViewCondition = (GridView) findViewById(R.id.gridViewCondition);
         gridViewCondition.setAdapter(new gridAdapter(this, achievementsCondition));
 
 
-        List<Achievement> achievementsLevel = Achievement.find(Achievement.class, "type < ?", "0");
+        final List<Achievement> achievementsLevel = Achievement.find(Achievement.class, "type < ?", "0");
 
         // Streak
-        List<Achievement> achievementsStreak = Achievement.find(Achievement.class, "type = ? and reached = 1", "5");
+        List<Achievement> achievementsStreak = user.getAchievementsTypeReached(5);
         if (achievementsStreak.isEmpty()) {
-            achievementsLevel.add(Achievement.find(Achievement.class, "type = ?", "5").get(0));
+            achievementsLevel.add(user.getAchievementsType(5).get(0));
         } else {
             achievementsLevel.add(achievementsStreak.get(achievementsStreak.size() - 1));
         }
 
         // Distance
-        List<Achievement> achievementsDistance = Achievement.find(Achievement.class, "type = ? and reached = 1", "4");
+        List<Achievement> achievementsDistance = user.getAchievementsTypeReached(4);
         if (achievementsDistance.isEmpty()) {
-            achievementsLevel.add(Achievement.find(Achievement.class, "type = ?", "4").get(0));
+            achievementsLevel.add(user.getAchievementsType(4).get(0));
         } else {
             achievementsLevel.add(achievementsDistance.get(achievementsDistance.size() - 1));
         }
 
         // Time
-        List<Achievement> achievementsTime = Achievement.find(Achievement.class, "type = ? and reached = 1", "6");
+        List<Achievement> achievementsTime = user.getAchievementsTypeReached(6);
         //List<Achievement> achievementsTime = Achievement.findWithQuery(Achievement.class, "Select * from Achievement where type = 6 and reached = true LIMIT 4");
+        Log.d("achievements counter", "" + achievementsTime.size());
         if (achievementsTime.isEmpty()) {
-            Log.d("achievements time", "found: " + achievementsTime.size());
-            achievementsLevel.add(Achievement.find(Achievement.class, "type = ?", "6").get(0));
+            achievementsLevel.add(user.getAchievementsType(6).get(0));
         } else {
-            Log.d("achievements time", "found: " + achievementsTime.size());
             achievementsLevel.add(achievementsTime.get(achievementsTime.size() - 1));
         }
 
         // Fast & Furious
-        List<Achievement> achievementsFastAndFurious = Achievement.find(Achievement.class, "type = ? and reached = 1", "7");
+        List<Achievement> achievementsFastAndFurious = user.getAchievementsTypeReached(7);
         if (achievementsFastAndFurious.isEmpty()) {
-            achievementsLevel.add(Achievement.find(Achievement.class, "type = ?", "7").get(0));
+            achievementsLevel.add(user.getAchievementsType(7).get(0));
         } else {
             achievementsLevel.add(achievementsFastAndFurious.get(achievementsFastAndFurious.size() - 1));
         }
@@ -123,22 +118,24 @@ class gridAdapter extends BaseAdapter {
             LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //getLayoutInflater();
             v = li.inflate(R.layout.achievement_item, null);
 
-            ImageView iv = (ImageView) v.findViewById(R.id.imageViewAchievement);
-            TextView tv = (TextView) v.findViewById(R.id.textViewAchievementTitle);
+            if (v != null) {
+                ImageView iv = (ImageView) v.findViewById(R.id.imageViewAchievement);
+                TextView tv = (TextView) v.findViewById(R.id.textViewAchievementTitle);
 
-            if (achievements.get(position).getReached()) {
-                iv.setImageResource(achievements.get(position).getImage());
-                tv.setText(achievements.get(position).getTitle());
-            } else {
-                iv.setAlpha((float) 0.36);
-                tv.setAlpha((float) 0.36);
-
-                if (achievements.get(position).getType() == 7) {
-                    iv.setImageResource(R.drawable.ic_help_black_24dp);
-                    tv.setText("Hidden");
-                } else {
-                    iv.setImageResource(R.drawable.ic_stars);
+                if (achievements.get(position).getReached()) {
+                    iv.setImageResource(achievements.get(position).getImage());
                     tv.setText(achievements.get(position).getTitle());
+                } else {
+                    iv.setAlpha((float) 0.36);
+                    tv.setAlpha((float) 0.36);
+
+                    if (achievements.get(position).getType() == 7) {
+                        iv.setImageResource(R.drawable.ic_help_black_24dp);
+                        tv.setText(R.string.achievements_hidden);
+                    } else {
+                        iv.setImageResource(R.drawable.ic_stars);
+                        tv.setText(achievements.get(position).getTitle());
+                    }
                 }
             }
 

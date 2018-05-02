@@ -2,6 +2,10 @@ package com.thestreetcodecompany.roady.classes.model;
 
 import com.orm.SugarRecord;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Rutter on 23.03.2018.
  * Last changed by Schauberger on 26.04.2018
@@ -14,20 +18,30 @@ public class Achievement extends SugarRecord {
     private int type;
     private float value;
     private int imageLink;
-    private boolean reached;
+    private String reached;
     private User user;
     boolean deleted;
 
 
     public Achievement() {}
 
-    public Achievement(String title, String description, int type, float value, int imageLink, boolean reached, User user) {
+    public Achievement(String title, String description, int type, float value, int imageLink, String reached, User user) {
         setTitle(title);
         setDescription(description);
         setType(type);
         setValue(value);
         setImage(imageLink);
         setReached(reached);
+        setUser(user);
+    }
+
+    public Achievement(String title, String description, int type, float value, int imageLink, Date reached, User user) {
+        setTitle(title);
+        setDescription(description);
+        setType(type);
+        setValue(value);
+        setImage(imageLink);
+        setReachedDate(reached);
         setUser(user);
     }
 
@@ -43,7 +57,29 @@ public class Achievement extends SugarRecord {
 
     public int getImage() { return this.imageLink; }
 
-    public boolean getReached() { return this.reached; }
+    public String getReachedString() { return this.reached; }
+
+    public Date getReachedDate() {
+        String pattern = "dd-MM-yyyy hh:mm:ss";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        Date date = new Date();
+
+        try {
+            date = format.parse(getReachedString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public boolean getReached() {
+        if (getReachedString().isEmpty() || getReachedString() == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public User getUser() { return this.user; }
 
@@ -59,7 +95,13 @@ public class Achievement extends SugarRecord {
 
     public void setImage(int imageLink) { this.imageLink = imageLink; }
 
-    public void setReached(boolean reached) { this.reached = reached; }
+    public void setReached(String reached) { this.reached = reached; }
+
+    public void setReachedDate(Date reached) {
+        String pattern = "dd-MM-yyyy hh:mm:ss";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        this.reached = format.format(reached);
+    }
 
     public void setUser(User user) { this.user = user; }
 }

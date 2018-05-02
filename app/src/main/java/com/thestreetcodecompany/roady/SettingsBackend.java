@@ -81,7 +81,7 @@ public class SettingsBackend extends AppCompatActivity {
             public void onClick(View view) {
                 String name = editText_achievements.getText().toString();
                 float km = Float.valueOf(editText_achievements_km.getText().toString());
-                Achievement a = new Achievement(name, "custom achievement", 2, km, R.drawable.ic_stars, false, user);
+                Achievement a = new Achievement(name, "custom achievement", 2, km, R.drawable.ic_stars, "", user);
                 a.save();
                 achievements.add(a);
                 listview_achievements.setAdapter(createAchievmentAdapter(achievements));

@@ -2,6 +2,7 @@ package com.thestreetcodecompany.roady.classes.model;
 
 import com.orm.SugarRecord;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -77,6 +78,27 @@ public class User extends SugarRecord {
 
     public List<Achievement> getAchievements() {
         List<Achievement> achievements = Achievement.find(Achievement.class, "user = ?", "" + getId());
+        return achievements;
+    }
+
+    public List<Achievement> getAchievementsCondition() {
+        List<Achievement> achievements = Achievement.find(Achievement.class, "user = ? and type <= ?", "" + getId(), "3");
+        return achievements;
+    }
+
+    public List<Achievement> getAchievementsType(int type) {
+        List<Achievement> achievements = Achievement.find(Achievement.class, "user = ? and type = ?", "" + getId(), "" + type);
+        return achievements;
+    }
+
+    public List<Achievement> getAchievementsTypeReached(int type) {
+        List<Achievement> achievementsAll = getAchievementsType(type);
+        final List<Achievement> achievements = Achievement.find(Achievement.class, "type < ?", "0");
+        for (Achievement achievement : achievementsAll) {
+            if (achievement.getReached()) {
+                achievements.add(achievement);
+            }
+        }
         return achievements;
     }
 
