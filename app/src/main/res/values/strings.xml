@@ -42,4 +42,5 @@
         <item>Roadworks</item>
         <item>Accident</item>
     </string-array>
+    <string name="title_activity_push">PushActivity</string>
 </resources>

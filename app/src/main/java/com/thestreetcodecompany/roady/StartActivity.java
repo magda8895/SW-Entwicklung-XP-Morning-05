@@ -73,6 +73,12 @@ public class StartActivity extends AppCompatActivity
         User user = dbh.getTestUser();
         final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
 
+        //set Name in Navigation
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.navName);
+        navUsername.setText(user.getName());
+
+
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
@@ -86,6 +92,8 @@ public class StartActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), PushActivity.class);
+                startActivity(i);
                 MakeSnackbar("Click Start Driving",view);
             }
         });
