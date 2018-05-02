@@ -41,7 +41,7 @@ public class InfosActivity extends AppCompatActivity {
 
         for(DrivingSession session: sessions) {
             Calendar c = Calendar.getInstance();
-            c.setTime(session.getDateTimeStart());
+            c.setTimeInMillis(session.getDateTimeStart());
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 2;
             sums.set(dayOfWeek, sums.get(dayOfWeek) + (int)(session.getDistance()));
         }
