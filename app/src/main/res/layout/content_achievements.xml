@@ -99,13 +99,12 @@
             <GridView
                 android:id="@+id/gridViewCondition"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:numColumns="4"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"
-                android:stretchMode="columnWidth"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                />
+                android:horizontalSpacing="10dp"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" />
 
             <View
                 android:id="@+id/divider2"
@@ -124,18 +123,17 @@
                 android:text="Levels"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <GridView
                 android:id="@+id/gridViewLevel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:numColumns="4"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"
-                android:stretchMode="columnWidth"
                 android:gravity="center"
-                />
+                android:horizontalSpacing="10dp"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" />
 
         </LinearLayout>
     </ScrollView>

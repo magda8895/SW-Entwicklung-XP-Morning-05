@@ -59,6 +59,12 @@ public class Achievement extends SugarRecord {
 
     public String getReachedString() { return this.reached; }
 
+    public String getReachedStringFormated() {
+        String pattern = "dd. MMM yyyy";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        return (String) format.format(getReachedDate());
+    }
+
     public Date getReachedDate() {
         String pattern = "dd-MM-yyyy hh:mm:ss";
         SimpleDateFormat format = new SimpleDateFormat(pattern);
