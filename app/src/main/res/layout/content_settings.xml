@@ -119,12 +119,12 @@
 
                     <EditText
                         android:id="@+id/achievementsUserCreatedKm"
-                        android:layout_width="106dp"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:inputType="textPersonName"
                         android:hint="100.0"
+                        android:inputType="textPersonName"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <TextView
@@ -184,7 +184,7 @@
 
                     <EditText
                         android:id="@+id/coDriverName"
-                        android:layout_width="313dp"
+                        android:layout_width="290dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="@string/co_driver_name"
@@ -201,6 +201,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:clickable="true"
+                        android:ems="10"
                         android:tint="@android:color/background_light"
                         app:backgroundTint="@color/colorPrimaryDark"
                         app:srcCompat="@android:drawable/ic_input_add" />
