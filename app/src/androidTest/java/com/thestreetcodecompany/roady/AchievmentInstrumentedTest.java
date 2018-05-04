@@ -39,7 +39,7 @@ import static org.junit.Assert.assertEquals;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class StartInstrumentedTest {
+public class AchievmentInstrumentedTest {
 
     @Rule
     public ActivityTestRule<StartActivity> rule = new ActivityTestRule<StartActivity>(StartActivity.class);
@@ -52,50 +52,51 @@ public class StartInstrumentedTest {
     }
 
     @Test
-    public void testProgressBar() {
-        onView(withId(R.id.start_progressBar)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void testFloatingMenu() {
-        onView(withId(R.id.start_floating_menu)).check(matches(isDisplayed()));
-        onView(withId(R.id.start_floating_menu)).perform(click());
-    }
-
-    @Test
-    public void testDistanceData() {
-        DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        onView(withText(user.getDrivenKm() + " / " + user.getGoalKm() + " km")).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void testProgress() {
-        onView(withId(R.id.start_progressBar)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void testListItemClick() {
-        onView(withId(R.id.start_list)).check(matches(isDisplayed()));
-        onData(anything()).inAdapterView(withId(R.id.start_list)).atPosition(0).perform(click());
-        onView(withText("Click item: index: 0")).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void testListData() {
-        //get Data
-        DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
-        onView(withId(R.id.start_list)).check(matches(isDisplayed()));
-        onView(withId(R.id.start_list)).check(ViewAssertions.matches(Matchers.withListSize(sessions.size())));
-    }
-
-    @Test
     public void testNavigationDrawer() throws Exception {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
+
+        onView(withText("Most recent")).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void testAchievmentReached() throws Exception {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
+
+        onView(withText("Rain")).check(matches(isDisplayed()));
+        onView(withText("Rain")).perform(click());
+        onView(withText("Rain\nDrive while it's raining | 04. Mai 2018")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testAchievmentNotReached() throws Exception {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
+
+        onView(withText("Snow")).check(matches(isDisplayed()));
+        onView(withText("Snow")).perform(click());
+        onView(withText("Snow\nNot achieved yet")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testAchievmentHidden() throws Exception {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
+
+        onView(withText("Hidden")).check(matches(isDisplayed()));
+        onView(withText("Hidden")).perform(click());
+        onView(withText("Hidden\nAchievment is hidden")).check(matches(isDisplayed()));
+    }
+
+
+
+
+
+
 }
 

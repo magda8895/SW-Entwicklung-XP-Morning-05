@@ -238,7 +238,7 @@ class gridAdapter extends BaseAdapter {
                     if (achievements.get(position).getType() == 7) {
                         iv.setImageResource(R.drawable.ic_help_black_24dp);
                         tv.setText(R.string.achievements_hidden);
-                        tvd.setText("");
+                        tvd.setText("Achievment is hidden");
                     } else {
                         iv.setImageResource(achievements.get(position).getImage());
                         tv.setText(achievements.get(position).getTitle());

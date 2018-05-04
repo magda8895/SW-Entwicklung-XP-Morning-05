@@ -89,10 +89,12 @@ public class DrivingSessionAfterwardsUiTest {
         UiTestsHelper.setDate_andSetTime(R.id.buttonDateEnd,R.id.buttonTimeEnd,2018,3,2,23,50);
     }
 
+    /*
     @Test
     public void setName() {
     UiTestsHelper.setText(R.id.editTextName, "Max Mustermann");
     }
+    */
 
     @Test
     public void setStartMileage() {

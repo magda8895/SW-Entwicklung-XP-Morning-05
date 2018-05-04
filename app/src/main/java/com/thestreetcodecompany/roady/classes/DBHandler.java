@@ -113,6 +113,7 @@ public class DBHandler extends SugarApp {
 
     public User getTestUser() {
 
+        User.deleteAll(User.class);
         List<User> users = User.listAll(User.class);
 
         if(users.size() <= 0)
