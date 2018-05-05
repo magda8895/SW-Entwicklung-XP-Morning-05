@@ -1,24 +1,24 @@
 package com.thestreetcodecompany.roady;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.PushService;
+import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.util.Calendar;
 
-import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
+import static com.thestreetcodecompany.roady.classes.Helper.*;
+
+
 
 public class PushActivity extends AppCompatActivity {
 
@@ -29,39 +29,49 @@ public class PushActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button push_button = (Button)findViewById(R.id.push_button);
+        Button startAlarm = (Button)findViewById(R.id.button_startAlarm);
+        Button cancelAlarm = (Button)findViewById(R.id.button_cancelAlarm);
+        Button db_button = (Button)findViewById(R.id.btn_printdb);
 
-        push_button.setOnClickListener(new View.OnClickListener() {
+        final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        final Calendar cal = Calendar.getInstance();
+        Intent intent = new Intent(getApplicationContext(), PushService.class);
+        final PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
+
+        startAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MakeToast("click",getApplicationContext());
                 startService(new Intent(getApplicationContext(), PushService.class));
-                Calendar cal = Calendar.getInstance();
-                Intent intent = new Intent(getApplicationContext(), PushService.class);
-                PendingIntent pintent = PendingIntent
-                        .getService(getApplicationContext(), 0, intent, 0);
 
-                AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 // Start service every hour
+                //alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 8 * 3600 * 10000, pintent); //
+
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                        1000, pintent);
+                        AlarmManager.INTERVAL_FIFTEEN_MINUTES, pintent); //
+                //https://stackoverflow.com/questions/17718154/alarmmanager-setrepeating?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
-
-/*
-                String title="title";
-                String subject="asdf";
-                String body="asdf";
-
-                NotificationManager notif=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-                Notification notify=new Notification.Builder
-                        (getApplicationContext()).setContentTitle(title).setContentText(body).
-                        setContentTitle(subject).setSmallIcon(R.drawable.fab_add).build();
-
-                notify.flags |= Notification.FLAG_AUTO_CANCEL;
-                notif.notify(0, notify);*/
             }
+
+        });
+        cancelAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alarm.cancel(pintent);
+                stopService(new Intent(getApplicationContext(), PushService.class));
+            }
+
         });
 
+        db_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DBHandler dbh = new DBHandler();
+                User user = dbh.getTestUser();
+
+                dbh.logAllCoDrivers();
+                MakePush("sdf","asdf",SettingsBackend.class,getApplicationContext());
+            }
+            });
 
     }
 

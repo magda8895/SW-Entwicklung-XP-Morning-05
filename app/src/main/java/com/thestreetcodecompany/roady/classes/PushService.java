@@ -1,18 +1,18 @@
 package com.thestreetcodecompany.roady.classes;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.thestreetcodecompany.roady.classes.model.DrivingSession;
-import com.thestreetcodecompany.roady.classes.model.User;
+import com.thestreetcodecompany.roady.classes.model.CoDriver;
+import com.thestreetcodecompany.roady.classes.Helper.*;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
+import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 /**
  * Created by Rutter on 02.05.2018.
@@ -34,32 +34,40 @@ public class PushService extends Service {
 
     @Override
     public void onCreate() {
-        Toast.makeText(this, " MyService Created ", Toast.LENGTH_LONG).show();
-    }
+        Log.d("Push","push service started"); }
 
     @Override
     public void onStart(Intent intent, int startId) {
-        //Toast.makeText(this, " MyService Started", Toast.LENGTH_LONG).show();
-        Log.d("Test","push");
+        Log.d("Push","push");
+        //TODO: Cases:
+        /*
+        Wenn er lang nicht mehr gefahren ist.
+        Wenn er eine laufende Fahrt hat, die er noch nicht beendet hat
+        Wenn er 1000 km erreicht hat...
+         */
 
+        //TODO: add CheckBox for the Service in the Settingsactiviy
+
+
+        //push
+        MakePush("Push Test",getApplicationContext());
+
+
+        //all for testing (save one CoDriver with name:currentDateTime)
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-
         Date currentTime = Calendar.getInstance().getTime();
-        DrivingSession ds = new DrivingSession();
-        ds.setUser(user);
-        ds.setKmStart(200);
-        ds.setKmEnd(400);
-        ds.setDateTimeStringStart("");
-        //ds.setDateTimeStringEnd();
-        ds.setName(currentTime.toString());
+        CoDriver new_push = new CoDriver();
+        new_push.setName(currentTime.toString());
+        new_push.setUser(dbh.getTestUser());
+        new_push.save();
 
     }
 
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
-        Toast.makeText(this, "Servics Stopped", Toast.LENGTH_SHORT).show();
+        Log.d("Push","push service stopped");
+        MakeToast("onDestroy",getApplication());
         super.onDestroy();
     }
 

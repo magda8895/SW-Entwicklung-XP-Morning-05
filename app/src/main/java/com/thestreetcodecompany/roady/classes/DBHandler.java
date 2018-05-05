@@ -1,6 +1,7 @@
 package com.thestreetcodecompany.roady.classes;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.orm.SchemaGenerator;
 import com.orm.SugarApp;
@@ -127,6 +128,29 @@ public class DBHandler extends SugarApp {
         return coDrivers;
     }
 */
+
+    //Logs all data from table CoDrivers
+    //you can dublicate this funciton and modify it for other tables
+    public void logAllCoDrivers()
+    {
+        List<CoDriver> codList = CoDriver.find(CoDriver.class,null);
+
+        for (CoDriver cod : codList) {
+            String msg = "id: " + cod.getId() + " | name: " + cod.getName() + " | ";
+
+            //user can be null (shouldn't be)
+            if(cod.getUser() != null)
+            {
+                msg +=  "user: " + cod.getUser().getName() + "(id: "+ cod.getUser().getId() + ")";
+            }
+            else
+            {
+                msg += "no user";
+            }
+            Log.d("CoDriver", msg);
+
+        }
+    }
 
 
 
