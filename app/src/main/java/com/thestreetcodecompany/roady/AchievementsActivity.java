@@ -168,9 +168,7 @@ public class AchievementsActivity extends AppCompatActivity {
                 TextView tvd = view.findViewById(R.id.textViewAchievementDescription);
                 String desc = (String) tvd.getText();
 
-                if (desc.isEmpty()) {
-                    desc = "";
-                } else {
+                if (!desc.isEmpty()) {
                     desc = "\n" + desc;
                 }
 
@@ -258,7 +256,7 @@ class gridAdapter extends BaseAdapter {
                     if (achievements.get(position).getType() == 7) {
                         iv.setImageResource(R.drawable.ic_help_black_24dp);
                         tv.setText(R.string.achievements_hidden);
-                        tvd.setText("Achievment is hidden");
+                        tvd.setText("This achievment is hidden");
                     } else {
                         iv.setImageResource(achievements.get(position).getImage());
                         tv.setText(achievements.get(position).getTitle());

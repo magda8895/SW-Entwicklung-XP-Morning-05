@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
@@ -20,7 +21,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -42,7 +46,7 @@ import static org.junit.Assert.assertEquals;
 public class AchievmentInstrumentedTest {
 
     @Rule
-    public ActivityTestRule<StartActivity> rule = new ActivityTestRule<StartActivity>(StartActivity.class);
+    public ActivityTestRule<AchievementsActivity> rule = new ActivityTestRule<AchievementsActivity>(AchievementsActivity.class);
 
     @Test
     public void useAppContext() throws Exception {
@@ -52,46 +56,85 @@ public class AchievmentInstrumentedTest {
     }
 
     @Test
-    public void testNavigationDrawer() throws Exception {
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
+    public void testConditions() throws Exception {
+        // DB Connect
+        DBHandler dbh = new DBHandler();
+        User user = dbh.getTestUser();
+        // Conditions
+        List<Achievement> achievementsCondition = user.getAchievementsCondition();
 
-        onView(withText("Most recent")).check(matches(isDisplayed()));
+        for(int index = 0; index < achievementsCondition.size(); index++)
+        {
+            onData(anything()).inAdapterView(withId(R.id.gridViewCondition)).atPosition(index).perform(click());
+            String text;
+            if(achievementsCondition.get(index).getReached())
+            {
+                text = achievementsCondition.get(index).getTitle() + "\n" + achievementsCondition.get(index).getDescription()
+                        + " | " + achievementsCondition.get(index).getReachedStringFormated();
+            }
+            else
+            {
+                text = achievementsCondition.get(index).getTitle() + "\n" + "Not achieved yet";
+            }
+
+            onView(withText(text)).check(matches(isDisplayed()));
+            waitSeconds(3);
+        }
     }
 
     @Test
-    public void testAchievmentReached() throws Exception {
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
+    public void testLevels() throws Exception
+    {
+        // DB Connect
+        DBHandler dbh = new DBHandler();
+        User user = dbh.getTestUser();
 
-        onView(withText("Rain")).check(matches(isDisplayed()));
-        onView(withText("Rain")).perform(click());
-        onView(withText("Rain\nDrive while it's raining | 04. Mai 2018")).check(matches(isDisplayed()));
+        for(int index = 3; index < 4; index++)
+        {
+            int type = 0;
+            if(index == 0){
+                type = 5;
+            }else if(index == 1) {
+                type = 4;
+            }else if(index == 2) {
+                type = 6;
+            }else if(index == 3){
+                type = 7;
+            }
+
+            List<Achievement> achievements = user.getAchievementsTypeReached(type);
+            String text;
+
+            if (achievements.isEmpty()) {
+                onData(anything()).inAdapterView(withId(R.id.gridViewLevel)).atPosition(index).perform(click());
+                if(type == 7){
+                    text = "Hidden\nThis achievment is hidden";
+                }else{
+                    text = user.getAchievementsType(type).get(index).getTitle() + "\n" + "Not achieved yet";
+                }
+            } else {
+                onData(anything()).inAdapterView(withId(R.id.gridViewLevel)).atPosition(index).perform(click());
+                text = achievements.get(achievements.size() - 1).getTitle() + "\n" +
+                        achievements.get(achievements.size() - 1).getDescription() + " | " +
+                        achievements.get(achievements.size() - 1).getReachedStringFormated();
+            }
+
+            onView(withText(text)).check(matches(isDisplayed()));
+            waitSeconds(3);
+        }
     }
 
-    @Test
-    public void testAchievmentNotReached() throws Exception {
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
+    private void waitSeconds(int seconds)
+    {
+        Calendar timeToWait = Calendar.getInstance();
+        timeToWait.add(Calendar.SECOND, seconds);
+        Calendar compareTime = Calendar.getInstance();
 
-        onView(withText("Snow")).check(matches(isDisplayed()));
-        onView(withText("Snow")).perform(click());
-        onView(withText("Snow\nNot achieved yet")).check(matches(isDisplayed()));
+        while(!compareTime.equals(timeToWait))
+            compareTime = Calendar.getInstance();
     }
 
-    @Test
-    public void testAchievmentHidden() throws Exception {
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
 
-        onView(withText("Hidden")).check(matches(isDisplayed()));
-        onView(withText("Hidden")).perform(click());
-        onView(withText("Hidden\nAchievment is hidden")).check(matches(isDisplayed()));
-    }
 
 
 
