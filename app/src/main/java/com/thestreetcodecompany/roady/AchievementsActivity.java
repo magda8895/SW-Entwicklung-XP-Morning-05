@@ -1,6 +1,7 @@
 package com.thestreetcodecompany.roady;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -39,6 +41,28 @@ public class AchievementsActivity extends AppCompatActivity {
         // DB Connect
         DBHandler dbh = new DBHandler();
         User user = dbh.getTestUser();
+
+
+        // most recent
+        List<Achievement> achievementsList = user.getAchievements();
+        int latest = -1;
+        for (int position = 0; position < achievementsList.size(); position++) {
+            if (achievementsList.get(position).getReached()) {
+                if (latest == -1 || achievementsList.get(position).getReachedDate().after(achievementsList.get(latest).getReachedDate())) {
+                    latest = position;
+                }
+            }
+        }
+
+        if (latest != -1) {
+            ImageView recentImage = findViewById(R.id.imageViewRecentAchievement);
+            TextView recentTitle = findViewById(R.id.textViewRecentAchievementTitle);
+            TextView recentDesc = findViewById(R.id.textViewRecentAchievementDescription);
+
+            recentImage.setImageResource(achievementsList.get(latest).getImage());
+            recentTitle.setText(achievementsList.get(latest).getTitle());
+            recentDesc.setText(achievementsList.get(latest).getDescription());
+        }
 
 
         // Conditions
@@ -203,10 +227,6 @@ class gridAdapter extends BaseAdapter {
 
     public Object getItem(int position) {
         return achievements.get(position);
-    }
-
-    public String getDesciption(int position) {
-        return achievements.get(position).getDescription();
     }
 
     public long getItemId(int position) {

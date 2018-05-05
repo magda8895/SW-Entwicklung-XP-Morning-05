@@ -53,40 +53,40 @@ public class DBHandler extends SugarApp {
 
         Date date = new Date();
 
-        Achievement a1 = new Achievement("Rain", "Drive while it's raining", 0, 0, R.drawable.ic_stars, date, user);
+        Achievement a1 = new Achievement("Rain", "Drive while it's raining", 0, 0, R.drawable.ic_rain, date, user);
         a1.save();
-        Achievement a2 = new Achievement("Snow", "Drive while it's snowing", 1, 0, R.drawable.ic_stars, "", user);
+        Achievement a2 = new Achievement("Snow", "Drive while it's snowing", 1, 0, R.drawable.ic_snow, "", user);
         a2.save();
-        Achievement a3 = new Achievement("Ice", "Drive while the road is icy", 2, 0, R.drawable.ic_stars, "", user);
+        Achievement a3 = new Achievement("Ice", "Drive while the road is icy", 2, 0, R.drawable.ic_ice, "", user);
         a3.save();
-        Achievement a4 = new Achievement("Night", "Dive at night", 3, 0, R.drawable.ic_stars, "", user);
+        Achievement a4 = new Achievement("Night", "Dive at night", 3, 0, R.drawable.ic_night, "", user);
         a4.save();
 
-        Achievement a5 = new Achievement("Came a long way (Bronze)", "Drive 1000 km", 4, 1000, R.drawable.ic_stars, date, user);
+        Achievement a5 = new Achievement("Came a long way (Bronze)", "Drive 1000 km", 4, 1000, R.drawable.ic_distance, date, user);
         a5.save();
-        Achievement a6 = new Achievement("Came a long way (Silver)", "Drive 2000 km", 4, 2000, R.drawable.ic_stars, "", user);
+        Achievement a6 = new Achievement("Came a long way (Silver)", "Drive 2000 km", 4, 2000, R.drawable.ic_distance, "", user);
         a6.save();
-        Achievement a7 = new Achievement("Came a long way (Gold)", "Drive 3000 km", 4, 3000, R.drawable.ic_stars, "", user);
+        Achievement a7 = new Achievement("Came a long way (Gold)", "Drive 3000 km", 4, 3000, R.drawable.ic_distance, "", user);
         a7.save();
-        Achievement a8 = new Achievement("Came a long way (Platinum)", "Drive 5000 km", 4, 5000, R.drawable.ic_stars, "", user);
+        Achievement a8 = new Achievement("Came a long way (Platinum)", "Drive 5000 km", 4, 5000, R.drawable.ic_distance, "", user);
         a8.save();
 
-        Achievement a9 = new Achievement("Everyday is driving day (Bronze)", "Drive 2 days in a row", 5, 2, R.drawable.ic_stars, "", user);
+        Achievement a9 = new Achievement("Everyday is driving day (Bronze)", "Drive 2 days in a row", 5, 2, R.drawable.ic_streak, "", user);
         a9.save();
-        Achievement a10 = new Achievement("Everyday is driving day (Silver)", "Drive 3 days in a row", 5, 3, R.drawable.ic_stars, "", user);
+        Achievement a10 = new Achievement("Everyday is driving day (Silver)", "Drive 3 days in a row", 5, 3, R.drawable.ic_streak, "", user);
         a10.save();
-        Achievement a11 = new Achievement("Everyday is driving day (Gold)", "Drive 4 days in a row", 5, 4, R.drawable.ic_stars, "", user);
+        Achievement a11 = new Achievement("Everyday is driving day (Gold)", "Drive 4 days in a row", 5, 4, R.drawable.ic_streak, "", user);
         a11.save();
-        Achievement a12 = new Achievement("Everyday is driving day (Platinum)", "Drive 7 days in a row", 5, 7, R.drawable.ic_stars, "", user);
+        Achievement a12 = new Achievement("Everyday is driving day (Platinum)", "Drive 7 days in a row", 5, 7, R.drawable.ic_streak, "", user);
         a12.save();
 
-        Achievement a13 = new Achievement("All day long (Bronze)", "Drive 1h", 6, 1, R.drawable.ic_stars, date, user);
+        Achievement a13 = new Achievement("All day long (Bronze)", "Drive 1h", 6, 1, R.drawable.ic_stop_watch, date, user);
         a13.save();
-        Achievement a14 = new Achievement("All day long (Silver)", "Drive 2h", 6, 2, R.drawable.ic_stars, date, user);
+        Achievement a14 = new Achievement("All day long (Silver)", "Drive 2h", 6, 2, R.drawable.ic_stop_watch, date, user);
         a14.save();
-        Achievement a15 = new Achievement("All day long (Gold)", "Drive 3h", 6, 3, R.drawable.ic_stars, "", user);
+        Achievement a15 = new Achievement("All day long (Gold)", "Drive 3h", 6, 3, R.drawable.ic_stop_watch, "", user);
         a15.save();
-        Achievement a16 = new Achievement("All day long (Platinum)", "Drive 5h", 6, 5, R.drawable.ic_stars, "", user);
+        Achievement a16 = new Achievement("All day long (Platinum)", "Drive 5h", 6, 5, R.drawable.ic_stop_watch, "", user);
         a16.save();
 
         Achievement a17 = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_stars, "", user);
