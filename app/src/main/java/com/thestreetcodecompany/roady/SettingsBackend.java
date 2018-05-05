@@ -17,6 +17,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
@@ -61,6 +62,8 @@ public class SettingsBackend extends AppCompatActivity {
         final List<CoDriver> co_drivers = user.getCoDrivers();
         final List<Achievement> achievements = user.getAchievements();
 
+        RoadyData rd = RoadyData.getInstance();
+        Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
 
         edittext_name.setText(user.getName());
         seekbar_drivenkm.setProgress((int)user.getDrivenKm());

@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
@@ -61,17 +62,31 @@ public class StartActivity extends AppCompatActivity
         progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
 
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.start_container);
-
+        DBHandler dbh = new DBHandler();
         cl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fab_menu.close(true);
             }
         });
+
         //get Data
-        DBHandler dbh = new DBHandler();
         User user = dbh.getTestUser();
         final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+
+        //Singleton Test
+        //TODO: if the database contains one user, add this user object to the Singleton (RoadyData)
+        //TODO: if not: Intent to Settings and create the User
+        RoadyData rd = RoadyData.getInstance();
+        if(rd.user == null)
+        {
+            User testuser = new User("Fabio",100,1000);
+            testuser.save();
+            rd.user = testuser;
+        }
+        Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
+
+
 
         //set Name in Navigation
         View headerView = navigationView.getHeaderView(0);

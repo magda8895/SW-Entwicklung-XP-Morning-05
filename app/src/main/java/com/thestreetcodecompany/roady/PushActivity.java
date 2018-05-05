@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.PushService;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.util.Calendar;
@@ -28,6 +30,9 @@ public class PushActivity extends AppCompatActivity {
         setContentView(R.layout.activity_push);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        RoadyData rd = RoadyData.getInstance();
+        Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
 
         Button startAlarm = (Button)findViewById(R.id.button_startAlarm);
         Button cancelAlarm = (Button)findViewById(R.id.button_cancelAlarm);
@@ -48,7 +53,6 @@ public class PushActivity extends AppCompatActivity {
 
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                         AlarmManager.INTERVAL_FIFTEEN_MINUTES, pintent); //
-                //https://stackoverflow.com/questions/17718154/alarmmanager-setrepeating?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
             }
 

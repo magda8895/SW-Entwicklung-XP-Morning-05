@@ -46,7 +46,7 @@ public class PushService extends Service {
         Wenn er 1000 km erreicht hat...
          */
 
-        //TODO: add CheckBox for the Service in the Settingsactiviy
+        //TODO: add CheckBox for the Service in the SettingsActivity
 
 
         //push

@@ -26,7 +26,9 @@ import java.util.List;
 
 public class DBHandler extends SugarApp {
 
-    public DBHandler() {}
+    public DBHandler() {
+        //makeDB();
+    }
 
     public void makeDB()
     {
@@ -92,8 +94,6 @@ public class DBHandler extends SugarApp {
         return coDrivers.get(coDrivers.size() - 1);
     }
 
-
-
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
         return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
@@ -133,9 +133,9 @@ public class DBHandler extends SugarApp {
     //you can dublicate this funciton and modify it for other tables
     public void logAllCoDrivers()
     {
-        List<CoDriver> codList = CoDriver.find(CoDriver.class,null);
+        List<CoDriver> list = CoDriver.find(CoDriver.class,null);
 
-        for (CoDriver cod : codList) {
+        for (CoDriver cod : list) {
             String msg = "id: " + cod.getId() + " | name: " + cod.getName() + " | ";
 
             //user can be null (shouldn't be)
@@ -148,6 +148,23 @@ public class DBHandler extends SugarApp {
                 msg += "no user";
             }
             Log.d("CoDriver", msg);
+
+        }
+    }
+
+    //Logs all data from table CoDrivers
+    //you can dublicate this funciton and modify it for other tables
+    public void logAllUsers()
+    {
+        List<User> list = User.find(User.class,null);
+
+        for (User user : list) {
+            String msg = "id: " + user.getId() + " | " +
+                         "name: " + user.getName() + " | " +
+                         "drivenkm: " + user.getDrivenKm() +
+                         "goalkm: " + user.getGoalKm();
+
+            Log.d("User", msg);
 
         }
     }
