@@ -91,7 +91,7 @@ public class DrivingSessionAfterwardsUiTest {
 
     @Test
     public void setName() {
-    UiTestsHelper.setText(R.id.editTextName, "Max Mustermann");
+    UiTestsHelper.setText(R.id.editTextRoute, "Max Mustermann");
     }
 
     @Test
