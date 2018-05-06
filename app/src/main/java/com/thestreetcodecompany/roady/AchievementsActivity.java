@@ -254,7 +254,7 @@ class gridAdapter extends BaseAdapter {
                     tv.setAlpha((float) 0.36);
 
                     if (achievements.get(position).getType() == 7) {
-                        iv.setImageResource(R.drawable.ic_help_black_24dp);
+                        iv.setImageResource(R.drawable.ic_hidden);
                         tv.setText(R.string.achievements_hidden);
                         tvd.setText("This achievment is hidden");
                     } else {
