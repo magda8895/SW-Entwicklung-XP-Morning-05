@@ -225,5 +225,15 @@ public class DrivingSession extends SugarRecord {
         return date;
     }
 
+    public static List<DrivingSession> getAllDrivingSessions(User user)
+    {
+        return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+    }
+
+    public static List<DrivingSession> getAllDrivingSessionsTimePeriod(User user, Date start, Date end)
+    {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        return DrivingSession.find(DrivingSession.class, "user = ? and date_time_start >= ? and date_time_end < ? ", whereArgs);
+    }
 
 }

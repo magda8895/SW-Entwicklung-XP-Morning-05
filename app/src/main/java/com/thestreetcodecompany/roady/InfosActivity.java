@@ -1,8 +1,11 @@
 package com.thestreetcodecompany.roady;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -15,12 +18,23 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.orm.SchemaGenerator;
+import com.orm.SugarDb;
+import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.formatters.DayAxisValueFormatter;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.User;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class InfosActivity extends AppCompatActivity {
@@ -32,7 +46,6 @@ public class InfosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infos);
-
         barChart = findViewById(R.id.bar_chart);
 
         List<DrivingSession> sessions = DrivingSession.listAll(DrivingSession.class);
@@ -41,9 +54,9 @@ public class InfosActivity extends AppCompatActivity {
 
         for(DrivingSession session: sessions) {
             Calendar c = Calendar.getInstance();
-            c.setTime(session.getDateTimeStart());
-            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 2;
-            sums.set(dayOfWeek, sums.get(dayOfWeek) + (int)(session.getDistance()));
+            //c.setTime(session.getDateTimeStart());
+            //int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 2;
+            //sums.set(dayOfWeek, sums.get(dayOfWeek) + (int)(session.getDistance()));
         }
 
         List<BarEntry> entries = new ArrayList<>();
@@ -86,5 +99,28 @@ public class InfosActivity extends AppCompatActivity {
         barChart.fitScreen();
 
         barChart.invalidate();
+
+        DBHandler db = new DBHandler();
+        db.makeTestData();
+        User u = User.getTestUser();
+        Date start = DrivingSession.formatDateTimeDate("12-12-2012 05:21:12");
+        Date end = DrivingSession.formatDateTimeDate("12-12-2018 05:21:12");
+        List <DrivingSession> drivingSession = DrivingSession.getAllDrivingSessions(u);
+
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        String output_name = "YourApp_" + df.format(new Date()) + ".db";
+        File output_file = new File(getExternalCacheDir() + File.separator + output_name);
+        try {
+            File file = new File(new SugarDb(this).getDB().getPath()); // get private db reference
+            if (file.exists() == false || file.length() == 0) throw new Exception("Empty DB");
+            IOUtils.copy(new FileInputStream(file), new FileOutputStream(output_file));
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(output_file));
+            i.setType("*/*");
+            startActivity(Intent.createChooser(i, "Send db"));
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Unable to export db: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

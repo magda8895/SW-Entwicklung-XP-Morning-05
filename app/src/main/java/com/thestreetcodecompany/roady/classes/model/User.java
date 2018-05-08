@@ -3,6 +3,7 @@ package com.thestreetcodecompany.roady.classes.model;
 import com.orm.SugarRecord;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by Rutter on 23.03.2018.
@@ -79,6 +80,19 @@ public class User extends SugarRecord {
         List<Achievement> achievements = Achievement.find(Achievement.class, "user = ?", "" + getId());
         return achievements;
     }
+
+    public static User getTestUser() {
+
+        List<User> users = User.listAll(User.class);
+
+        if(users.size() <= 0)
+        {
+            new Exception();
+        }
+
+        return users.get(0);
+    }
+
 
 
 }
