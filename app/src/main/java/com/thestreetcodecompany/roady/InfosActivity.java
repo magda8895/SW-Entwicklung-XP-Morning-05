@@ -106,6 +106,7 @@ public class InfosActivity extends AppCompatActivity {
         Date start = DrivingSession.formatDateTimeDate("12-12-2012 05:21:12");
         Date end = DrivingSession.formatDateTimeDate("12-12-2018 05:21:12");
         List <DrivingSession> drivingSession = DrivingSession.getAllDrivingSessions(u);
+        DrivingSession.getAllDrivingSessionsTimePeriod(u,start,end);
 
 
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
