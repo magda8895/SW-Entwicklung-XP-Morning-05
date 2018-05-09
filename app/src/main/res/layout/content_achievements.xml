@@ -71,6 +71,12 @@
                         android:layout_height="wrap_content"
                         android:text="@string/achievements_recent_description" />
 
+                    <TextView
+                        android:id="@+id/textViewRecentAchievementDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+
                 </LinearLayout>
 
             </LinearLayout>

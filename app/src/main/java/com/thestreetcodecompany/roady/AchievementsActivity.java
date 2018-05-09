@@ -58,10 +58,13 @@ public class AchievementsActivity extends AppCompatActivity {
             ImageView recentImage = findViewById(R.id.imageViewRecentAchievement);
             TextView recentTitle = findViewById(R.id.textViewRecentAchievementTitle);
             TextView recentDesc = findViewById(R.id.textViewRecentAchievementDescription);
+            TextView recentDate = findViewById(R.id.textViewRecentAchievementDate);
 
             recentImage.setImageResource(achievementsList.get(latest).getImage());
             recentTitle.setText(achievementsList.get(latest).getTitle());
             recentDesc.setText(achievementsList.get(latest).getDescription());
+            String date = "Achieved on " + achievementsList.get(latest).getReachedStringFormated();
+            recentDate.setText(date);
         }
 
 

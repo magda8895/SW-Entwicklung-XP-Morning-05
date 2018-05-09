@@ -35,7 +35,7 @@
     <string name="textview_achievements_all">All</string>
     <string name="textview_achievements_recent">Most recent</string>
     <string name="achievements_hidden">Hidden</string>
-    <string name="achievements_recent_title">Aww...</string>
+    <string name="achievements_recent_title">Aww…</string>
     <string name="achievements_recent_description">You have not achieved anything yet</string>
 
     <string-array name="Weather">
