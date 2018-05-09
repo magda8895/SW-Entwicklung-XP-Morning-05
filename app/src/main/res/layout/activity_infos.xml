@@ -112,6 +112,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/total_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -136,6 +137,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/average_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -166,6 +168,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/weather_dry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -191,6 +194,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/weather_rain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -216,6 +220,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/weather_snow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -241,6 +246,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/weather_ice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -271,6 +277,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/condition_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -296,6 +303,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/condition_crowd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -321,6 +329,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/condition_roadwork"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -346,6 +355,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/condition_accident"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
