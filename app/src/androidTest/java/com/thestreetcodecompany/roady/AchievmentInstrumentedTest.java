@@ -7,7 +7,9 @@ import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
@@ -53,6 +55,42 @@ public class AchievmentInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("com.thestreetcodecompany.roady", appContext.getPackageName());
+    }
+
+    @Test
+    public void testMostRecent() throws  Exception {
+        // DB Connect
+         DBHandler dbh = new DBHandler();
+         User user = dbh.getTestUser();
+
+        // most recent
+        List<Achievement> achievementsList = user.getAchievements();
+        int latest = -1;
+        for (int position = 0; position < achievementsList.size(); position++) {
+            if (achievementsList.get(position).getReached()) {
+                if (latest == -1 || achievementsList.get(position).getReachedDate().after(achievementsList.get(latest).getReachedDate())) {
+                    latest = position;
+                }
+            }
+        }
+
+        if (latest != -1) {
+
+            String title = achievementsList.get(latest).getTitle();
+            onView(withId(R.id.textViewRecentAchievementTitle)).check(matches(withText(title)));
+
+            String description = achievementsList.get(latest).getDescription();
+            onView(withId(R.id.textViewRecentAchievementDescription)).check(matches(withText(description)));
+
+            String date = "Achieved on " + achievementsList.get(latest).getReachedStringFormated();
+            onView(withId(R.id.textViewRecentAchievementDate)).check(matches(withText(date)));
+        }
+        else
+        {
+            onView(withId(R.id.textViewRecentAchievementTitle)).check(matches(withText(R.string.achievements_recent_title)));
+            onView(withId(R.id.textViewRecentAchievementDescription)).check(matches(withText(R.string.achievements_recent_description)));
+            onView(withId(R.id.textViewRecentAchievementDate)).check(matches(withText("")));
+        }
     }
 
     @Test
@@ -133,13 +171,6 @@ public class AchievmentInstrumentedTest {
         while(!compareTime.equals(timeToWait))
             compareTime = Calendar.getInstance();
     }
-
-
-
-
-
-
-
 
 }
 
