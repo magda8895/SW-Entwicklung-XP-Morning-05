@@ -52,7 +52,7 @@ public class PushActivity extends AppCompatActivity {
                 //alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 8 * 3600 * 10000, pintent); //
 
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                        AlarmManager.INTERVAL_FIFTEEN_MINUTES, pintent); //
+                        AlarmManager.INTERVAL_HOUR, pintent); //
 
             }
 

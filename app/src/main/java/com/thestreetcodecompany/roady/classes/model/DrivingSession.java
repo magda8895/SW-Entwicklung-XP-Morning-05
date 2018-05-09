@@ -8,7 +8,6 @@ import com.thestreetcodecompany.roady.classes.DBHandler;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.EmptyStackException;
 import java.util.List;
 
 /**
@@ -21,8 +20,8 @@ public class DrivingSession extends SugarRecord {
     //id
     private boolean active = false;
     private String name;
-    private Date dateTime_start;
-    private Date dateTime_end;
+    private long dateTime_start;
+    private long dateTime_end;
     private Car car;
     private CoDriver coDriver;
     private float km_start;
@@ -42,7 +41,7 @@ public class DrivingSession extends SugarRecord {
         setUser(user);
     }
 
-    public DrivingSession(String name, Date dateTime_start, Date dateTime_end, String car, String coDriver,
+    public DrivingSession(String name, long dateTime_start, long dateTime_end, String car, String coDriver,
                           float km_start, float km_end, int weather, int street_condition, User user) {
 
         setName(name);
@@ -77,11 +76,11 @@ public class DrivingSession extends SugarRecord {
         }
     }
 
-    public Date getDateTimeStart() {
+    public long getDateTimeStart() {
         return this.dateTime_start;
     }
 
-    public Date getDateTimeEnd() {
+    public long getDateTimeEnd() {
         return this.dateTime_end;
     }
 
@@ -150,20 +149,20 @@ public class DrivingSession extends SugarRecord {
         this.name = name;
     }
 
-    public void setDateTimeStart(Date dateTime_start) {
+    public void setDateTimeStart(long dateTime_start) {
         this.dateTime_start = dateTime_start;
     }
 
-    public void setDateTimeEnd(Date dateTime_end) {
+    public void setDateTimeEnd(long dateTime_end) {
         this.dateTime_end = dateTime_end;
     }
 
     public void setDateTimeStringStart(String dateTime) {
-        this.dateTime_start = formatDateTime(dateTime);
+        this.dateTime_start = formatDateTimeTimestamp(dateTime);
     }
 
     public void setDateTimeStringEnd(String dateTime) {
-        this.dateTime_end = formatDateTime(dateTime);
+        this.dateTime_end = formatDateTimeTimestamp(dateTime);
     }
 
     public void setCar(String car) {
@@ -208,7 +207,13 @@ public class DrivingSession extends SugarRecord {
 
 
     // format date time
-    private Date formatDateTime(String dateTime) {
+    public static long formatDateTimeTimestamp(String dateTime) {
+        Date date = formatDateTimeDate(dateTime);
+        return date.getTime();
+    }
+
+    // format date time
+    public static Date formatDateTimeDate(String dateTime) {
         String pattern = "dd-MM-yyyy hh:mm:ss";
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         Date date = new Date();

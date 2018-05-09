@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".NewDrivingSession"
+    tools:showIn="@layout/activity_new_driving_session">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="458dp"
+        android:orientation="vertical">
+
+
+
+
+        <Button
+            android:id="@+id/buttonDateStart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:background="@android:color/transparent"
+            android:text="Date" />
+
+
+        <Button
+            android:id="@+id/buttonTimeStart"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:layout_weight="0.4"
+            android:background="@android:color/transparent"
+            android:text="Time" />
+
+        <TextView
+            android:id="@+id/textViewDataMileage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please enter your current Mileage"
+            android:textAppearance="@style/TextAppearance.Design.Tab" />
+
+        <EditText
+            android:id="@+id/editMileage"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_weight="0.3"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="" />
+
+        <Button
+            android:id="@+id/StopwatchStartButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start" />
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

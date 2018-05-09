@@ -14,8 +14,12 @@ import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.Coordinate;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.Push;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -61,10 +65,43 @@ public class DBHandler extends SugarApp {
         c3.save();
         CoDriver cd = new CoDriver("Carlos", user);
         cd.save();
+        //Driving sessions
         DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
         ds.save();
+        ds = new DrivingSession(true, "12-12-2012 05:21:12", 123, user);
+        ds.save();
+        ds = new DrivingSession(true, "13-12-2012 05:21:12", 203, user);
+        ds.save();
+        ds = new DrivingSession(true, "14-12-2012 05:21:12", 200, user);
+        ds.save();
+        ds = new DrivingSession(true, "15-12-2012 05:21:12", 20, user);
+        ds.save();
+        ds = new DrivingSession(true, "16-12-2012 05:21:12", 99, user);
+        ds.save();
+
+        Push p = new Push(Calendar.getInstance().getTimeInMillis());
+        p.save();
+
         Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
         cord.save();
+    }
+
+
+    public long getTimeSinceLastPush()
+    {
+        List<Push> list = Push.find(Push.class, "");
+
+        if(list.size() > 0)
+        {
+            Push last = list.get(list.size() - 1);
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            return currentTime - last.getDateTime();
+        }
+
+        Log.d("PUSH", "There are no pushes yet");
+        return 0;
+
+
     }
 
     public User getTestUser() {
@@ -97,6 +134,12 @@ public class DBHandler extends SugarApp {
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
         return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+    }
+
+    public List<DrivingSession> getAllDrivingSessionsTimePeriod(User user, Date start, Date end)
+    {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        return DrivingSession.find(DrivingSession.class, "user = ? and dateTime_start >= ? and dateTime_end < ? ", whereArgs);
     }
 
 //    public List<Car> getAllCars(User user)
@@ -165,6 +208,10 @@ public class DBHandler extends SugarApp {
                          "goalkm: " + user.getGoalKm();
 
             Log.d("User", msg);
+
+
+
+
 
         }
     }

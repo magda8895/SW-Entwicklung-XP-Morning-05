@@ -80,9 +80,10 @@ public class StartActivity extends AppCompatActivity
         RoadyData rd = RoadyData.getInstance();
         if(rd.user == null)
         {
-            User testuser = new User("Fabio",100,1000);
-            testuser.save();
-            rd.user = testuser;
+            rd.user = dbh.getTestUser();
+            //User testuser = new User("Fabio",100,1000);
+            //testuser.save();
+            //rd.user = testuser;
         }
         Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
 
@@ -184,6 +185,9 @@ public class StartActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent i = new Intent(getApplicationContext(), SettingsBackend.class);
             startActivity(i);
+        } else if (id == R.id.nav_infos) {
+            Intent intent = new Intent(getApplicationContext(), InfosActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

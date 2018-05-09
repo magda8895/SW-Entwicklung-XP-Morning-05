@@ -1,7 +1,11 @@
 package com.thestreetcodecompany.roady.classes.model;
 
+import android.util.Log;
+
 import com.orm.SugarRecord;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,7 +73,7 @@ public class User extends SugarRecord {
     }
 
     public List<CoDriver> getCoDrivers() {
-        List<CoDriver> coDrivers = CoDriver.find(CoDriver.class, "user = ?", "" + getId());
+        List<CoDriver> coDrivers = CoDriver.find(CoDriver.class, "user = ?");
         return coDrivers;
     }
 
@@ -77,6 +81,35 @@ public class User extends SugarRecord {
         List<Achievement> achievements = Achievement.find(Achievement.class, "user = ?", "" + getId());
         return achievements;
     }
+
+    public DrivingSession getLastDrivingSession()
+    {
+        List<DrivingSession> list = DrivingSession.find(DrivingSession.class,"user = ?", "" + getId());
+        DrivingSession last_ds = list.get(list.size() - 1);
+
+        return last_ds;
+    }
+
+    public long getTimeSinceLastDrivingSession()
+    {
+        DrivingSession last_ds = getLastDrivingSession();
+        Log.d("USER", "name: " + last_ds.getName());
+
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        return currentTime - last_ds.getDateTimeEnd();
+    }
+
+    public Boolean hasActiveDrivingSession()
+    {
+        DrivingSession last_ds = getLastDrivingSession();
+
+        if(last_ds.getActive())
+        {
+            return true;
+        }
+        return false;
+    }
+
 
 
 }

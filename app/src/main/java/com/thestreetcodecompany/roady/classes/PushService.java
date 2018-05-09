@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.thestreetcodecompany.roady.R;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.Helper.*;
+import com.thestreetcodecompany.roady.classes.model.Push;
+import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -34,27 +37,48 @@ public class PushService extends Service {
 
     @Override
     public void onCreate() {
-        Log.d("Push","push service started"); }
+        Log.d("Push","push service started");
+        MakeToast("service started",getApplicationContext());
+    }
 
     @Override
     public void onStart(Intent intent, int startId) {
         Log.d("Push","push");
-        //TODO: Cases:
-        /*
-        Wenn er lang nicht mehr gefahren ist.
-        Wenn er eine laufende Fahrt hat, die er noch nicht beendet hat
-        Wenn er 1000 km erreicht hat...
-         */
 
-        //TODO: add CheckBox for the Service in the SettingsActivity
+        RoadyData rd = RoadyData.getInstance();
+        DBHandler dbh = new DBHandler();
+
+        if(rd.user == null)
+        {
+
+            rd.user = dbh.getTestUser();
+        }
+
+        long time = rd.user.getTimeSinceLastDrivingSession();
+        long one_week = 1000 * 60* 60 * 24 * 7;
+        long hours = 1000 * 60* 60 * 8;
+
+        if(rd.user.hasActiveDrivingSession() && time > hours)
+        {
+            MakePush(getString(R.string.activepush_title),getString(R.string.activepush_body),getApplicationContext());
+        }
+        else if(time > one_week)
+        {
+            long last = dbh.getTimeSinceLastPush();
+            Log.d("Push", "last: " + last);
+            MakePush(getString(R.string.timepush_title),getString(R.string.timepush_body),getApplicationContext());
+        }
+
+        //push to DB
+        Push p = new Push(Calendar.getInstance().getTimeInMillis());
+        p.save();
 
 
-        //push
-        MakePush("Push Test",getApplicationContext());
+        //MakePush(getString(R.string.timepush_title),getString(R.string.timepush_body),getApplicationContext());
+
 
 
         //all for testing (save one CoDriver with name:currentDateTime)
-        DBHandler dbh = new DBHandler();
         Date currentTime = Calendar.getInstance().getTime();
         CoDriver new_push = new CoDriver();
         new_push.setName(currentTime.toString());

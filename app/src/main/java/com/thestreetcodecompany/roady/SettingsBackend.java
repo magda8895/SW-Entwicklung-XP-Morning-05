@@ -1,5 +1,9 @@
 package com.thestreetcodecompany.roady;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,20 +14,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.PushService;
 import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.util.Calendar;
 import java.util.List;
+
+import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 public class SettingsBackend extends AppCompatActivity {
     private User user;
@@ -51,6 +61,31 @@ public class SettingsBackend extends AppCompatActivity {
         final SeekBar seekbar_drivenkm = (SeekBar) findViewById(R.id.drivenKm);
         final SeekBar seekbar_goalkm = (SeekBar) findViewById(R.id.goalKm);
         final Button button_savesettings = (Button) findViewById(R.id.saveSettings);
+
+        final Switch pushSwitch = (Switch) findViewById(R.id.switchPush);
+
+        //switch for Push
+        pushSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                final Calendar cal = Calendar.getInstance();
+                Intent intent = new Intent(getApplicationContext(), PushService.class);
+                final PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
+
+                if(pushSwitch.isChecked())
+                {
+                    startService(new Intent(getApplicationContext(), PushService.class));
+                    alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                            AlarmManager.INTERVAL_HOUR, pintent);
+                }
+                else {
+
+                    alarm.cancel(pintent);
+                    stopService(new Intent(getApplicationContext(), PushService.class));
+                }
+
+            }
+        });
 
         //get Data
         DBHandler dbh = new DBHandler();
