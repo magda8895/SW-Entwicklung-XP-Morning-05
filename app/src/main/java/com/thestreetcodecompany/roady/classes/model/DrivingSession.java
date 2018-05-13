@@ -237,8 +237,14 @@ public class DrivingSession extends SugarRecord {
         return DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ? ", whereArgs);
     }
 
+    public static int getWeatherConditionPercentageTimePeriod(User user, Date start, Date end, int weather_condition) {
+        // TODO: Make implementation
+        return 0;
+    }
+
     public static int getStreetConditionPercentageTimePeriod(User user, Date start, Date end, int street_condition)
     {
+        // TODO: Make implementation
         String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime()), String.valueOf(street_condition)};
         List <DrivingSession> drivingSessions = DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ? and streetcondition = ?", whereArgs);
 

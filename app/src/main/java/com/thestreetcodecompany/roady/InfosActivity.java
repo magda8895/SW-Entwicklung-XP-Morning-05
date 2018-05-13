@@ -97,10 +97,50 @@ public class InfosActivity extends AppCompatActivity {
         }
 
         List<DrivingSession> sessions =  DrivingSession.getAllDrivingSessionsTimePeriod(User.getTestUser(), startDate, endDate);
-        Log.i("StartDate", startDate.toString());
-        Log.i("EndDate", endDate.toString());
-        Log.i("SessionDate", String.valueOf(sessions.size()));
         return sessions;
+    }
+
+    private void updateStats() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        Date startDate, endDate;
+        if (mode == MODE.MONTH) {
+            c.add(Calendar.MONTH, -index);
+            c.set(Calendar.DAY_OF_MONTH, 1);
+            c.set(Calendar.HOUR, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            startDate = c.getTime();
+            c.add(Calendar.MONTH, 1);
+            endDate = c.getTime();
+        } else {
+            c.add(Calendar.YEAR, -index);
+            c.set(Calendar.DAY_OF_YEAR, 1);
+            c.set(Calendar.HOUR, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            startDate = c.getTime();
+            c.add(Calendar.YEAR, 1);
+            endDate = c.getTime();
+        }
+
+        List<DrivingSession> sessions = DrivingSession.getAllDrivingSessionsTimePeriod(User.getTestUser(), startDate, endDate);
+        int sum = 0;
+        for(DrivingSession session: sessions) {
+            sum += session.getDistance();
+        }
+        totalTextView.setText(sum + "km");
+        int average;
+        if(!sessions.isEmpty()) average = sum / sessions.size();
+        else average = 0;
+        averageTextView.setText(average+"km");
+
+        for (int i = 0; i < 4; i++) {
+            int percentage = DrivingSession.getStreetConditionPercentageTimePeriod(User.getTestUser(), startDate, endDate, i);
+            roadConditionsTextView.get(i).setText(percentage + "%");
+            percentage = DrivingSession.getWeatherConditionPercentageTimePeriod(User.getTestUser(), startDate, endDate, i);
+            weatherConditionsTextView.get(i).setText(percentage+"%");
+        }
     }
 
     private BarData getData(MODE mode) {
@@ -172,6 +212,7 @@ public class InfosActivity extends AppCompatActivity {
         barChart.setData(getData(mode));
         barChart.animateY(1000, Easing.EasingOption.EaseInExpo);
         this.mode = mode;
+        updateStats();
     }
 
     @Override
@@ -188,7 +229,7 @@ public class InfosActivity extends AppCompatActivity {
         averageTextView = findViewById(R.id.average_text);
 
         weatherConditionsTextView = Arrays.asList((TextView)findViewById(R.id.weather_dry), (TextView)findViewById(R.id.weather_rain), (TextView)findViewById(R.id.weather_snow), (TextView)findViewById(R.id.weather_ice));
-        roadConditionsTextView = Arrays.asList((TextView)findViewById(R.id.condition_clear), (TextView)findViewById(R.id.condition_crowd), (TextView)findViewById(R.id.condition_roadwork), (TextView)findViewById(R.id.condition_roadwork));
+        roadConditionsTextView = Arrays.asList((TextView)findViewById(R.id.condition_clear), (TextView)findViewById(R.id.condition_crowd), (TextView)findViewById(R.id.condition_roadwork), (TextView)findViewById(R.id.condition_accident));
 
         timeBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +239,7 @@ public class InfosActivity extends AppCompatActivity {
                 }
                 index++;
                 timeTextView.setText(getTimeText(mode, index));
+                updateStats();
                 barChart.setData(getData(mode));
                 barChart.animateY(1000, Easing.EasingOption.EaseInExpo);            }
         });
@@ -210,6 +252,7 @@ public class InfosActivity extends AppCompatActivity {
                 }
                 index--;
                 timeTextView.setText(getTimeText(mode, index));
+                updateStats();
                 barChart.setData(getData(mode));
                 barChart.animateY(1000, Easing.EasingOption.EaseInExpo);
             }
