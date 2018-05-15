@@ -238,17 +238,28 @@ public class DrivingSession extends SugarRecord {
     }
 
     public static int getWeatherConditionPercentageTimePeriod(User user, Date start, Date end, int weather_condition) {
-        // TODO: Make implementation
-        return 0;
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        List <DrivingSession> drivingSessions = DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ?", whereArgs);
+        if(drivingSessions.isEmpty()) return 0;
+        int sum = 0, sumForWeather = 0;
+        for(DrivingSession session: drivingSessions) {
+            if(session.weather == weather_condition) sumForWeather += session.getDistance();
+            sum += session.getDistance();
+        }
+        return 100 * sumForWeather / sum;
     }
 
     public static int getStreetConditionPercentageTimePeriod(User user, Date start, Date end, int street_condition)
     {
-        // TODO: Make implementation
-        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime()), String.valueOf(street_condition)};
-        List <DrivingSession> drivingSessions = DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ? and streetcondition = ?", whereArgs);
-
-        return 0;
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        List <DrivingSession> drivingSessions = DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ?", whereArgs);
+        if(drivingSessions.isEmpty()) return 0;
+        int sum = 0, sumForStreetCondition = 0;
+        for(DrivingSession session: drivingSessions) {
+            if(session.street_condition == street_condition) sumForStreetCondition += session.getDistance();
+            sum += session.getDistance();
+        }
+        return 100 * sumForStreetCondition / sum;
     }
 
 }
