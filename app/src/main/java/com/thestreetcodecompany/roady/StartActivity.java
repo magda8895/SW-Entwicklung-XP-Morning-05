@@ -118,7 +118,11 @@ public class StartActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 fab_menu.close(true);
-                MakeSnackbar("Click item: index: " + i,view);
+                long id = Integer.parseInt(((TextView)view.findViewById(R.id.driving_session_id)).getText().toString());
+                Intent intent = new Intent(StartActivity.this, DrivingSessionActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                // MakeSnackbar("Click item: index: " + id, view);
             }
         });
 
@@ -195,7 +199,7 @@ public class StartActivity extends AppCompatActivity
     public ArrayAdapter createAdapter(final List<DrivingSession> sessions) {
 
         ArrayAdapter adapter = new ArrayAdapter<DrivingSession>(this,
-                R.layout.listitem_start,R.id.startitem_name, sessions) {
+                R.layout.listitem_start, R.id.startitem_name, sessions) {
             @Override
             public View getView(int position,View convertView, ViewGroup parent) {
                 View view = super.getView(position,convertView,parent);
@@ -203,10 +207,12 @@ public class StartActivity extends AppCompatActivity
                 TextView tv_name = (TextView) view.findViewById(R.id.startitem_name);
                 TextView tv_time = (TextView) view.findViewById(R.id.startitem_date);
                 TextView tv_distance = (TextView) view.findViewById(R.id.startitem_distance);
+                TextView tv_id = view.findViewById(R.id.driving_session_id);
 
                 tv_name.setText(sessions.get(position).getName());
                 tv_time.setText(sessions.get(position).getDateStringStart());
                 tv_distance.setText(sessions.get(position).getDistance() + " km");
+                tv_id.setText(sessions.get(position).getId()+"");
 
                 return view;
             }
