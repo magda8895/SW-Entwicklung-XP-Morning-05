@@ -1,6 +1,8 @@
 package com.thestreetcodecompany.roady.classes;
 
 import android.content.Context;
+import android.database.DatabaseUtils;
+import android.support.annotation.NonNull;
 
 import com.orm.SchemaGenerator;
 import com.orm.SugarApp;
@@ -15,6 +17,7 @@ import com.thestreetcodecompany.roady.classes.model.Coordinate;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -104,11 +107,9 @@ public class DBHandler extends SugarApp {
         return coDrivers.get(coDrivers.size() - 1);
     }
 
-
-
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
-        return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+        return DrivingSession.findWithQuery(DrivingSession.class, "SELECT * FROM driving_session ORDER BY date_timestart DESC");
     }
 
     public List<DrivingSession> getAllDrivingSessionsTimePeriod(User user, Date start, Date end)

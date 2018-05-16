@@ -1,5 +1,8 @@
 package com.thestreetcodecompany.roady;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -34,6 +37,7 @@ public class StartActivity extends AppCompatActivity
     ListView listview;
     ProgressBar progressBar;
     TextView display;
+    TextView percentage;
     com.github.clans.fab.FloatingActionMenu fab_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class StartActivity extends AppCompatActivity
         final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_old);
         display = (TextView) findViewById(R.id.start_display);
         progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
+        percentage = findViewById(R.id.percentage);
 
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.start_container);
 
@@ -70,18 +75,29 @@ public class StartActivity extends AppCompatActivity
         });
         //get Data
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
+        final User user = dbh.getTestUser();
         final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
 
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
         //set Display
-        display.setText(user.getDrivenKm() + " / " + user.getGoalKm() + " km");
+        final int goal = (int)user.getGoalKm();
+        display.setText("0 / " + goal + " km");
         progressBar.setMax((int)user.getGoalKm());
-        progressBar.setProgress((int)user.getDrivenKm());
 
-
+        ObjectAnimator animator = ObjectAnimator.ofInt(progressBar, "progress", 0, (int) user.getDrivenKm());
+        animator.setDuration(2000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(final ValueAnimator valueAnimator) {
+                int progress = (int)valueAnimator.getAnimatedValue();
+                int ratio = (int)100 * progress/goal;
+                percentage.setText(ratio + "%");
+                display.setText(progress + " / " + goal + " km");
+            }
+        });
+        animator.start();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +144,11 @@ public class StartActivity extends AppCompatActivity
         listview.setAdapter(createAdapter(sessions));
 
         //set Progressbar / Display
-        display.setText(user.getDrivenKm() + " / " + user.getGoalKm() + " km");
+        int goal = (int)user.getGoalKm();
+        int progress = (int)user.getDrivenKm();
+        int ratio = (int) 100 * progress / goal;
+        display.setText(progress + " / " + goal + " km");
+        percentage.setText(ratio + "%");
         progressBar.setProgress((int)user.getDrivenKm());
         //progressBar.refreshDrawableState();
 
