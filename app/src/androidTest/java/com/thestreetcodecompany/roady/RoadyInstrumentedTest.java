@@ -55,12 +55,72 @@ public class RoadyInstrumentedTest {
     }
 
     @Test
+    public void addNoUser() throws Exception {
+        onView(withId(R.id.userName)).perform(clearText());
+        onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
+    }
+
+    @Test
+    public void addDrivenKm() throws  Exception
+    {
+        onView(withId(R.id.drivenKm)).perform(clearText());
+        onView(withId(R.id.drivenKm)).perform(typeText("100"), closeSoftKeyboard());
+        onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
+    }
+
+    @Test
+    public void addInvalidDrivenKm() throws  Exception
+    {
+        onView(withId(R.id.drivenKm)).perform(clearText());
+        onView(withId(R.id.drivenKm)).perform(typeText("-1"), closeSoftKeyboard());
+        onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
+    }
+
+    @Test
+    public void addNoDrivenKm() throws  Exception
+    {
+        onView(withId(R.id.drivenKm)).perform(clearText());
+        onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
+    }
+
+    @Test
+    public void addGoalKm() throws  Exception
+    {
+        onView(withId(R.id.goalKm)).perform(clearText());
+        onView(withId(R.id.goalKm)).perform(typeText("1000"), closeSoftKeyboard());
+        onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
+    }
+
+    @Test
+    public void addInvalidGoalKm() throws  Exception
+    {
+        onView(withId(R.id.goalKm)).perform(clearText());
+        onView(withId(R.id.goalKm)).perform(typeText("-100"), closeSoftKeyboard());
+        onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
+    }
+
+    @Test
+    public void addNoGoalKm() throws  Exception
+    {
+        onView(withId(R.id.goalKm)).perform(clearText());
+        onView(withId(R.id.saveSettings)).perform(scrollTo(), click());
+    }
+
+    @Test
     public void addNewAchievement() throws Exception {
         onView(withId(R.id.achievementsUserCreated)).perform(scrollTo());
         onView(withId(R.id.achievementsUserCreated)).perform(clearText());
         onView(withId(R.id.achievementsUserCreatedKm)).perform(clearText());
         onView(withId(R.id.achievementsUserCreated)).perform(typeText("Star"));
         onView(withId(R.id.achievementsUserCreatedKm)).perform(typeText("1000"), closeSoftKeyboard());
+        onView(withId(R.id.achievementUserCreatedAdd)).perform(scrollTo(), click());
+    }
+
+    @Test
+    public void addNoAchievement() throws Exception {
+        onView(withId(R.id.achievementsUserCreated)).perform(scrollTo());
+        onView(withId(R.id.achievementsUserCreated)).perform(clearText());
+        onView(withId(R.id.achievementsUserCreatedKm)).perform(clearText());
         onView(withId(R.id.achievementUserCreatedAdd)).perform(scrollTo(), click());
     }
 
@@ -73,12 +133,27 @@ public class RoadyInstrumentedTest {
     }
 
     @Test
+    public void addNoCoDriver() throws Exception {
+        onView(withId(R.id.coDriverName)).perform(scrollTo());
+        onView(withId(R.id.coDriverName)).perform(clearText());
+        onView(withId(R.id.coDriverAdd)).perform(scrollTo(), click());
+    }
+
+    @Test
     public void addNewCar() throws Exception {
         onView(withId(R.id.carName)).perform(scrollTo());
         onView(withId(R.id.carName)).perform(clearText());
         onView(withId(R.id.carKfz)).perform(clearText());
         onView(withId(R.id.carName)).perform(typeText("Mustang"));
         onView(withId(R.id.carKfz)).perform(typeText("G-111HA"), closeSoftKeyboard());
+        onView(withId(R.id.carAdd)).perform(scrollTo(), click());
+    }
+
+    @Test
+    public void addNoCar() throws Exception {
+        onView(withId(R.id.carName)).perform(scrollTo());
+        onView(withId(R.id.carName)).perform(clearText());
+        onView(withId(R.id.carKfz)).perform(clearText());
         onView(withId(R.id.carAdd)).perform(scrollTo(), click());
     }
 
