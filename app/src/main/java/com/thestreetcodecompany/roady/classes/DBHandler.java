@@ -1,14 +1,8 @@
 package com.thestreetcodecompany.roady.classes;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.orm.SchemaGenerator;
 import com.orm.SugarApp;
-import com.orm.SugarContext;
-import com.orm.SugarDb;
-import com.orm.query.Condition;
-import com.orm.query.Select;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
@@ -18,13 +12,10 @@ import com.thestreetcodecompany.roady.classes.model.Push;
 import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.Date;
 import java.util.List;
 
 import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
-import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
-import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 /**
  * Created by Rutter on 23.03.2018.
@@ -160,11 +151,6 @@ public class DBHandler extends SugarApp {
         String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
         return DrivingSession.find(DrivingSession.class, "user = ? and dateTime_start >= ? and dateTime_end < ? ", whereArgs);
     }
-    public List<DrivingSession> getAllDrivingSessionsTimePeriod(User user, Date start, Date end)
-    {
-        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
-        return DrivingSession.find(DrivingSession.class, "user = ? and dateTime_start >= ? and dateTime_end < ? ", whereArgs);
-    }
 
 //    public List<Car> getAllCars(User user)
 //    {
@@ -184,22 +170,19 @@ public class DBHandler extends SugarApp {
             String msg = "id: " + cod.getId() + " | name: " + cod.getName() + " | ";
 
             //user can be null (shouldn't be)
-            if(cod.getUser() != null)
-            {
-                msg +=  "user: " + cod.getUser().getName() + "(id: "+ cod.getUser().getId() + ")";
-            }
-            else
-            {
+            if (cod.getUser() != null) {
+                msg += "user: " + cod.getUser().getName() + "(id: " + cod.getUser().getId() + ")";
+            } else {
                 msg += "no user";
             }
             Log.d("CoDriver", msg);
-
-        return coDrivers;
+        }
     }
-*/
+
 
     //Logs all data from table CoDrivers
     //you can dublicate this funciton and modify it for other tables
+
     public void logAllUsers()
     {
         List<User> list = User.find(User.class,null);

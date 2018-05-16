@@ -83,7 +83,7 @@ public class PushService extends Service {
     public void onDestroy() {
         // TODO Auto-generated method stub
         Log.d("Push","push service stopped");
-        MakeToast("onDestroy",getApplication());
+        MakeToast("push service stopped",getApplication());
         super.onDestroy();
     }
 

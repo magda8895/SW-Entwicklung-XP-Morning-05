@@ -79,7 +79,12 @@ public class StartActivity extends AppCompatActivity
         //TODO: if the database contains one user, add this user object to the Singleton (RoadyData)
         //TODO: if not: Intent to Settings and create the User
         rd = RoadyData.getInstance();
+
+
+
         Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
+
+
 
 
 

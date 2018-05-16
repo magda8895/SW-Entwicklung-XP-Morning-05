@@ -34,11 +34,14 @@ import com.thestreetcodecompany.roady.classes.model.User;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
+import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
 import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 public class SettingsBackend extends AppCompatActivity {
     private Boolean newUser;
     RoadyData rd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +54,11 @@ public class SettingsBackend extends AppCompatActivity {
         newUser = intent.getBooleanExtra("newUser", false);
 
         //get User Data
-        if(newUser)
-        {
+        if (newUser) {
             rd.user = new User();
+            rd.user.setName("Test User");
             rd.user.save();
         }
-
-
-
 
 
         //get View Elements
@@ -80,36 +80,24 @@ public class SettingsBackend extends AppCompatActivity {
 
         final Switch pushSwitch = (Switch) findViewById(R.id.switchPush);
 
-        //switch for Push
-        pushSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                final Calendar cal = Calendar.getInstance();
-                Intent intent = new Intent(getApplicationContext(), PushService.class);
-                final PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
 
-                if(pushSwitch.isChecked())
-                {
-                    startService(new Intent(getApplicationContext(), PushService.class));
-                    alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                            AlarmManager.INTERVAL_HOUR, pintent);
-                }
-                else {
+        pushSwitch.setChecked(rd.user.getPushes());
 
-                    alarm.cancel(pintent);
-                    stopService(new Intent(getApplicationContext(), PushService.class));
-                }
-            }
-        });
 
         final List<Car> cars = rd.user.getCars();
         final List<CoDriver> co_drivers = rd.user.getCoDrivers();
         final List<Achievement> achievements = rd.user.getAchievements();
 
 
-        edittext_name.setText(rd.user.getName());
-        seekbar_drivenkm.setProgress((int)rd.user.getDrivenKm());
-        seekbar_goalkm.setProgress((int)rd.user.getGoalKm());
+        if(!rd.user.getName().equals("Test User"))
+        {
+            edittext_name.setText(rd.user.getName());
+        }
+        else {
+            edittext_name.setText("");
+        }
+        seekbar_drivenkm.setProgress((int) rd.user.getDrivenKm());
+        seekbar_goalkm.setProgress((int) rd.user.getGoalKm());
 
         //set List Adapter
         listview_car.setAdapter(createCarAdapter(cars));
@@ -118,7 +106,6 @@ public class SettingsBackend extends AppCompatActivity {
         adaptListViewHeight(listview_codriver);
         listview_achievements.setAdapter(createAchievmentAdapter(achievements));
         adaptListViewHeight(listview_achievements);
-
 
 
         fab_achievemtents.setOnClickListener(new View.OnClickListener() {
@@ -163,21 +150,51 @@ public class SettingsBackend extends AppCompatActivity {
         button_savesettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 //get Userdetail
                 String name = edittext_name.getText().toString();
                 float driven_km = seekbar_drivenkm.getProgress();
                 float goal_km = seekbar_goalkm.getProgress();
-
-                //update User
-                rd.user.setName(name);
-                rd.user.setDrivenKm(driven_km);
-                rd.user.setGoalKm(goal_km);
-                rd.user.update();
+                if (name != "" && goal_km != 0) {
 
 
+                    //update User
+                    rd.user.setName(name);
+                    rd.user.setDrivenKm(driven_km);
+                    rd.user.setGoalKm(goal_km);
 
-                Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                finish();
+                    rd.user.update();
+
+
+                    if (pushSwitch.isChecked() != rd.user.getPushes()) {
+                        final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        final Calendar cal = Calendar.getInstance();
+                        Intent intent = new Intent(getApplicationContext(), PushService.class);
+                        final PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
+
+                        if (pushSwitch.isChecked() && rd.user.getPushes() == false) {
+                            if (pushSwitch.isChecked()) {
+                                startService(new Intent(getApplicationContext(), PushService.class));
+                                alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                                        AlarmManager.INTERVAL_HOUR, pintent);
+                            }
+                            rd.user.setPushes(true);
+                        } else if (!pushSwitch.isChecked() && rd.user.getPushes() == true) {
+                            alarm.cancel(pintent);
+                            stopService(new Intent(getApplicationContext(), PushService.class));
+                            rd.user.setPushes(false);
+                        }
+                    }
+                    rd.user.update();
+
+                    Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    finish();
+                } else {
+                    MakeSnackbar(getString(R.string.wrong_input), view);
+                }
+
+
             }
         });
     }
@@ -215,7 +232,6 @@ public class SettingsBackend extends AppCompatActivity {
                 tv_name.setText(co_drivers.get(position).getName());
 
 
-
                 return view;
             }
         };
@@ -248,8 +264,7 @@ public class SettingsBackend extends AppCompatActivity {
         int divider_height = listview.getDividerHeight();
         int i = 0;
 
-        while(i < adapter.getCount())
-        {
+        while (i < adapter.getCount()) {
             View item = adapter.getView(i, null, listview);
             item.measure(0, 0);
             height += item.getMeasuredHeight() + divider_height;
@@ -262,5 +277,8 @@ public class SettingsBackend extends AppCompatActivity {
         listview.setLayoutParams(listviewParams);
         listview.requestLayout();
     }
+
+
+
 
 }

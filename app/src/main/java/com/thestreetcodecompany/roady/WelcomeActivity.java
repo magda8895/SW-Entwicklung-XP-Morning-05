@@ -30,6 +30,8 @@ public class WelcomeActivity extends AppCompatActivity {
         RoadyData rd = RoadyData.getInstance();
         rd.user = dbh.getUser();
 
+
+
         if (rd.user == null) {
             Intent intent = new Intent(getApplicationContext(), SettingsBackend.class);
             intent.putExtra("newUser",true);
