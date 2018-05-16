@@ -17,6 +17,9 @@ public class User extends SugarRecord {
 
     //int id;
     private String name;
+    // TODO: in the Settings we can change the driven_kms (before the start of using this app)..
+    // So everything is wrong then
+    // maybe make getter to sum up original driven kilometers + all the distances from the Driving Session
     private float driven_km;
     private float goal_km;
     boolean deleted;
@@ -73,7 +76,7 @@ public class User extends SugarRecord {
     }
 
     public List<CoDriver> getCoDrivers() {
-        List<CoDriver> coDrivers = CoDriver.find(CoDriver.class, "user = ?");
+        List<CoDriver> coDrivers = CoDriver.find(CoDriver.class, "user = ?", "" + getId());
         return coDrivers;
     }
 
@@ -85,9 +88,13 @@ public class User extends SugarRecord {
     public DrivingSession getLastDrivingSession()
     {
         List<DrivingSession> list = DrivingSession.find(DrivingSession.class,"user = ?", "" + getId());
-        DrivingSession last_ds = list.get(list.size() - 1);
+        if(list.size() > 0)
+        {
+            DrivingSession last_ds = list.get(list.size() - 1);
+            return last_ds;
+        }
 
-        return last_ds;
+        return null;
     }
 
     public long getTimeSinceLastDrivingSession()
@@ -103,13 +110,18 @@ public class User extends SugarRecord {
     {
         DrivingSession last_ds = getLastDrivingSession();
 
-        if(last_ds.getActive())
+        if(last_ds != null && last_ds.getActive())
         {
             return true;
         }
         return false;
     }
 
+
+    public List<DrivingSession> getAllDrivingSessions()
+    {
+        return DrivingSession.find(DrivingSession.class, "user = ?", "" + getId());
+    }
 
 
 }

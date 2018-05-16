@@ -22,6 +22,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
+import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
+import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
+
 /**
  * Created by Rutter on 23.03.2018.
  * Last changed by Schauberger on 24.04.2018
@@ -104,6 +108,20 @@ public class DBHandler extends SugarApp {
 
     }
 
+    public User getUser() {
+        List<User> users = User.listAll(User.class);
+
+        if(users.size() <= 0)
+        {
+            return null;
+        }
+        else if (users.size() >= 2)
+        {
+            Log.d("DBHandler","There is more than one user...");
+        }
+        return users.get(0);
+    }
+
     public User getTestUser() {
 
         List<User> users = User.listAll(User.class);
@@ -142,35 +160,6 @@ public class DBHandler extends SugarApp {
         return DrivingSession.find(DrivingSession.class, "user = ? and dateTime_start >= ? and dateTime_end < ? ", whereArgs);
     }
 
-//    public List<Car> getAllCars(User user)
-//    {
-//        System.out.println("in get all cars ");
-//        //return Car.find(Car.class, "user = ?", "" + user.getId());
-//         return Car.findWithQuery(Car.class, "Select * from Car where user = ?", user.getName());
-//    }
-
-/*
-    public List<Car> getCarsByUser(User user) {
-        List<Car> cars = Car.find(Car.class, "user = ?", "" + user.getId());
-
-        if (cars.size() <= 0) {
-            makeTestData();
-            cars = Car.listAll(Car.class);
-        }
-
-        return cars;
-    }
-    public List<CoDriver> getAllCoDrivers() {
-        List<CoDriver> coDrivers = CoDriver.listAll(CoDriver.class);
-
-        if (coDrivers.size() <= 0) {
-            makeTestData();
-            coDrivers = CoDriver.listAll(CoDriver.class);
-        }
-
-        return coDrivers;
-    }
-*/
 
     //Logs all data from table CoDrivers
     //you can dublicate this funciton and modify it for other tables
@@ -200,23 +189,41 @@ public class DBHandler extends SugarApp {
     public void logAllUsers()
     {
         List<User> list = User.find(User.class,null);
-
+        Log.d("DBHandler","Users:");
         for (User user : list) {
             String msg = "id: " + user.getId() + " | " +
                          "name: " + user.getName() + " | " +
-                         "drivenkm: " + user.getDrivenKm() +
-                         "goalkm: " + user.getGoalKm();
+                         "driven_km: " + user.getDrivenKm() + " | " +
+                         "goal_km: " + user.getGoalKm();
 
-            Log.d("User", msg);
-
-
-
+            Log.d("DBHandler", msg);
 
 
         }
     }
 
+    public void logAllDrivingSessions()
+    {
+        List<DrivingSession> list = DrivingSession.find(DrivingSession.class,null);
+        Log.d("DBHandler","Driving Sessions:");
+        if(list.size() == 0)
+        {
+            Log.d("DBHandler","there is nothing to show");
+        }
 
+        for (DrivingSession item : list) {
+            String msg = "id: " + item.getId() + " | name: " + item.getName() + " | active: " + item.getActive();
 
-
+            //user can be null (shouldn't be)
+            if(item.getUser() != null)
+            {
+                msg +=  "user: " + item.getUser().getName() + "(id: "+ item.getUser().getId() + ")";
+            }
+            else
+            {
+                msg += "no user";
+            }
+            Log.d("DBHandler", msg);
+        }
+    }
 }

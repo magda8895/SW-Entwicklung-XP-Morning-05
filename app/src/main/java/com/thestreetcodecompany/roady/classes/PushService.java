@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.thestreetcodecompany.roady.R;
+import com.thestreetcodecompany.roady.StopWatch;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.Helper.*;
 import com.thestreetcodecompany.roady.classes.model.Push;
@@ -60,30 +61,21 @@ public class PushService extends Service {
 
         if(rd.user.hasActiveDrivingSession() && time > hours)
         {
-            MakePush(getString(R.string.activepush_title),getString(R.string.activepush_body),getApplicationContext());
+            MakePush(getString(R.string.activepush_title),getString(R.string.activepush_body), StopWatch.class,getApplicationContext());
         }
         else if(time > one_week)
         {
             long last = dbh.getTimeSinceLastPush();
             Log.d("Push", "last: " + last);
-            MakePush(getString(R.string.timepush_title),getString(R.string.timepush_body),getApplicationContext());
+            if(last > one_week)
+            {
+                MakePush(getString(R.string.timepush_title),getString(R.string.timepush_body),getApplicationContext());
+            }
         }
 
         //push to DB
         Push p = new Push(Calendar.getInstance().getTimeInMillis());
         p.save();
-
-
-        //MakePush(getString(R.string.timepush_title),getString(R.string.timepush_body),getApplicationContext());
-
-
-
-        //all for testing (save one CoDriver with name:currentDateTime)
-        Date currentTime = Calendar.getInstance().getTime();
-        CoDriver new_push = new CoDriver();
-        new_push.setName(currentTime.toString());
-        new_push.setUser(dbh.getTestUser());
-        new_push.save();
 
     }
 

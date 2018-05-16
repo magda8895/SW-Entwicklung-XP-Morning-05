@@ -35,6 +35,7 @@ public class StartActivity extends AppCompatActivity
     ListView listview;
     ProgressBar progressBar;
     TextView display;
+    RoadyData rd;
     com.github.clans.fab.FloatingActionMenu fab_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class StartActivity extends AppCompatActivity
         progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
 
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.start_container);
-        DBHandler dbh = new DBHandler();
+        final DBHandler dbh = new DBHandler();
         cl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,14 +78,7 @@ public class StartActivity extends AppCompatActivity
         //Singleton Test
         //TODO: if the database contains one user, add this user object to the Singleton (RoadyData)
         //TODO: if not: Intent to Settings and create the User
-        RoadyData rd = RoadyData.getInstance();
-        if(rd.user == null)
-        {
-            rd.user = dbh.getTestUser();
-            //User testuser = new User("Fabio",100,1000);
-            //testuser.save();
-            //rd.user = testuser;
-        }
+        rd = RoadyData.getInstance();
         Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
 
 
@@ -108,7 +102,7 @@ public class StartActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), PushActivity.class);
+                Intent i = new Intent(getApplicationContext(), StopWatch.class);
                 startActivity(i);
                 MakeSnackbar("Click Start Driving",view);
             }
@@ -117,8 +111,20 @@ public class StartActivity extends AppCompatActivity
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), DrivingSessionAfter.class);
-                startActivity(i);
+
+                dbh.logAllCoDrivers();
+                dbh.logAllUsers();
+                Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
+
+                if(rd.user.getCoDrivers().size() > 0 && rd.user.getCars().size() > 0)
+                {
+                    Intent i = new Intent(getApplicationContext(), DrivingSessionAfter.class);
+                    startActivity(i);
+                }
+                else {
+                    MakeSnackbar("you have no car("+RoadyData.getInstance().user.getCars().size()+") entries or no co-driver (" + RoadyData.getInstance().user.getCars().size() + ") entries ",view);
+                }
+
             }
         });
 
@@ -144,17 +150,18 @@ public class StartActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+
+        //get all Driving Sessions
+        final List<DrivingSession> sessions = rd.getUser().getAllDrivingSessions();
 
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
         //set Progressbar / Display
-        display.setText(user.getDrivenKm() + " / " + user.getGoalKm() + " km");
-        progressBar.setProgress((int)user.getDrivenKm());
-        //progressBar.refreshDrawableState();
+        display.setText(rd.getUser().getDrivenKm() + " / " + rd.getUser().getGoalKm() + " km");
+        progressBar.setProgress((int)rd.user.getDrivenKm());
+        progressBar.setMax((int)rd.user.getGoalKm());
+
 
         fab_menu.close(true);
     }

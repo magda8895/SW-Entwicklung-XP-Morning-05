@@ -50,7 +50,8 @@
     <string name="timepush_title">Long time no drive</string>
     <string name="timepush_body">Your last drive is more than one week ago!</string>
     <string name="activepush_title">Are you still driving?</string>
-    <string name="activepush_body">You started a drive more than eight hours ago.</string>
+    <string name="activepush_body">You started driving more than eight hours ago.</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
 
 
 </resources>

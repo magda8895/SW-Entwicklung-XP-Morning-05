@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.BoringLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,14 +37,29 @@ import java.util.List;
 import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 public class SettingsBackend extends AppCompatActivity {
-    private User user;
-
+    private Boolean newUser;
+    RoadyData rd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        rd = RoadyData.getInstance();
+        //get Intent data (default: false)
+        Intent intent = getIntent();
+        newUser = intent.getBooleanExtra("newUser", false);
+
+        //get User Data
+        if(newUser)
+        {
+            rd.user = new User();
+            rd.user.save();
+        }
+
+
+
+
 
         //get View Elements
         final ListView listview_achievements = (ListView) findViewById(R.id.achievementsUserCreatedList);
@@ -83,26 +99,17 @@ public class SettingsBackend extends AppCompatActivity {
                     alarm.cancel(pintent);
                     stopService(new Intent(getApplicationContext(), PushService.class));
                 }
-
             }
         });
 
-        //get Data
-        DBHandler dbh = new DBHandler();
-        //dbh.makeDB();
-        //dbh.makeTestData();
-        user = dbh.getTestUser();
+        final List<Car> cars = rd.user.getCars();
+        final List<CoDriver> co_drivers = rd.user.getCoDrivers();
+        final List<Achievement> achievements = rd.user.getAchievements();
 
-        final List<Car> cars = user.getCars();
-        final List<CoDriver> co_drivers = user.getCoDrivers();
-        final List<Achievement> achievements = user.getAchievements();
 
-        RoadyData rd = RoadyData.getInstance();
-        Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
-
-        edittext_name.setText(user.getName());
-        seekbar_drivenkm.setProgress((int)user.getDrivenKm());
-        seekbar_goalkm.setProgress((int)user.getGoalKm());
+        edittext_name.setText(rd.user.getName());
+        seekbar_drivenkm.setProgress((int)rd.user.getDrivenKm());
+        seekbar_goalkm.setProgress((int)rd.user.getGoalKm());
 
         //set List Adapter
         listview_car.setAdapter(createCarAdapter(cars));
@@ -119,7 +126,7 @@ public class SettingsBackend extends AppCompatActivity {
             public void onClick(View view) {
                 String name = editText_achievements.getText().toString();
                 float km = Float.valueOf(editText_achievements_km.getText().toString());
-                Achievement a = new Achievement(name, 2, km, "No Image", false, user);
+                Achievement a = new Achievement(name, 2, km, "No Image", false, rd.user);
                 a.save();
                 achievements.add(a);
                 listview_achievements.setAdapter(createAchievmentAdapter(achievements));
@@ -131,7 +138,7 @@ public class SettingsBackend extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String co_driver = editText_codriver.getText().toString();
-                CoDriver co = new CoDriver(co_driver, user);
+                CoDriver co = new CoDriver(co_driver, rd.user);
                 co.save();
                 co_drivers.add(co);
                 listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
@@ -144,7 +151,7 @@ public class SettingsBackend extends AppCompatActivity {
             public void onClick(View view) {
                 String name = editText_car_name.getText().toString();
                 String kfz = editText_car_kfz.getText().toString();
-                Car c = new Car(name, kfz, user);
+                Car c = new Car(name, kfz, rd.user);
                 c.save();
                 cars.add(c);
                 listview_car.setAdapter(createCarAdapter(cars));
@@ -160,10 +167,17 @@ public class SettingsBackend extends AppCompatActivity {
                 String name = edittext_name.getText().toString();
                 float driven_km = seekbar_drivenkm.getProgress();
                 float goal_km = seekbar_goalkm.getProgress();
-                User user = new User(name, driven_km, goal_km);
-                user.save();
+
+                //update User
+                rd.user.setName(name);
+                rd.user.setDrivenKm(driven_km);
+                rd.user.setGoalKm(goal_km);
+                rd.user.update();
+
+
 
                 Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                finish();
             }
         });
     }
