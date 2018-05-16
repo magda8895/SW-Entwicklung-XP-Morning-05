@@ -18,8 +18,8 @@ import com.thestreetcodecompany.roady.classes.model.Push;
 import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 
 import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
@@ -34,9 +34,7 @@ import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 public class DBHandler extends SugarApp {
 
-    public DBHandler() {
-        //makeDB();
-    }
+    public DBHandler() {}
 
     public void makeDB()
     {
@@ -85,6 +83,7 @@ public class DBHandler extends SugarApp {
 
         Push p = new Push(Calendar.getInstance().getTimeInMillis());
         p.save();
+
 
         Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
         cord.save();
@@ -149,6 +148,8 @@ public class DBHandler extends SugarApp {
         return coDrivers.get(coDrivers.size() - 1);
     }
 
+
+
     public List<DrivingSession> getAllDrivingSessions(User user)
     {
         return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
@@ -159,6 +160,18 @@ public class DBHandler extends SugarApp {
         String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
         return DrivingSession.find(DrivingSession.class, "user = ? and dateTime_start >= ? and dateTime_end < ? ", whereArgs);
     }
+    public List<DrivingSession> getAllDrivingSessionsTimePeriod(User user, Date start, Date end)
+    {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        return DrivingSession.find(DrivingSession.class, "user = ? and dateTime_start >= ? and dateTime_end < ? ", whereArgs);
+    }
+
+//    public List<Car> getAllCars(User user)
+//    {
+//        System.out.println("in get all cars ");
+//        //return Car.find(Car.class, "user = ?", "" + user.getId());
+//         return Car.findWithQuery(Car.class, "Select * from Car where user = ?", user.getName());
+//    }
 
 
     //Logs all data from table CoDrivers
@@ -181,8 +194,9 @@ public class DBHandler extends SugarApp {
             }
             Log.d("CoDriver", msg);
 
-        }
+        return coDrivers;
     }
+*/
 
     //Logs all data from table CoDrivers
     //you can dublicate this funciton and modify it for other tables
