@@ -127,18 +127,9 @@ public class AchievmentInstrumentedTest {
         DBHandler dbh = new DBHandler();
         User user = dbh.getTestUser();
 
-        for(int index = 3; index < 4; index++)
+        for(int index = 0; index < 4; index++)
         {
-            int type = 0;
-            if(index == 0){
-                type = 5;
-            }else if(index == 1) {
-                type = 4;
-            }else if(index == 2) {
-                type = 6;
-            }else if(index == 3){
-                type = 7;
-            }
+            int type = index + 4;
 
             List<Achievement> achievements = user.getAchievementsTypeReached(type);
             String text;

@@ -78,17 +78,17 @@ public class AchievementsActivity extends AppCompatActivity {
         //achievementsLevel.addAll(achievementsCondition);
 
         // Streak
-        List<Achievement> achievementsStreak = user.getAchievementsTypeReached(5);
+        List<Achievement> achievementsStreak = user.getAchievementsTypeReached(4);
         if (achievementsStreak.isEmpty()) {
-            achievementsLevel.add(user.getAchievementsType(5).get(0));
+            achievementsLevel.add(user.getAchievementsType(4).get(0));
         } else {
             achievementsLevel.add(achievementsStreak.get(achievementsStreak.size() - 1));
         }
 
         // Distance
-        List<Achievement> achievementsDistance = user.getAchievementsTypeReached(4);
+        List<Achievement> achievementsDistance = user.getAchievementsTypeReached(5);
         if (achievementsDistance.isEmpty()) {
-            achievementsLevel.add(user.getAchievementsType(4).get(0));
+            achievementsLevel.add(user.getAchievementsType(5).get(0));
         } else {
             achievementsLevel.add(achievementsDistance.get(achievementsDistance.size() - 1));
         }

@@ -62,22 +62,22 @@ public class DBHandler extends SugarApp {
         Achievement a4 = new Achievement("Night", "Dive at night", 3, 0, R.drawable.ic_night, "", user);
         a4.save();
 
-        Achievement a5 = new Achievement("Came a long way (Bronze)", "Drive 1000 km", 4, 1000, R.drawable.ic_distance_bronze, date, user);
+        Achievement a5 = new Achievement("Everyday is driving day (Bronze)", "Drive 2 days in a row", 4, 2, R.drawable.ic_streak_bronze, "", user);
         a5.save();
-        Achievement a6 = new Achievement("Came a long way (Silver)", "Drive 2000 km", 4, 2000, R.drawable.ic_distance_silver, "", user);
+        Achievement a6 = new Achievement("Everyday is driving day (Silver)", "Drive 3 days in a row", 4, 3, R.drawable.ic_streak_silver, "", user);
         a6.save();
-        Achievement a7 = new Achievement("Came a long way (Gold)", "Drive 3000 km", 4, 3000, R.drawable.ic_distance_gold, "", user);
+        Achievement a7 = new Achievement("Everyday is driving day (Gold)", "Drive 4 days in a row", 4, 4, R.drawable.ic_streak_gold, "", user);
         a7.save();
-        Achievement a8 = new Achievement("Came a long way (Platinum)", "Drive 5000 km", 4, 5000, R.drawable.ic_distance_platinum, "", user);
+        Achievement a8 = new Achievement("Everyday is driving day (Platinum)", "Drive 7 days in a row", 4, 7, R.drawable.ic_streak_platinum, "", user);
         a8.save();
 
-        Achievement a9 = new Achievement("Everyday is driving day (Bronze)", "Drive 2 days in a row", 5, 2, R.drawable.ic_streak_bronze, "", user);
+        Achievement a9 = new Achievement("Came a long way (Bronze)", "Drive 1000 km", 5, 1000, R.drawable.ic_distance_bronze, date, user);
         a9.save();
-        Achievement a10 = new Achievement("Everyday is driving day (Silver)", "Drive 3 days in a row", 5, 3, R.drawable.ic_streak_silver, "", user);
+        Achievement a10 = new Achievement("Came a long way (Silver)", "Drive 2000 km", 5, 2000, R.drawable.ic_distance_silver, "", user);
         a10.save();
-        Achievement a11 = new Achievement("Everyday is driving day (Gold)", "Drive 4 days in a row", 5, 4, R.drawable.ic_streak_gold, "", user);
+        Achievement a11 = new Achievement("Came a long way (Gold)", "Drive 3000 km", 5, 3000, R.drawable.ic_distance_gold, "", user);
         a11.save();
-        Achievement a12 = new Achievement("Everyday is driving day (Platinum)", "Drive 7 days in a row", 5, 7, R.drawable.ic_streak_platinum, "", user);
+        Achievement a12 = new Achievement("Came a long way (Platinum)", "Drive 5000 km", 5, 5000, R.drawable.ic_distance_platinum, "", user);
         a12.save();
 
         Achievement a13 = new Achievement("All day long (Bronze)", "Drive 1h", 6, 1, R.drawable.ic_time_bronze, date, user);
@@ -89,9 +89,9 @@ public class DBHandler extends SugarApp {
         Achievement a16 = new Achievement("All day long (Platinum)", "Drive 5h", 6, 5, R.drawable.ic_time_platinum, "", user);
         a16.save();
 
-        Achievement a17 = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_stars, "", user);
+        Achievement a17 = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_fast_and_furious, "", user);
         a17.save();
-        Achievement a18 = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_stars, "", user);
+        Achievement a18 = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_fast_and_furious, "", user);
         a18.save();
 
         Car c1 = new Car("Bugatti","GU-123YEAH", user);
