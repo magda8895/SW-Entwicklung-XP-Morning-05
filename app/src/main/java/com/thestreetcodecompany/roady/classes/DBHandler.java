@@ -1,6 +1,6 @@
 package com.thestreetcodecompany.roady.classes;
 
-import android.content.Context;
+import android.util.Log;
 
 import com.orm.SchemaGenerator;
 import com.orm.SugarApp;
@@ -14,10 +14,14 @@ import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.Coordinate;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.Push;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
 
 /**
  * Created by Rutter on 23.03.2018.
@@ -53,6 +57,57 @@ public class DBHandler extends SugarApp {
 
         Date date = new Date();
 
+        Car c1 = new Car("Bugatti","GU-123YEAH", user);
+        c1.save();
+        Car c2 = new Car("Audi A6", "G-AUDI1", user);
+        c2.save();
+        Car c3 = new Car("VW Golf", "SL-234KK", user);
+        c3.save();
+        CoDriver cd = new CoDriver("Carlos", user);
+        cd.save();
+        //Driving sessions
+        DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
+        ds.save();
+        ds = new DrivingSession(true, "12-12-2012 05:21:12", 123, user);
+        ds.save();
+        ds = new DrivingSession(true, "13-12-2012 05:21:12", 203, user);
+        ds.save();
+        ds = new DrivingSession(true, "14-12-2012 05:21:12", 200, user);
+        ds.save();
+        ds = new DrivingSession(true, "15-12-2012 05:21:12", 20, user);
+        ds.save();
+        ds = new DrivingSession(true, "16-12-2012 05:21:12", 99, user);
+        ds.save();
+
+        Push p = new Push(Calendar.getInstance().getTimeInMillis());
+        p.save();
+
+
+        Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
+        cord.save();
+    }
+
+
+    public long getTimeSinceLastPush()
+    {
+        List<Push> list = Push.find(Push.class, "");
+
+        if(list.size() > 0)
+        {
+            Push last = list.get(list.size() - 1);
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            return currentTime - last.getDateTime();
+        }
+
+        Log.d("PUSH", "There are no pushes yet");
+        return 0;
+
+
+    }
+
+    public void createAchievements(User user)
+    {
+        Date date = new Date();
         Achievement a1 = new Achievement("Rain", "Drive while it's raining", 0, 0, R.drawable.ic_rain, date, user);
         a1.save();
         Achievement a2 = new Achievement("Snow", "Drive while it's snowing", 1, 0, R.drawable.ic_snow, "", user);
@@ -94,31 +149,20 @@ public class DBHandler extends SugarApp {
         Achievement a18 = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_fast_and_furious, "", user);
         a18.save();
 
-        Car c1 = new Car("Bugatti","GU-123YEAH", user);
-        c1.save();
-        Car c2 = new Car("Audi A6", "G-AUDI1", user);
-        c2.save();
-        Car c3 = new Car("VW Golf", "SL-234KK", user);
-        c3.save();
+    }
 
-        CoDriver cd = new CoDriver("Carlos", user);
-        cd.save();
-        //Driving sessions
-        DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
-        ds.save();
-        ds = new DrivingSession(true, "12-12-2012 05:21:12", 123, user);
-        ds.save();
-        ds = new DrivingSession(true, "13-12-2012 05:21:12", 203, user);
-        ds.save();
-        ds = new DrivingSession(true, "14-12-2012 05:21:12", 200, user);
-        ds.save();
-        ds = new DrivingSession(true, "15-12-2012 05:21:12", 20, user);
-        ds.save();
-        ds = new DrivingSession(true, "16-12-2012 05:21:12", 99, user);
-        ds.save();
+    public User getUser() {
+        List<User> users = User.listAll(User.class);
 
-        Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
-        cord.save();
+        if(users.size() <= 0)
+        {
+            return null;
+        }
+        else if (users.size() >= 2)
+        {
+            Log.d("DBHandler","There is more than one user...");
+        }
+        return users.get(0);
     }
 
     public User getTestUser() {
@@ -169,30 +213,69 @@ public class DBHandler extends SugarApp {
 //         return Car.findWithQuery(Car.class, "Select * from Car where user = ?", user.getName());
 //    }
 
-/*
-    public List<Car> getCarsByUser(User user) {
-        List<Car> cars = Car.find(Car.class, "user = ?", "" + user.getId());
 
-        if (cars.size() <= 0) {
-            makeTestData();
-            cars = Car.listAll(Car.class);
+    //Logs all data from table CoDrivers
+    //you can dublicate this funciton and modify it for other tables
+    public void logAllCoDrivers()
+    {
+        List<CoDriver> list = CoDriver.find(CoDriver.class,null);
+
+        for (CoDriver cod : list) {
+            String msg = "id: " + cod.getId() + " | name: " + cod.getName() + " | ";
+
+            //user can be null (shouldn't be)
+            if (cod.getUser() != null) {
+                msg += "user: " + cod.getUser().getName() + "(id: " + cod.getUser().getId() + ")";
+            } else {
+                msg += "no user";
+            }
+            Log.d("CoDriver", msg);
+        }
+    }
+
+
+
+    //Logs all data from table CoDrivers
+    //you can dublicate this funciton and modify it for other tables
+
+    public void logAllUsers()
+    {
+        List<User> list = User.find(User.class,null);
+        Log.d("DBHandler","Users:");
+        for (User user : list) {
+            String msg = "id: " + user.getId() + " | " +
+                         "name: " + user.getName() + " | " +
+                         "driven_km: " + user.getDrivenKm() + " | " +
+                         "goal_km: " + user.getGoalKm();
+
+            Log.d("DBHandler", msg);
+
+
+        }
+    }
+
+    public void logAllDrivingSessions()
+    {
+        List<DrivingSession> list = DrivingSession.find(DrivingSession.class,null);
+        Log.d("DBHandler","Driving Sessions:");
+        if(list.size() == 0)
+        {
+            Log.d("DBHandler","there is nothing to show");
         }
 
-        return cars;
-    }
-    public List<CoDriver> getAllCoDrivers() {
-        List<CoDriver> coDrivers = CoDriver.listAll(CoDriver.class);
+        for (DrivingSession item : list) {
+            String msg = "id: " + item.getId() + " | name: " + item.getName() + " | active: " + item.getActive();
 
-        if (coDrivers.size() <= 0) {
-            makeTestData();
-            coDrivers = CoDriver.listAll(CoDriver.class);
+            //user can be null (shouldn't be)
+            if(item.getUser() != null)
+            {
+                msg +=  "user: " + item.getUser().getName() + "(id: "+ item.getUser().getId() + ")";
+            }
+            else
+            {
+                msg += "no user";
+            }
+            Log.d("DBHandler", msg);
         }
-
-        return coDrivers;
     }
-*/
-
-
-
-
 }

@@ -28,6 +28,7 @@
     <string name="co_driver_label">Co-Drivers</string>
     <string name="co_driver_name">New Co-Driver</string>
     <string name="car_label">Cars</string>
+    <string name="push_label">Push Notification</string>
     <string name="car_kfz">KFZ</string>
     <string name="car_name">New Car</string>
     <string name="save_settings">Save Settings</string>
@@ -51,5 +52,20 @@
         <item>Roadworks</item>
         <item>Accident</item>
     </string-array>
+
     <string name="title_activity_new_driving_session">NewDrivingSession</string>
+    <string name="title_activity_push">PushActivity</string>
+
+    <string name="timepush_title">Long time no drive</string>
+    <string name="timepush_body">Your last drive is more than one week ago!</string>
+    <string name="activepush_title">Are you still driving?</string>
+    <string name="activepush_body">You started driving more than eight hours ago.</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+
+
+    <string name="wrong_input">Name, goal kilometers or driven kilometers are wrong</string>
+
+
+
+
 </resources>

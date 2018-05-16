@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.User;
 
@@ -28,7 +29,7 @@ import java.util.List;
 
 
 public class AchievementsActivity extends AppCompatActivity {
-
+    RoadyData rd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +40,13 @@ public class AchievementsActivity extends AppCompatActivity {
 
 
         // DB Connect
-        DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
+        //DBHandler dbh = new DBHandler();
+        //User user = dbh.getTestUser();
+        rd = RoadyData.getInstance();
 
 
         // most recent
-        List<Achievement> achievementsList = user.getAchievements();
+        List<Achievement> achievementsList = rd.user.getAchievements();
         int latest = -1;
         for (int position = 0; position < achievementsList.size(); position++) {
             if (achievementsList.get(position).getReached()) {
@@ -69,7 +71,7 @@ public class AchievementsActivity extends AppCompatActivity {
 
 
         // Conditions
-        List<Achievement> achievementsCondition = user.getAchievementsCondition();
+        List<Achievement> achievementsCondition = rd.user.getAchievementsCondition();
         GridView gridViewCondition = (GridView) findViewById(R.id.gridViewCondition);
         gridViewCondition.setAdapter(new gridAdapter(this, achievementsCondition));
 
@@ -78,35 +80,35 @@ public class AchievementsActivity extends AppCompatActivity {
         //achievementsLevel.addAll(achievementsCondition);
 
         // Streak
-        List<Achievement> achievementsStreak = user.getAchievementsTypeReached(4);
+        List<Achievement> achievementsStreak = rd.user.getAchievementsTypeReached(4);
         if (achievementsStreak.isEmpty()) {
-            achievementsLevel.add(user.getAchievementsType(4).get(0));
+            achievementsLevel.add(rd.user.getAchievementsType(4).get(0));
         } else {
             achievementsLevel.add(achievementsStreak.get(achievementsStreak.size() - 1));
         }
 
         // Distance
-        List<Achievement> achievementsDistance = user.getAchievementsTypeReached(5);
+        List<Achievement> achievementsDistance = rd.user.getAchievementsTypeReached(5);
         if (achievementsDistance.isEmpty()) {
-            achievementsLevel.add(user.getAchievementsType(5).get(0));
+            achievementsLevel.add(rd.user.getAchievementsType(5).get(0));
         } else {
             achievementsLevel.add(achievementsDistance.get(achievementsDistance.size() - 1));
         }
 
         // Time
-        List<Achievement> achievementsTime = user.getAchievementsTypeReached(6);
+        List<Achievement> achievementsTime = rd.user.getAchievementsTypeReached(6);
         //List<Achievement> achievementsTime = Achievement.findWithQuery(Achievement.class, "Select * from Achievement where type = 6 and reached = true LIMIT 4");
         Log.d("achievements counter", "" + achievementsTime.size());
         if (achievementsTime.isEmpty()) {
-            achievementsLevel.add(user.getAchievementsType(6).get(0));
+            achievementsLevel.add(rd.user.getAchievementsType(6).get(0));
         } else {
             achievementsLevel.add(achievementsTime.get(achievementsTime.size() - 1));
         }
 
         // Fast & Furious
-        List<Achievement> achievementsFastAndFurious = user.getAchievementsTypeReached(7);
+        List<Achievement> achievementsFastAndFurious = rd.user.getAchievementsTypeReached(7);
         if (achievementsFastAndFurious.isEmpty()) {
-            achievementsLevel.add(user.getAchievementsType(7).get(0));
+            achievementsLevel.add(rd.user.getAchievementsType(7).get(0));
         } else {
             achievementsLevel.add(achievementsFastAndFurious.get(achievementsFastAndFurious.size() - 1));
         }

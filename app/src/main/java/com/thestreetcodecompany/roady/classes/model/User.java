@@ -1,8 +1,12 @@
 package com.thestreetcodecompany.roady.classes.model;
 
+import android.util.Log;
+
 import com.orm.SugarRecord;
 
 import java.util.Collections;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,13 +18,26 @@ public class User extends SugarRecord {
 
     //int id;
     private String name;
+    // TODO: in the Settings we can change the driven_kms (before the start of using this app)..
+    // So everything is wrong then
+    // maybe make getter to sum up original driven kilometers + all the distances from the Driving Session
     private float driven_km;
     private float goal_km;
+
+    public boolean getPushes() {
+        return pushes;
+    }
+
+    public void setPushes(boolean pushes) {
+        this.pushes = pushes;
+    }
+
+    boolean pushes;
     boolean deleted;
 
-
-    public User() {}
-
+    public User(){
+        pushes = false;
+    }
     public User(String name, float driven_km, float goal_km) {
         setName(name);
         setDrivenKm(driven_km);
@@ -100,6 +117,50 @@ public class User extends SugarRecord {
             }
         }
         return achievements;
+    }
+
+    public DrivingSession getLastDrivingSession()
+    {
+        List<DrivingSession> list = DrivingSession.find(DrivingSession.class,"user = ?", "" + getId());
+        if(list.size() > 0)
+        {
+            DrivingSession last_ds = list.get(list.size() - 1);
+            return last_ds;
+        }
+
+        return null;
+    }
+
+    public long getTimeSinceLastDrivingSession()
+    {
+        DrivingSession last_ds = getLastDrivingSession();
+        if(last_ds != null)
+        {
+            Log.d("USER", "name: " + last_ds.getName());
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            return currentTime - last_ds.getDateTimeEnd();
+        }
+
+        return 0;
+
+
+    }
+
+    public Boolean hasActiveDrivingSession()
+    {
+        DrivingSession last_ds = getLastDrivingSession();
+
+        if(last_ds != null && last_ds.getActive())
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    public List<DrivingSession> getAllDrivingSessions()
+    {
+        return DrivingSession.find(DrivingSession.class, "user = ?", "" + getId());
     }
 
 

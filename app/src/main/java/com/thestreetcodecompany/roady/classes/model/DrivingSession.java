@@ -28,6 +28,8 @@ public class DrivingSession extends SugarRecord {
     private float km_end;
     private int weather;
     private int street_condition;
+
+
     private User user;
     boolean deleted;
 
@@ -138,6 +140,10 @@ public class DrivingSession extends SugarRecord {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         return dateFormat.format(getDateTimeEnd());
     }
+    public User getUser() {
+        return user;
+    }
+
 
 
     // setter

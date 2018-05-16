@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.formatters.DayAxisValueFormatter;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 
@@ -28,14 +29,17 @@ public class InfosActivity extends AppCompatActivity {
     private PieChart pieChart;
     private PieChart pieChart2;
 
+    RoadyData rd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infos);
-
+        rd = RoadyData.getInstance();
         barChart = findViewById(R.id.bar_chart);
 
-        List<DrivingSession> sessions = DrivingSession.listAll(DrivingSession.class);
+        //List<DrivingSession> sessions = DrivingSession.listAll(DrivingSession.class);
+        List<DrivingSession> sessions = rd.user.getAllDrivingSessions();
 
         List<Integer> sums = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
 

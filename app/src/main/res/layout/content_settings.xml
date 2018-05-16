@@ -12,8 +12,8 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:fillViewport="true">
 
             <LinearLayout
@@ -272,6 +272,19 @@
                         app:backgroundTint="@color/colorPrimaryDark"
                         app:srcCompat="@android:drawable/ic_input_add" />
                 </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/push_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                <Switch
+                    android:id="@+id/switchPush"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
 
                 <Space
                     android:layout_width="match_parent"

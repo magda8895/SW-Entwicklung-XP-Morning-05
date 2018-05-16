@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
@@ -41,6 +42,8 @@ public class DrivingSessionAfter extends AppCompatActivity {
     final SimpleDateFormat formatDate = new SimpleDateFormat("EEE, d MMM yyyy");
     final SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
     int buttonID = 0;
+
+    RoadyData rd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +74,10 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
         // DB Connect
         final DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
+        rd = RoadyData.getInstance();
+
         // list cars
-        List<Car> cars = user.getCars();
+        List<Car> cars = rd.user.getCars();
         ArrayList<String> carArray = new ArrayList<>();
         for (int i = 0; i < cars.size(); i++) {
             carArray.add(cars.get(i).getName());
@@ -88,7 +92,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
         // list coDriver
-        List<CoDriver> coDrivers = user.getCoDrivers();
+        List<CoDriver> coDrivers = rd.user.getCoDrivers();
         ArrayList<String> coDriverArray = new ArrayList<>();
         for (int i = 0; i < coDrivers.size(); i++) {
             coDriverArray.add(coDrivers.get(i).getName());
@@ -100,7 +104,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
         coDriverSpinner.setAdapter(adapterCoDriver);
 
         //Log.d("coDrivers", coDrivers.toString());
-
 
         Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
         ArrayAdapter<CharSequence> adapterWeather = ArrayAdapter.createFromResource(this,
@@ -229,9 +232,8 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                     // DB Connect
                     //DBHandler dbh = new DBHandler();
-                    User user = dbh.getTestUser();
 
-                    if (user == null) {
+                    if (rd.user == null) {
                         throw new DrivingSessionException("please add a user in settings first");
                     }
 
@@ -244,7 +246,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                     // save to db
                     DrivingSession newSession = new DrivingSession(name, dateTime_start.getTime(), dateTime_end.getTime(), car, co_driver,
-                            km_start, km_end, weather, street_condition, user);
+                            km_start, km_end, weather, street_condition, rd.user);
                     newSession.save();
 
                     // make toast
