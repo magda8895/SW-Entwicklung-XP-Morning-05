@@ -102,14 +102,14 @@ public class DrivingSessionAfter extends AppCompatActivity {
         //Log.d("coDrivers", coDrivers.toString());
 
 
-        Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
+        final Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
         ArrayAdapter<CharSequence> adapterWeather = ArrayAdapter.createFromResource(this,
                 R.array.Weather, android.R.layout.simple_spinner_item);
         adapterWeather.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         weatherSpinner.setAdapter(adapterWeather);
 
         // Road Condition
-        Spinner roadConditionsSpinner = findViewById(R.id.spinnerRoadCondition);
+        final Spinner roadConditionsSpinner = findViewById(R.id.spinnerRoadCondition);
         ArrayAdapter<CharSequence> adapterRoadCondition = ArrayAdapter.createFromResource(this,
                 R.array.RoadConditions, android.R.layout.simple_spinner_item);
         adapterRoadCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -239,8 +239,8 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     Spinner coDriverSpinner = findViewById(R.id.spinnerCoDriver);
                     String co_driver = coDriverSpinner.getSelectedItem().toString();
 
-                    int weather = 0;
-                    int street_condition = 0;
+                    int weather = weatherSpinner.getSelectedItemPosition();
+                    int street_condition = roadConditionsSpinner.getSelectedItemPosition();
 
                     // save to db
                     DrivingSession newSession = new DrivingSession(name, dateTime_start.getTime(), dateTime_end.getTime(), car, co_driver,
