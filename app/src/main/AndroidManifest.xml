@@ -11,43 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--
-        <activity
-            android:name=".DBBackend"
-            android:label="@string/title_activity_dbbackend"
-        android:theme="@style/AppTheme">
-
         <meta-data
             android:name="DATABASE"
             android:value="roady.db" />
         <meta-data
             android:name="VERSION"
-            android:value="6" />
-        <meta-data
-            android:name="QUERY_LOG"
-            android:value="true" />
-        <meta-data
-            android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.thestreetcodecompany.roady.classes.model" />
-
-        <activity
-            android:name=".StartActivity"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
-
-        <meta-data
-            android:name="DATABASE"
-            android:value="roady.db" />
-        <meta-data
-            android:name="VERSION"
-            android:value="12" />
+            android:value="15" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -61,7 +30,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -75,6 +43,15 @@
         <activity
             android:name=".DrivingSessionAfter"
             android:label="@string/title_activity_driving_session_after"
+            android:parentActivityName=".StartActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AchievementsActivity"
+            android:label="@string/title_activity_achievements"
             android:parentActivityName=".StartActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

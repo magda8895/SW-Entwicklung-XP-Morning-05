@@ -14,7 +14,7 @@ public class Helper {
 
     public static void MakeToast(String mes, Context context) {
         CharSequence text = mes;
-        int duration = Toast.LENGTH_LONG;
+        int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }

@@ -155,7 +155,8 @@ public class StartActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_achievements) {
-            MakeToast("achievements",getApplicationContext());
+            Intent i = new Intent(getApplicationContext(), AchievementsActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_export) {
             MakeToast("export",getApplicationContext());
         } else if (id == R.id.nav_settings) {

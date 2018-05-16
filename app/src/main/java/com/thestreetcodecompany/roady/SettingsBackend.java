@@ -81,7 +81,7 @@ public class SettingsBackend extends AppCompatActivity {
             public void onClick(View view) {
                 String name = editText_achievements.getText().toString();
                 float km = Float.valueOf(editText_achievements_km.getText().toString());
-                Achievement a = new Achievement(name, 2, km, "No Image", false, user);
+                Achievement a = new Achievement(name, "custom achievement", 2, km, R.drawable.ic_stars, "", user);
                 a.save();
                 achievements.add(a);
                 listview_achievements.setAdapter(createAchievmentAdapter(achievements));
@@ -180,7 +180,7 @@ public class SettingsBackend extends AppCompatActivity {
 
                 TextView tv_name = (TextView) view.findViewById(android.R.id.text1);
 
-                tv_name.setText(achievements.get(position).getName());
+                tv_name.setText(achievements.get(position).getTitle());
 
                 return view;
             }
