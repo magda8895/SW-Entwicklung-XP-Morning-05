@@ -49,33 +49,29 @@ public class PushService extends Service {
         RoadyData rd = RoadyData.getInstance();
         DBHandler dbh = new DBHandler();
 
-        if(rd.user == null)
-        {
+        if(rd.user != null) {
+            long time = rd.user.getTimeSinceLastDrivingSession();
+            long one_week = 1000 * 60 * 60 * 24 * 7;
+            long hours = 1000 * 60 * 60 * 8;
 
-            rd.user = dbh.getTestUser();
-        }
-
-        long time = rd.user.getTimeSinceLastDrivingSession();
-        long one_week = 1000 * 60* 60 * 24 * 7;
-        long hours = 1000 * 60* 60 * 8;
-
-        if(rd.user.hasActiveDrivingSession() && time > hours)
-        {
-            MakePush(getString(R.string.activepush_title),getString(R.string.activepush_body), StopWatch.class,getApplicationContext());
-        }
-        else if(time > one_week)
-        {
-            long last = dbh.getTimeSinceLastPush();
-            Log.d("Push", "last: " + last);
-            if(last > one_week)
-            {
-                MakePush(getString(R.string.timepush_title),getString(R.string.timepush_body),getApplicationContext());
+            if (rd.user.hasActiveDrivingSession() && time > hours) {
+                MakePush(getString(R.string.activepush_title), getString(R.string.activepush_body), StopWatch.class, getApplicationContext());
+                Push p = new Push(Calendar.getInstance().getTimeInMillis());
+                p.save();
+            } else if (time > one_week) {
+                long last = dbh.getTimeSinceLastPush();
+                Log.d("Push", "last: " + last);
+                if (last > one_week) {
+                    MakePush(getString(R.string.timepush_title), getString(R.string.timepush_body), getApplicationContext());
+                    Push p = new Push(Calendar.getInstance().getTimeInMillis());
+                    p.save();
+                }
             }
-        }
 
         //push to DB
-        Push p = new Push(Calendar.getInstance().getTimeInMillis());
-        p.save();
+
+
+        }
 
     }
 
