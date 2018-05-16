@@ -1,5 +1,6 @@
 package com.thestreetcodecompany.roady;
 
+import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
@@ -47,8 +49,8 @@ public class SettingsBackend extends AppCompatActivity {
         final EditText editText_car_name = (EditText) findViewById(R.id.carName);
         final EditText editText_car_kfz = (EditText) findViewById(R.id.carKfz);
         final EditText edittext_name = (EditText) findViewById(R.id.userName);
-        final SeekBar seekbar_drivenkm = (SeekBar) findViewById(R.id.drivenKm);
-        final SeekBar seekbar_goalkm = (SeekBar) findViewById(R.id.goalKm);
+        final EditText editText_drivenkm = (EditText) findViewById(R.id.drivenKm);
+        final EditText editText_goalkm = (EditText) findViewById(R.id.goalKm);
         final Button button_savesettings = (Button) findViewById(R.id.saveSettings);
 
         //get Data
@@ -59,12 +61,12 @@ public class SettingsBackend extends AppCompatActivity {
 
         final List<Car> cars = user.getCars();
         final List<CoDriver> co_drivers = user.getCoDrivers();
-        final List<Achievement> achievements = user.getAchievements();
+        final List<Achievement> achievements = user.getUserGeneratedAchievements();
 
 
         edittext_name.setText(user.getName());
-        seekbar_drivenkm.setProgress((int)user.getDrivenKm());
-        seekbar_goalkm.setProgress((int)user.getGoalKm());
+        editText_drivenkm.setText(Float.toString(user.getDrivenKm()));
+        editText_goalkm.setText(Float.toString(user.getGoalKm()));
 
         //set List Adapter
         listview_car.setAdapter(createCarAdapter(cars));
@@ -79,38 +81,101 @@ public class SettingsBackend extends AppCompatActivity {
         fab_achievemtents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = editText_achievements.getText().toString();
-                float km = Float.valueOf(editText_achievements_km.getText().toString());
-                Achievement a = new Achievement(name, 2, km, "No Image", false, user);
-                a.save();
-                achievements.add(a);
-                listview_achievements.setAdapter(createAchievmentAdapter(achievements));
-                adaptListViewHeight(listview_achievements);
+                try
+                {
+                    String name = editText_achievements.getText().toString();
+
+                    if (name == null || name.isEmpty()) {
+                        throw new SettingsBackendExcetption("Please enter a name for your achievement!");
+                    }
+
+                    if(Float.valueOf(editText_drivenkm.getText().toString()) == null )
+                    {
+                        throw new SettingsBackendExcetption("Please enter kilometers for your achievement!");
+                    }
+
+                    float km = Float.valueOf(editText_achievements_km.getText().toString());
+
+                    if(km < 0 )
+                    {
+                        throw new SettingsBackendExcetption("Kilometers are out of range!");
+
+                    }
+
+                    Achievement a = new Achievement(name, 10, km, "No Image", false, user);
+
+                    a.save();
+                    achievements.add(a);
+                    listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+                    adaptListViewHeight(listview_achievements);
+                }
+                catch(SettingsBackendExcetption e)
+                {
+                    e.printStackTrace();
+
+                    // make toast
+                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
         fab_codriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String co_driver = editText_codriver.getText().toString();
-                CoDriver co = new CoDriver(co_driver, user);
-                co.save();
-                co_drivers.add(co);
-                listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
-                adaptListViewHeight(listview_codriver);
+                try
+                {
+                    String co_driver = editText_codriver.getText().toString();
+                    if (co_driver == null || co_driver.isEmpty()) {
+                        throw new SettingsBackendExcetption("Please enter a name for your co-driver!");
+                    }
+                    CoDriver co = new CoDriver(co_driver, user);
+                    co.save();
+                    co_drivers.add(co);
+                    listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
+                    adaptListViewHeight(listview_codriver);
+                }
+                catch (SettingsBackendExcetption e)
+                {
+                    e.printStackTrace();
+
+                    // make toast
+                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
         fab_car.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = editText_car_name.getText().toString();
-                String kfz = editText_car_kfz.getText().toString();
-                Car c = new Car(name, kfz, user);
-                c.save();
-                cars.add(c);
-                listview_car.setAdapter(createCarAdapter(cars));
-                adaptListViewHeight(listview_car);
+                try
+                {
+                    String name = editText_car_name.getText().toString();
+
+                    if (name == null || name.isEmpty()) {
+                        throw new SettingsBackendExcetption("Please enter a car name!");
+                    }
+
+                    String kfz = editText_car_kfz.getText().toString();
+
+                    if(kfz == null || kfz.isEmpty())
+                    {
+                        throw new SettingsBackendExcetption("Please enter a kfz!");
+                    }
+                    Car c = new Car(name, kfz, user);
+                    c.save();
+                    cars.add(c);
+                    listview_car.setAdapter(createCarAdapter(cars));
+                    adaptListViewHeight(listview_car);
+                }
+                catch (SettingsBackendExcetption e)
+                {
+                    e.printStackTrace();
+
+                    // make toast
+                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+
+
             }
         });
 
@@ -118,14 +183,44 @@ public class SettingsBackend extends AppCompatActivity {
         button_savesettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //get Userdetail
-                String name = edittext_name.getText().toString();
-                float driven_km = seekbar_drivenkm.getProgress();
-                float goal_km = seekbar_goalkm.getProgress();
-                User user = new User(name, driven_km, goal_km);
-                user.save();
 
-                Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                try {
+                    //get Userdetail
+                    String name = edittext_name.getText().toString();
+
+                    if (name == null || name.isEmpty()) {
+                        throw new SettingsBackendExcetption("Please enter a name!");
+                    }
+
+                    if(Float.valueOf(editText_drivenkm.getText().toString()) == null )
+                    {
+                        throw new SettingsBackendExcetption("Please enter your already driven kilometers!");
+                    }
+
+                    float driven_km = Float.valueOf(editText_drivenkm.getText().toString());
+
+                    if(Float.valueOf(editText_goalkm.getText().toString()) == null )
+                    {
+                        throw new SettingsBackendExcetption("Please enter the Kilometers you need to drive!");
+                    }
+
+                    float goal_km = Float.valueOf(editText_goalkm.getText().toString());
+
+                    if (driven_km < 0 || goal_km < 0) {
+                        throw new SettingsBackendExcetption("Kilometers are out of range!");
+                    }
+
+                    User user = new User(name, driven_km, goal_km);
+                    user.save();
+                    Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+                catch (SettingsBackendExcetption e)
+                {
+                    e.printStackTrace();
+
+                    // make toast
+                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
     }
@@ -211,4 +306,19 @@ public class SettingsBackend extends AppCompatActivity {
         listview.requestLayout();
     }
 
+}
+
+/**
+ * Settings backend exception
+ */
+class SettingsBackendExcetption extends Exception
+{
+    // Parameterless Constructor
+    public SettingsBackendExcetption() {}
+
+    // Constructor that accepts a message
+    public SettingsBackendExcetption(String message)
+    {
+        super(message);
+    }
 }

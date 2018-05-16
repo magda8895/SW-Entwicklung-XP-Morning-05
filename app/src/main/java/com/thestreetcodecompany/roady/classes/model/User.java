@@ -80,5 +80,10 @@ public class User extends SugarRecord {
         return achievements;
     }
 
+    public List<Achievement> getUserGeneratedAchievements() {
+        List<Achievement> achievements = Achievement.find(Achievement.class, "user = " + getId() + " AND type = 10" );
+        return achievements;
+    }
+
 
 }

@@ -51,11 +51,14 @@
                     android:text="@string/driven_km_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <SeekBar
+                <EditText
                     android:id="@+id/drivenKm"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
-                    android:max="3000" />
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:hint="@string/driven_km_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -68,11 +71,14 @@
                     android:text="@string/goal_km_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <SeekBar
+                <EditText
                     android:id="@+id/goalKm"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:max="3000" />
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:hint="@string/goal_km_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <Space
                     android:layout_width="match_parent"
