@@ -219,7 +219,7 @@ public class InfosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infos);
-        rd = RoadyData.getInstance();
+        //rd = RoadyData.getInstance();
         barChart = findViewById(R.id.bar_chart);
         tabLayout = findViewById(R.id.tab_layout);
         timeTextView = findViewById(R.id.time_text_view);
