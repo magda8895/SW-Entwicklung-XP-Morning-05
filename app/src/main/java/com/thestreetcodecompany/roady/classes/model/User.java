@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by Rutter on 23.03.2018.
@@ -44,6 +45,17 @@ public class User extends SugarRecord {
         setGoalKm(goal_km);
     }
 
+    public static User getTestUser() {
+
+        List<User> users = User.listAll(User.class);
+
+        if(users.size() <= 0)
+        {
+            new Exception();
+        }
+
+        return users.get(0);
+    }
 
     // toString
     public String toString() {

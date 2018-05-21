@@ -1,6 +1,13 @@
 package com.thestreetcodecompany.roady;
 
+import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.User;
+
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Date;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -9,22 +16,33 @@ import static junit.framework.Assert.assertEquals;
  */
 
 public class InfosActivityTest {
-    @Test
-    public void testConvertFahrenheitToCelsius() {
-        float actual = 11;
-        // expected value is 212
-        float expected = 212;
-        // use this method because float is not precise
-        assertEquals("Conversion from celsius to fahrenheit failed", expected, actual, 0.001);
+    @Before
+    public void initTestEnvironment() {
+        DBHandler db = new DBHandler();
+        db.makeTestData();
     }
 
     @Test
-    public void testConvertCelsiusToFahrenheit() {
-        float actual = 100;
-        // expected value is 100
-        float expected = 100;
-        // use this method because float is not precise
-        assertEquals("Conversion from celsius to fahrenheit failed", expected, actual, 0.001);
+    public void testWeatherConditionPercentage() {
+        int sum = 0;
+        Date start_date = DrivingSession.formatDateTimeDate("12-12-2010 00:00:00");
+        Date end_date = DrivingSession.formatDateTimeDate("12-12-2018 00:00:00");
+        for(int i = 0; i < 4; i++) {
+            sum += DrivingSession.getWeatherConditionPercentageTimePeriod(User.getTestUser(), start_date, end_date, i);
+        }
+
+        assertEquals("The percentage should be 100%", sum, 100);
     }
 
+    @Test
+    public void testRoadConditionPercentage() {
+        int sum = 0;
+        Date start_date = DrivingSession.formatDateTimeDate("12-12-2010 00:00:00");
+        Date end_date = DrivingSession.formatDateTimeDate("12-12-2018 00:00:00");
+        for(int i = 0; i < 4; i++) {
+            sum += DrivingSession.getWeatherConditionPercentageTimePeriod(User.getTestUser(), start_date, end_date, i);
+        }
+
+        assertEquals("The percentage should be 100%", sum, 100);
+    }
 }

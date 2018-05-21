@@ -2,6 +2,7 @@ package com.thestreetcodecompany.roady.classes.model;
 
 import android.util.Log;
 
+import com.google.gson.internal.LinkedHashTreeMap;
 import com.orm.SugarRecord;
 import com.thestreetcodecompany.roady.classes.DBHandler;
 
@@ -231,5 +232,40 @@ public class DrivingSession extends SugarRecord {
         return date;
     }
 
+    public static List<DrivingSession> getAllDrivingSessions(User user)
+    {
+        return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+    }
+
+    public static List<DrivingSession> getAllDrivingSessionsTimePeriod(User user, Date start, Date end)
+    {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        return DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ? ", whereArgs);
+    }
+
+    public static int getWeatherConditionPercentageTimePeriod(User user, Date start, Date end, int weather_condition) {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        List <DrivingSession> drivingSessions = DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ?", whereArgs);
+        if(drivingSessions.isEmpty()) return 0;
+        int sum = 0, sumForWeather = 0;
+        for(DrivingSession session: drivingSessions) {
+            if(session.weather == weather_condition) sumForWeather += session.getDistance();
+            sum += session.getDistance();
+        }
+        return 100 * sumForWeather / sum;
+    }
+
+    public static int getStreetConditionPercentageTimePeriod(User user, Date start, Date end, int street_condition)
+    {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        List <DrivingSession> drivingSessions = DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ?", whereArgs);
+        if(drivingSessions.isEmpty()) return 0;
+        int sum = 0, sumForStreetCondition = 0;
+        for(DrivingSession session: drivingSessions) {
+            if(session.street_condition == street_condition) sumForStreetCondition += session.getDistance();
+            sum += session.getDistance();
+        }
+        return 100 * sumForStreetCondition / sum;
+    }
 
 }
