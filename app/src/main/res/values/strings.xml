@@ -64,8 +64,7 @@
 
 
     <string name="wrong_input">Name, goal kilometers or driven kilometers are wrong</string>
-
-
+    <string name="title_activity_export">ExportActivity</string>
 
 
 </resources>
