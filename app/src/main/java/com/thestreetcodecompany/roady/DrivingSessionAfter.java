@@ -73,10 +73,9 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Button startTime = findViewById(R.id.buttonTimeStart);
         TextView kmStart = findViewById(R.id.editTextMileageStart);
 
-        Pass = getIntent().getExtras().getInt("Pass");
-        PassedDate =  getIntent().getExtras().getString("StartTime");
-        String PassedTime = PassedDate.substring(11);
-        PassedDate = PassedDate.substring(0,10);
+        Pass = getIntent().getIntExtra("Pass",0);
+
+
 
         final SimpleDateFormat sdfDate = new SimpleDateFormat("EEE, d MMM yyyy");
         final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
@@ -93,7 +92,9 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
         if (Pass == 1)
         {
-
+            PassedDate =  getIntent().getStringExtra("StartTime");
+            String PassedTime = PassedDate.substring(11);
+            PassedDate = PassedDate.substring(0,10);
            if(checkDate.equals(PassedDate))
            {
                 startDate.setText(sdfDate.format(new Date()));

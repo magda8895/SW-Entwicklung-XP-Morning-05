@@ -54,7 +54,7 @@ public class PushService extends Service {
             long one_week = 1000 * 60 * 60 * 24 * 7;
             long hours = 1000 * 60 * 60 * 8;
 
-            if (rd.user.hasActiveDrivingSession() && time > hours) {
+            if (rd.user.hasActiveDrivingSession() != null && time > hours) {
                 MakePush(getString(R.string.activepush_title), getString(R.string.activepush_body), StopWatch.class, getApplicationContext());
                 Push p = new Push(Calendar.getInstance().getTimeInMillis());
                 p.save();
