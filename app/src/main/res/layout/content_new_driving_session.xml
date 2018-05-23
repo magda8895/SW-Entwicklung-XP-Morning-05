@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,61 +9,69 @@
     tools:showIn="@layout/activity_new_driving_session">
 
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="121dp"
+        android:layout_height="141dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp"
+        android:fontFamily="sans-serif"
+        android:lineSpacingExtra="24sp"
+        android:text="  Current   Date"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewDataMileage"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="218dp"
+        android:text="Please enter your current Mileage"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.Design.Tab"
+        android:textStyle="bold|italic" />
+
+
+    <EditText
+        android:id="@+id/editMileage"
+        android:layout_width="262dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="201dp"
+        android:inputType="numberDecimal"
+        android:text="" />
+
+
+    <Button
+        android:id="@+id/StopwatchStartButton"
         android:layout_width="match_parent"
-        android:layout_height="458dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="123dp"
+        android:text="Start" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="41dp"
+        android:layout_height="36dp"
+        android:layout_alignTop="@+id/textViewDate"
+        android:layout_toStartOf="@+id/textViewDate"
+        app:srcCompat="@drawable/dateicon" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="41dp"
+        android:layout_height="34dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginTop="123dp"
+        android:layout_toStartOf="@+id/textViewDate"
+        app:srcCompat="@drawable/ic_access_time_black_24dp" />
 
 
-
-
-        <Button
-            android:id="@+id/buttonDateStart"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:background="@android:color/transparent"
-            android:text="Date" />
-
-
-        <Button
-            android:id="@+id/buttonTimeStart"
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            android:layout_weight="0.4"
-            android:background="@android:color/transparent"
-            android:text="Time" />
-
-        <TextView
-            android:id="@+id/textViewDataMileage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please enter your current Mileage"
-            android:textAppearance="@style/TextAppearance.Design.Tab" />
-
-        <EditText
-            android:id="@+id/editMileage"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_weight="0.3"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:text="" />
-
-        <Button
-            android:id="@+id/StopwatchStartButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Start" />
-
-
-    </LinearLayout>
-
-
-
-
-
-
-
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

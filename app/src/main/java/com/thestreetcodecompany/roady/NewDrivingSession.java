@@ -5,15 +5,23 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.sql.Ref;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -22,13 +30,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.Toast;
-public class NewDrivingSession extends AppCompatActivity {
+
+import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+
+public class NewDrivingSession extends AppCompatActivity  {
 
     final Calendar calStart = Calendar.getInstance();
     final Calendar calEnd = Calendar.getInstance();
     final Calendar calNow = Calendar.getInstance();
     int buttonID = 0;
 
+    String st;
+    String stDateandTime;
 
 
 
@@ -40,116 +53,58 @@ public class NewDrivingSession extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        //EnterMileage
+         final EditText editTextMileage =(EditText) findViewById(R.id.editMileage);
+
+
+
+        //SetCurrentDateandTime
+        final TextView StartDate = (TextView) findViewById(R.id.textViewDate);
+        final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm ");
+        final String currentDateandTime = sdf.format(new Date());
+        StartDate.setText(currentDateandTime);
+
+        //Refresh current Date and Time
+        final CountDownTimer RefreshTimer = new CountDownTimer(1, 1) {
+            @Override
+            public void onTick(long l) {
+            }
+
+            @Override
+            public void onFinish() {
+               final SimpleDateFormat checkCurrentDateandTime = new SimpleDateFormat("dd MM yyyy HH:mm ");
+               final String currentDateandTime = checkCurrentDateandTime.format(new Date());
+
+                if(sdf != checkCurrentDateandTime)
+                {
+                    StartDate.setText(currentDateandTime);
+                    start();
+                };
+            }
+        }.start();
+        ;
+
+
         //Change to StopWatchScreen
         findViewById(R.id.StopwatchStartButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NewDrivingSession.this,StopWatch.class));
-
+                Intent i = new Intent(NewDrivingSession.this,StopWatch.class);
+                st = editTextMileage.getText().toString();
+                i.putExtra("from_NDS_to_SW",st);
+                stDateandTime = StartDate.getText().toString();
+                i.putExtra("StartTime",stDateandTime);
+                startActivity(i);
             }
         });
-
-
-
-
-
-        //  Date
-        final Button startDate = findViewById(R.id.buttonDateStart);
-        startDate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                buttonID = v.getId();
-
-                final int mYear, mMonth, mDay;
-                mYear = calNow.get(Calendar.YEAR);
-                mMonth = calNow.get(Calendar.MONTH);
-                mDay = calNow.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(c, datePickerListener, mYear, mMonth, mDay);
-                datePickerDialog.show();
-            }
-        });
-
-        //  Time
-        final Button startTime = findViewById(R.id.buttonTimeStart);
-        startTime.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                buttonID = v.getId();
-
-                final int mHour, mMinute;
-                mHour = calNow.get(Calendar.HOUR_OF_DAY);
-                mMinute = calNow.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(c, timePickerListener, mHour, mMinute, true);
-                timePickerDialog.show();
-            }
-        });
+        ;
 
     }
 
 
 
-    private DatePickerDialog.OnDateSetListener datePickerListener
-            = new DatePickerDialog.OnDateSetListener() {
 
-        // when dialog box is closed, below method will be called.
-        public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
-
-            final Button button;
-            SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy");
-
-            switch (buttonID) {
-                case R.id.buttonDateStart:
-                    calStart.set(Calendar.YEAR, selectedYear);
-                    calStart.set(Calendar.MONTH, selectedMonth);
-                    calStart.set(Calendar.DAY_OF_MONTH, selectedDay);
-
-                    button = findViewById(buttonID);
-                    button.setText(format.format(calStart.getTime()));
-                    break;
-
-                case R.id.buttonDateEnd:
-                    calEnd.set(Calendar.YEAR, selectedYear);
-                    calEnd.set(Calendar.MONTH, selectedMonth);
-                    calEnd.set(Calendar.DAY_OF_MONTH, selectedDay);
-
-                    button = findViewById(buttonID);
-                    button.setText(format.format(calEnd.getTime()));
-                    break;
-            }
-
-        }
-    };
-
-
-    private TimePickerDialog.OnTimeSetListener timePickerListener =
-            new TimePickerDialog.OnTimeSetListener() {
-                public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-
-                    final Button button;
-                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-
-                    switch (buttonID) {
-                        case R.id.buttonTimeStart:
-                            calStart.set(Calendar.HOUR_OF_DAY, selectedHour);
-                            calStart.set(Calendar.MINUTE, selectedMinute);
-
-                            button = findViewById(buttonID);
-                            button.setText(format.format(calStart.getTime()));
-                            break;
-
-                        case R.id.buttonTimeEnd:
-                            calEnd.set(Calendar.HOUR_OF_DAY, selectedHour);
-                            calEnd.set(Calendar.MINUTE, selectedMinute);
-
-                            button = findViewById(buttonID);
-                            button.setText(format.format(calEnd.getTime()));
-                            break;
-                    }
-                }
-            };
 
 
 
