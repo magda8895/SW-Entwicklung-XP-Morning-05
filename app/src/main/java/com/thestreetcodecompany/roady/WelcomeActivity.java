@@ -37,12 +37,14 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivityForResult(intent,1);
         }
 
+        /*
         else if(rd.user.hasActiveDrivingSession())
         {
             Intent intent = new Intent(getApplicationContext(), StopWatch.class);
             startActivity(intent);
             finish();
         }
+        */
         else {
 
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);

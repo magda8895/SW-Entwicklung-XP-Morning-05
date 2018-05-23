@@ -181,6 +181,10 @@ public class DrivingSession extends SugarRecord {
         }
     }
 
+    public void setCar(Car car){
+        this.car = car;
+    }
+
     public void setKmStart(float km_start) {
         this.km_start = km_start;
     }

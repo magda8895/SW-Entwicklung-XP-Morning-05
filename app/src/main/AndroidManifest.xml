@@ -15,7 +15,7 @@
             android:value="roady.db" />
         <meta-data
             android:name="VERSION"
-            android:value="17" />
+            android:value="18" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -88,8 +88,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <provider
+            android:name=".GenericFileProvider"
+            android:authorities="${applicationId}.com.thestreetcodecompany.roady.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
+    </application>
 
 </manifest>

@@ -28,17 +28,11 @@
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints">
 
-            <View
-                android:id="@+id/divider1"
-                android:layout_width="40dp"
-                android:layout_height="1dp"
-                android:layout_margin="6dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -51,17 +45,11 @@
 
             </LinearLayout>
 
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="40dp"
-                android:layout_height="1dp"
-                android:layout_margin="6dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -74,41 +62,28 @@
 
             </LinearLayout>
 
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:layout_margin="6dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
 
             <View
                 android:id="@+id/divider4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="4dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:background="?android:attr/listDivider"
                 android:visibility="visible" />
 
-            <View
-                android:id="@+id/divider5"
-                android:layout_width="40dp"
-                android:layout_height="1dp"
-                android:layout_margin="6dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="15dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textViewExportFileName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.7"
                     android:text="File Name"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
@@ -117,24 +92,19 @@
                     android:id="@+id/editTextFileName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.3"
                     android:ems="10"
                     android:inputType="text"
                     android:textColor="@android:color/black" />
 
             </LinearLayout>
 
-            <View
-                android:id="@+id/divider6"
-                android:layout_width="40dp"
-                android:layout_height="15dp"
-                android:layout_margin="6dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="15dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="2">

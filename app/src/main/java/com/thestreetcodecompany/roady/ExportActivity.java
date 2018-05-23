@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,6 +14,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +27,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 public class ExportActivity extends AppCompatActivity {
@@ -29,6 +42,56 @@ public class ExportActivity extends AppCompatActivity {
     Button shareButton;
     EditText textFieldFileName;
 
+
+    public String getDaytime(DrivingSession ds){
+
+        SimpleDateFormat localHourFormat = new SimpleDateFormat("HH");
+        int hourString = Integer.parseInt(localHourFormat.format(ds.getDateTimeStart()));
+
+        SimpleDateFormat localMinuteFormat = new SimpleDateFormat("mm");
+        int minuteString = Integer.parseInt(localMinuteFormat.format(ds.getDateTimeStart()));
+
+        SimpleDateFormat localSecondFormat = new SimpleDateFormat("ss");
+        int secondString = Integer.parseInt(localSecondFormat.format(ds.getDateTimeStart()));
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(Calendar.HOUR_OF_DAY, hourString);
+        cal.set(Calendar.MINUTE, minuteString);
+        cal.set(Calendar.SECOND, secondString);
+        Time dsTime = new Time(cal.getTime().getTime());
+
+        cal.set(Calendar.HOUR_OF_DAY, 06); // Start hour
+        cal.set(Calendar.MINUTE, 00); // Start Mintue
+        cal.set(Calendar.SECOND, 00); // Start second
+        Time morning = new Time(cal.getTime().getTime());
+
+        cal.set(Calendar.HOUR_OF_DAY, 12); // Start hour
+        cal.set(Calendar.MINUTE, 00); // Start Mintue
+        cal.set(Calendar.SECOND, 00); // Start second
+        Time midday = new Time(cal.getTime().getTime());
+
+        cal.set(Calendar.HOUR_OF_DAY, 18); // Start hour
+        cal.set(Calendar.MINUTE, 00); // Start Mintue
+        cal.set(Calendar.SECOND, 00); // Start second
+        Time evening = new Time(cal.getTime().getTime());
+
+        String daytime = "";
+
+        if(dsTime.after(morning) && dsTime.before(midday)){
+            daytime = "Morning";
+        }else if(dsTime.after(midday) && dsTime.before(evening)){
+            daytime = "Afternoon";
+        }else if(dsTime.after(evening) ||  dsTime.before(morning)){
+            daytime = "Night";
+        }else if(dsTime.after(morning) && dsTime.before(evening)){
+            daytime = "Daytime";
+        }else{
+            daytime = "Not Sure";
+        }
+
+        return daytime;
+    }
 
 
     @Override
@@ -45,105 +108,67 @@ public class ExportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                String fileName = textFieldFileName.getText().toString();
-                fileName += ".txt";
+                DBHandler db = new DBHandler();
+                User user = db.makeTestDataForExport();
 
-                File file = new File(fileName);
-                File file2 = new File(getApplicationContext().getFilesDir(), fileName);
+                List<DrivingSession> drivingSessions = user.getAllDrivingSessions();
+
+                String fileName = textFieldFileName.getText().toString() + ".csv" ;
+                File file = new File(getApplicationContext().getFilesDir(), fileName);
 
                 try {
-                    final String TESTSTRING = new String("Hello Android");
+                    FileWriter writer = new FileWriter(file);
 
-                    FileWriter writer = new FileWriter(file2);
-                    writer.append(TESTSTRING);
+                    String heading = "Date," +
+                            "Driven Kilometers," +
+                            "\"Mileage\nStart\t\tEnd\", " +
+                            "License Plate," +
+                            "Daytime," +
+                            "Driving Route," +
+                            "\"Weather/Street\nCondition\"," +
+                            "\"Signature\nCo-Driver\t\t\t\tDriver\"" + '\n';
+                    writer.append(heading);
+
+                    for(DrivingSession ds: drivingSessions){
+
+                        writer.append(ds.getDateStringStart() + ',');
+                        writer.append(String.valueOf(ds.getDistance()) + ',');
+                        String KMString = "\"" + String.valueOf(ds.getKmStart()) + "\t\t" +
+                                String.valueOf(ds.getKmEnd()) + "\",";
+                        writer.append(KMString);
+                        writer.append(ds.getCar().getKfz() + ',');
+                        writer.append(getDaytime(ds) + ',');
+                        writer.append(ds.getName() + ',');
+                        writer.append(getApplicationContext().getResources().getStringArray(R.array.Weather)[ds.getWeather()] + '/');
+                        writer.append(getApplicationContext().getResources().getStringArray(R.array.RoadConditions)[ds.getStreetCondition()] + ',');
+                        writer.append('\n');
+                    }
+
                     writer.flush();
                     writer.close();
                     Log.i("File Writing stuff", "success");
-
-
-                    /*
-                    // catches IOException below
-                    final String TESTSTRING = new String("Hello Android");
-
-                    //FileOutputStream fOut2 = new FileOutputStream(getFilesDir() + fileName);
-
-                    FileOutputStream fOut = openFileOutput(file.getName(),
-                            MODE_PRIVATE);
-
-                    OutputStreamWriter osw = new OutputStreamWriter(fOut);
-
-                    // Write the string to the file
-                    osw.write(TESTSTRING);
-
-                    osw.flush();
-                    osw.close();
-
-                    */
-
-                    //Reading the file back...
-                    FileInputStream fIn = new FileInputStream(file2);
-                    //FileInputStream fIn = openFileInput(fileName);;
-
-                    InputStreamReader isr = new InputStreamReader(fIn);
-
-                    char[] inputBuffer = new char[TESTSTRING.length()];
-
-                    // Fill the Buffer with data from the file
-                    isr.read(inputBuffer);
-
-                    // Transform the chars to a String
-                    String readString = new String(inputBuffer);
-
-                    // Check if we read back the same chars that we had written out
-                    boolean isTheSame = TESTSTRING.equals(readString);
-
-                    Log.i("File Reading stuff", "success = " + isTheSame);
-
-
                 }
                 catch (IOException ioe)
                 {
                     ioe.printStackTrace();
                 }
 
+                Uri csvURI = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() +
+                        ".com.thestreetcodecompany.roady.provider", file);
+
+                SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date today = new Date();
 
 
-                Uri csvFile = Uri.fromFile(file2);
-
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Intent sharingIntent = new Intent();
+                sharingIntent.setAction(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                //sharingIntent.setData(csvFile);
-                String shareBody = "Here is the share content body";
-                //sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + file2.getPath()));
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, csvURI);
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Journey Log");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Here is your recent journey log from:\n" + dt.format(today) );
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
             }
         });
 
-
-        // not is use anymore
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                String shareBody = "Here is the share content body";
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
-
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        //.setAction("Action", null).show();
-            }
-        });
     }
-
-
-
-
-
 }
