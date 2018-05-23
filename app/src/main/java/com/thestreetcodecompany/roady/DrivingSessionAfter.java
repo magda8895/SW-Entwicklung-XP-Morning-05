@@ -25,6 +25,10 @@ import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.w3c.dom.Text;
 
@@ -42,6 +46,10 @@ public class DrivingSessionAfter extends AppCompatActivity {
     final SimpleDateFormat formatDate = new SimpleDateFormat("EEE, d MMM yyyy");
     final SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
     int buttonID = 0;
+    String PassedDate;
+    String StMileage;
+    int Pass;
+
 
     RoadyData rd;
 
@@ -60,16 +68,62 @@ public class DrivingSessionAfter extends AppCompatActivity {
         calEnd.set(Calendar.MINUTE, 0);
 
         Button startDate = findViewById(R.id.buttonDateStart);
-        startDate.setText(formatDate.format(calStart.getTime()));
-
-        Button startTime = findViewById(R.id.buttonTimeStart);
-        startTime.setText(formatTime.format(calStart.getTime()));
-
         Button endDate = findViewById(R.id.buttonDateEnd);
-        endDate.setText(formatDate.format(calEnd.getTime()));
-
         Button endTime = findViewById(R.id.buttonTimeEnd);
-        endTime.setText(formatTime.format(calEnd.getTime()));
+        Button startTime = findViewById(R.id.buttonTimeStart);
+        TextView kmStart = findViewById(R.id.editTextMileageStart);
+
+        Pass = getIntent().getExtras().getInt("Pass");
+        PassedDate =  getIntent().getExtras().getString("StartTime");
+        String PassedTime = PassedDate.substring(11);
+        PassedDate = PassedDate.substring(0,10);
+
+        final SimpleDateFormat sdfDate = new SimpleDateFormat("EEE, d MMM yyyy");
+        final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+        final String currentDate = sdfDate.format(new Date());
+        final String currentTime = sdfTime.format(new Date());
+
+        // in case the drive was started yesterday
+        final SimpleDateFormat sdfCheckDate = new SimpleDateFormat("dd MM yyyy");
+        String checkDate = sdfCheckDate.format(new Date());
+        checkDate = checkDate.substring(0,10);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+
+
+        if (Pass == 1)
+        {
+
+           if(checkDate.equals(PassedDate))
+           {
+                startDate.setText(sdfDate.format(new Date()));
+                startTime.setText(PassedTime);
+           }
+
+            else
+           {
+               startDate.setText(sdfDate.format(cal.getTime()));
+               startTime.setText(PassedTime);
+           }
+
+            //Set Current Date and Time as EndTime
+            endDate.setText(currentDate);
+            endTime.setText(currentTime);
+
+            //Set passed Mileage
+            StMileage = getIntent().getExtras().getString("from_SW_to_NDA");
+            kmStart.setText(StMileage);
+            Pass = 0;
+            }
+
+        else
+        {
+            startDate.setText(formatDate.format(calStart.getTime()));
+            endDate.setText(formatDate.format(calEnd.getTime()));
+            endTime.setText(formatTime.format(calEnd.getTime()));
+            startTime.setText(formatTime.format(calStart.getTime()));
+        }
+
 
 
         // DB Connect
@@ -90,13 +144,11 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
         Log.d("cars", cars.toString());
 
-
         // list coDriver
         List<CoDriver> coDrivers = rd.user.getCoDrivers();
         ArrayList<String> coDriverArray = new ArrayList<>();
         for (int i = 0; i < coDrivers.size(); i++) {
-            coDriverArray.add(coDrivers.get(i).getName());
-        }
+            coDriverArray.add(coDrivers.get(i).getName()); }
 
         final Spinner coDriverSpinner = findViewById(R.id.spinnerCoDriver);
         ArrayAdapter<String> adapterCoDriver = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, coDriverArray);
@@ -216,6 +268,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                         km_start = Float.parseFloat(kmStart.getText().toString());
                     }
 
+
                     float km_end = -1;
                     TextView kmEnd = findViewById(R.id.editTextMileageEnd);
                     if (!kmEnd.getText().toString().isEmpty()) {
@@ -264,10 +317,19 @@ public class DrivingSessionAfter extends AppCompatActivity {
                 }
 
 
+
+
             }
         });
 
+
+
     }
+
+
+
+
+
 
 
     private DatePickerDialog.OnDateSetListener datePickerListener
@@ -328,7 +390,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     }
                 }
             };
-
 
 }
 
