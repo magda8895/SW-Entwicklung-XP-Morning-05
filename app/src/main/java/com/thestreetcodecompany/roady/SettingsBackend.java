@@ -1,34 +1,66 @@
 package com.thestreetcodecompany.roady;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.BoringLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.PushService;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.util.Calendar;
 import java.util.List;
 
+import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
+import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
+import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
+
 public class SettingsBackend extends AppCompatActivity {
-    private User user;
+    private Boolean newUser;
+    RoadyData rd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_frontend);
+        setContentView(R.layout.activity_settings);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        rd = RoadyData.getInstance();
+        //get Intent data (default: false)
+        Intent intent = getIntent();
+        newUser = intent.getBooleanExtra("newUser", false);
+        DBHandler dbh = new DBHandler();
+        //get User Data
+        if (newUser) {
+            rd.user = new User();
+            rd.user.setName("Test User");
+            rd.user.save();
+            dbh.createAchievements(rd.user);
+        }
+
 
         //get View Elements
         final ListView listview_achievements = (ListView) findViewById(R.id.achievementsUserCreatedList);
@@ -47,25 +79,36 @@ public class SettingsBackend extends AppCompatActivity {
         final SeekBar seekbar_goalkm = (SeekBar) findViewById(R.id.goalKm);
         final Button button_savesettings = (Button) findViewById(R.id.saveSettings);
 
-        //get Data
-        DBHandler dbh = new DBHandler();
-        dbh.makeDB();
-        dbh.makeTestData();
-        user = dbh.getTestUser();
-        final List<Car> cars = dbh.getAllCars();
-        final List<CoDriver> co_drivers = dbh.getAllCoDrivers();
-        //final List<Achievement> achievements = dbh.getAllAchievments();
 
-        edittext_name.setText(user.getName());
-        seekbar_drivenkm.setProgress((int)user.getDrivenKm());
-        seekbar_goalkm.setProgress((int)user.getGoalKm());
+
+
+        final Switch pushSwitch = (Switch) findViewById(R.id.switchPush);
+
+
+        pushSwitch.setChecked(rd.user.getPushes());
+
+
+        final List<Car> cars = rd.user.getCars();
+        final List<CoDriver> co_drivers = rd.user.getCoDrivers();
+        final List<Achievement> achievements = rd.user.getAchievements();
+
+
+        if(!rd.user.getName().equals("Test User"))
+        {
+            edittext_name.setText(rd.user.getName());
+        }
+        else {
+            edittext_name.setText("");
+        }
+        seekbar_drivenkm.setProgress((int) rd.user.getDrivenKm());
+        seekbar_goalkm.setProgress((int) rd.user.getGoalKm());
 
         //set List Adapter
         listview_car.setAdapter(createCarAdapter(cars));
         adaptListViewHeight(listview_car);
         listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
         adaptListViewHeight(listview_codriver);
-        //listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+        listview_achievements.setAdapter(createAchievmentAdapter(achievements));
         adaptListViewHeight(listview_achievements);
 
 
@@ -75,10 +118,10 @@ public class SettingsBackend extends AppCompatActivity {
             public void onClick(View view) {
                 String name = editText_achievements.getText().toString();
                 float km = Float.valueOf(editText_achievements_km.getText().toString());
-                Achievement a = new Achievement(name, 2, km, "No Image", false, user);
+                Achievement a = new Achievement(name, "custom achievement", 2, km, R.drawable.ic_stars, "", rd.user);
                 a.save();
-                //achievements.add(a);
-                //listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+                achievements.add(a);
+                listview_achievements.setAdapter(createAchievmentAdapter(achievements));
                 adaptListViewHeight(listview_achievements);
             }
         });
@@ -87,7 +130,7 @@ public class SettingsBackend extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String co_driver = editText_codriver.getText().toString();
-                CoDriver co = new CoDriver(co_driver, user);
+                CoDriver co = new CoDriver(co_driver, rd.user);
                 co.save();
                 co_drivers.add(co);
                 listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
@@ -100,7 +143,7 @@ public class SettingsBackend extends AppCompatActivity {
             public void onClick(View view) {
                 String name = editText_car_name.getText().toString();
                 String kfz = editText_car_kfz.getText().toString();
-                Car c = new Car(name, kfz, user);
+                Car c = new Car(name, kfz, rd.user);
                 c.save();
                 cars.add(c);
                 listview_car.setAdapter(createCarAdapter(cars));
@@ -116,10 +159,45 @@ public class SettingsBackend extends AppCompatActivity {
                 String name = edittext_name.getText().toString();
                 float driven_km = seekbar_drivenkm.getProgress();
                 float goal_km = seekbar_goalkm.getProgress();
-                User user = new User(name, driven_km, goal_km);
-                user.save();
+                if (name != "" && goal_km != 0) {
 
-                Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                    //update User
+                    rd.user.setName(name);
+                    rd.user.setDrivenKm(driven_km);
+                    rd.user.setGoalKm(goal_km);
+
+                    rd.user.update();
+
+
+                    if (pushSwitch.isChecked() != rd.user.getPushes()) {
+                        final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        final Calendar cal = Calendar.getInstance();
+                        Intent intent = new Intent(getApplicationContext(), PushService.class);
+                        final PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
+
+                        if (pushSwitch.isChecked() && rd.user.getPushes() == false) {
+                            if (pushSwitch.isChecked()) {
+                                startService(new Intent(getApplicationContext(), PushService.class));
+                                alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                                        AlarmManager.INTERVAL_HOUR, pintent);
+                            }
+                            rd.user.setPushes(true);
+                        } else if (!pushSwitch.isChecked() && rd.user.getPushes() == true) {
+                            alarm.cancel(pintent);
+                            stopService(new Intent(getApplicationContext(), PushService.class));
+                            rd.user.setPushes(false);
+                        }
+                    }
+                    rd.user.update();
+
+                    Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    finish();
+                } else {
+                    MakeSnackbar(getString(R.string.wrong_input), view);
+                }
+
+
             }
         });
     }
@@ -174,7 +252,7 @@ public class SettingsBackend extends AppCompatActivity {
 
                 TextView tv_name = (TextView) view.findViewById(android.R.id.text1);
 
-                tv_name.setText(achievements.get(position).getName());
+                tv_name.setText(achievements.get(position).getTitle());
 
                 return view;
             }
@@ -190,8 +268,7 @@ public class SettingsBackend extends AppCompatActivity {
         int divider_height = listview.getDividerHeight();
         int i = 0;
 
-        while(i < adapter.getCount())
-        {
+        while (i < adapter.getCount()) {
             View item = adapter.getView(i, null, listview);
             item.measure(0, 0);
             height += item.getMeasuredHeight() + divider_height;

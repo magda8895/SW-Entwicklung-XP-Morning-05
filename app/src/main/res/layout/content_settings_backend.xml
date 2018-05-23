@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.thestreetcodecompany.roady.SettingsBackend"
-    tools:showIn="@layout/settings_frontend">
+    tools:showIn="@layout/content_settings">
 
 </android.support.constraint.ConstraintLayout>

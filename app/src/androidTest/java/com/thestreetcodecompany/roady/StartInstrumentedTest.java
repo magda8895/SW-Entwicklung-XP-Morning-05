@@ -1,14 +1,16 @@
 package com.thestreetcodecompany.roady;
 
-        import android.content.Context;
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.ListView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
@@ -24,8 +26,8 @@ import java.util.List;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.DrawerMatchers.isOpen;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -41,7 +43,7 @@ import static org.junit.Assert.assertEquals;
 public class StartInstrumentedTest {
 
     @Rule
-    public ActivityTestRule<StartActivity> rule  = new  ActivityTestRule<StartActivity>(StartActivity.class);
+    public ActivityTestRule<StartActivity> rule = new ActivityTestRule<StartActivity>(StartActivity.class);
 
     @Test
     public void useAppContext() throws Exception {
@@ -54,17 +56,20 @@ public class StartInstrumentedTest {
     public void testProgressBar() {
         onView(withId(R.id.start_progressBar)).check(matches(isDisplayed()));
     }
+
     @Test
     public void testFloatingMenu() {
         onView(withId(R.id.start_floating_menu)).check(matches(isDisplayed()));
         onView(withId(R.id.start_floating_menu)).perform(click());
     }
+
     @Test
     public void testDistanceData() {
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        onView(withText(user.getDriven_km() + "/" + user.getGoal_km() + " km")).check(matches(isDisplayed()));
+        RoadyData rd = RoadyData.getInstance();
+        onView(withText(rd.user.getDrivenKm() + " / " + rd.user.getGoalKm() + " km")).check(matches(isDisplayed()));
     }
+
     @Test
     public void testProgress() {
         onView(withId(R.id.start_progressBar)).check(matches(isDisplayed()));
@@ -74,37 +79,24 @@ public class StartInstrumentedTest {
     public void testListItemClick() {
         onView(withId(R.id.start_list)).check(matches(isDisplayed()));
         onData(anything()).inAdapterView(withId(R.id.start_list)).atPosition(0).perform(click());
-        onView(withText("Klick Item: index: 0")).check(matches(isDisplayed()));
+        onView(withText("Click item: index: 0")).check(matches(isDisplayed()));
     }
 
     @Test
     public void testListData() {
         //get Data
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+        RoadyData rd = RoadyData.getInstance();
+        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(rd.user);
         onView(withId(R.id.start_list)).check(matches(isDisplayed()));
-        onView (withId (R.id.start_list)).check (ViewAssertions.matches (Matchers.withListSize (sessions.size())));
+        onView(withId(R.id.start_list)).check(ViewAssertions.matches(Matchers.withListSize(sessions.size())));
     }
+
     @Test
-    public void testNavigation() {
-        onView(withId(R.id.drawer_layout)).perform(swipeRight());
-    }
-
-}
-
-class Matchers {
-    public static Matcher<View> withListSize (final int size) {
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText ("Driving Session must have " + size + " items");
-            }
-
-            @Override public boolean matchesSafely (final View view) {
-                return ((ListView) view).getCount () == size;
-            }
-
-        };
+    public void testNavigationDrawer() throws Exception {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_achievements));
     }
 }
+

@@ -1,15 +1,15 @@
 package com.thestreetcodecompany.roady.classes.model;
 
+import android.util.Log;
+
+import com.google.gson.internal.LinkedHashTreeMap;
 import com.orm.SugarRecord;
 import com.thestreetcodecompany.roady.classes.DBHandler;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
 /**
  * Created by Rutter on 23.03.2018.
@@ -19,16 +19,18 @@ import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 public class DrivingSession extends SugarRecord {
 
     //id
-    private boolean active;
+    private boolean active = false;
     private String name;
-    private Date dateTime_start;
-    private Date dateTime_end;
+    private long dateTime_start;
+    private long dateTime_end;
     private Car car;
     private CoDriver coDriver;
     private float km_start;
     private float km_end;
     private int weather;
     private int street_condition;
+
+
     private User user;
     boolean deleted;
 
@@ -36,13 +38,13 @@ public class DrivingSession extends SugarRecord {
     public DrivingSession() {}
 
     public DrivingSession(boolean active, String dateTime_start, float km_start, User user) {
-        this.active = active;
+        setActive(active);
         setDateTimeStringStart(dateTime_start);
-        this.km_start = km_start;
-        this.user = user;
+        setKmStart(km_start);
+        setUser(user);
     }
 
-    public DrivingSession(String name, Date dateTime_start, Date dateTime_end, String car, String coDriver,
+    public DrivingSession(String name, long dateTime_start, long dateTime_end, String car, String coDriver,
                           float km_start, float km_end, int weather, int street_condition, User user) {
 
         setName(name);
@@ -64,6 +66,10 @@ public class DrivingSession extends SugarRecord {
 
 
     // getter
+    public boolean getActive() {
+        return this.active;
+    }
+
     public String getName()
     {
         if (this.name != null && !this.name.isEmpty()) {
@@ -73,11 +79,11 @@ public class DrivingSession extends SugarRecord {
         }
     }
 
-    public Date getDateTimeStart() {
+    public long getDateTimeStart() {
         return this.dateTime_start;
     }
 
-    public Date getDateTimeEnd() {
+    public long getDateTimeEnd() {
         return this.dateTime_end;
     }
 
@@ -114,32 +120,56 @@ public class DrivingSession extends SugarRecord {
         return distance;
     }
 
-    public String getTimeSpan()
-    {
-        //TODO: Datum ausgeben
-        return "02.05.2018";
+    @Override
+    public long save(){
+        Log.v("Test","SAVE DRVINGSESSION");
+        Log.v("Test","Distance: " + getDistance());
+        user.addDriven_km(getDistance());
+        user.save();
+        Log.v("Test","Distance: " + user.getDrivenKm());
+        return super.save();
+    }
+
+    public String getDateStringStart() {
+        String pattern = "dd. MMM yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        return dateFormat.format(getDateTimeStart());
+    }
+
+    public String getDateStringEnd() {
+        String pattern = "dd. MMM yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        return dateFormat.format(getDateTimeEnd());
+    }
+    public User getUser() {
+        return user;
     }
 
 
+
     // setter
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setDateTimeStart(Date dateTime_start) {
+    public void setDateTimeStart(long dateTime_start) {
         this.dateTime_start = dateTime_start;
     }
 
-    public void setDateTimeEnd(Date dateTime_end) {
+    public void setDateTimeEnd(long dateTime_end) {
         this.dateTime_end = dateTime_end;
     }
 
     public void setDateTimeStringStart(String dateTime) {
-        this.dateTime_start = formatDateTime(dateTime);
+        this.dateTime_start = formatDateTimeTimestamp(dateTime);
     }
 
     public void setDateTimeStringEnd(String dateTime) {
-        this.dateTime_end = formatDateTime(dateTime);
+        this.dateTime_end = formatDateTimeTimestamp(dateTime);
     }
 
     public void setCar(String car) {
@@ -184,7 +214,13 @@ public class DrivingSession extends SugarRecord {
 
 
     // format date time
-    private Date formatDateTime(String dateTime) {
+    public static long formatDateTimeTimestamp(String dateTime) {
+        Date date = formatDateTimeDate(dateTime);
+        return date.getTime();
+    }
+
+    // format date time
+    public static Date formatDateTimeDate(String dateTime) {
         String pattern = "dd-MM-yyyy hh:mm:ss";
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         Date date = new Date();
@@ -194,6 +230,42 @@ public class DrivingSession extends SugarRecord {
             e.printStackTrace();
         }
         return date;
+    }
+
+    public static List<DrivingSession> getAllDrivingSessions(User user)
+    {
+        return DrivingSession.find(DrivingSession.class, "user = ?", "" + user.getId());
+    }
+
+    public static List<DrivingSession> getAllDrivingSessionsTimePeriod(User user, Date start, Date end)
+    {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        return DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ? ", whereArgs);
+    }
+
+    public static int getWeatherConditionPercentageTimePeriod(User user, Date start, Date end, int weather_condition) {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        List <DrivingSession> drivingSessions = DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ?", whereArgs);
+        if(drivingSessions.isEmpty()) return 0;
+        int sum = 0, sumForWeather = 0;
+        for(DrivingSession session: drivingSessions) {
+            if(session.weather == weather_condition) sumForWeather += session.getDistance();
+            sum += session.getDistance();
+        }
+        return 100 * sumForWeather / sum;
+    }
+
+    public static int getStreetConditionPercentageTimePeriod(User user, Date start, Date end, int street_condition)
+    {
+        String [] whereArgs = {String.valueOf(user.getId()), String.valueOf(start.getTime()), String.valueOf(end.getTime())};
+        List <DrivingSession> drivingSessions = DrivingSession.find(DrivingSession.class, "user = ? and date_timestart >= ? and date_timeend < ?", whereArgs);
+        if(drivingSessions.isEmpty()) return 0;
+        int sum = 0, sumForStreetCondition = 0;
+        for(DrivingSession session: drivingSessions) {
+            if(session.street_condition == street_condition) sumForStreetCondition += session.getDistance();
+            sum += session.getDistance();
+        }
+        return 100 * sumForStreetCondition / sum;
     }
 
 }

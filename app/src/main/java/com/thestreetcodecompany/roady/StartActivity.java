@@ -2,6 +2,8 @@ package com.thestreetcodecompany.roady;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
@@ -30,7 +33,12 @@ public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listview;
-
+    ProgressBar progressBar;
+    TextView display;
+    RoadyData rd;
+    View headerView;
+    TextView navUsername;
+    com.github.clans.fab.FloatingActionMenu fab_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,48 +58,98 @@ public class StartActivity extends AppCompatActivity
 
         //get View Elements
         listview = (ListView) findViewById(R.id.start_list);
-        final com.github.clans.fab.FloatingActionMenu fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
+        fab_menu = (com.github.clans.fab.FloatingActionMenu) findViewById(R.id.start_floating_menu);
         final com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_new);
         final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_old);
-        final TextView display = (TextView) findViewById(R.id.start_display);
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
+        display = (TextView) findViewById(R.id.start_display);
+        progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
+
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.start_container);
+        final DBHandler dbh = new DBHandler();
+        cl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab_menu.close(true);
+            }
+        });
+
+
+
+        //Singleton Test
+        //TODO: if the database contains one user, add this user object to the Singleton (RoadyData)
+        //TODO: if not: Intent to Settings and create the User
+        rd = RoadyData.getInstance();
+        Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
+
 
         //get Data
-        DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(rd.user);
+
+
+
+
+        //set Name in Navigation
+        headerView = navigationView.getHeaderView(0);
+        navUsername = (TextView) headerView.findViewById(R.id.navName);
+        navUsername.setText(rd.user.getName());
+
 
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
-
         //set Display
-        display.setText(user.getDrivenKm() + "/" + user.getGoalKm() + " km");
-        progressBar.setMax((int)user.getGoalKm());
-        progressBar.setProgress((int)user.getDrivenKm());
+        display.setText(rd.user.getDrivenKm() + " / " + rd.user.getGoalKm() + " km");
+        progressBar.setMax((int)rd.user.getGoalKm());
+        progressBar.setProgress((int)rd.user.getDrivenKm());
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MakeSnackbar("Klick Neue Fahrt",view);
+
+                if(rd.user.getCoDrivers().size() > 0 && rd.user.getCars().size() > 0)
+                {
+                    Intent i = new Intent(getApplicationContext(), NewDrivingSession.class);
+                    startActivity(i);
+                }
+                else {
+                    MakeSnackbar("you have no car("+rd.user.getCars().size()+") entries or no co-driver (" + rd.user.getCars().size() + ") entries ",view);
+                } MakeSnackbar("Click Start Driving",view);
             }
         });
 
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), DrivingSessionAfter.class);
-                startActivity(i);
+                dbh.logAllCoDrivers();
+                dbh.logAllUsers();
+                Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
+
+                if(rd.user.getCoDrivers().size() > 0 && rd.user.getCars().size() > 0)
+                {
+                    Intent i = new Intent(getApplicationContext(), DrivingSessionAfter.class);
+                    startActivity(i);
+                }
+                else {
+                    MakeSnackbar("you have no car("+rd.user.getCars().size()+") entries or no co-driver (" + rd.user.getCars().size() + ") entries ",view);
+                }
             }
         });
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MakeSnackbar("Klick Item: index: " + i,view);
+                fab_menu.close(true);
+                MakeSnackbar("Click item: index: " + i,view);
             }
         });
+
+
+        // change nav name
+        //TextView textNavName = findViewById(R.id.navName);
+        //textNavName.setText("" + user.getName());
+        //Log.d("user", user.toString());
 
 
     }
@@ -101,14 +159,20 @@ public class StartActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        MakeToast("es workt",getApplicationContext());
 
-        DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+        //get all Driving Sessions
+        final List<DrivingSession> sessions = rd.getUser().getAllDrivingSessions();
 
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
+
+        //set Progressbar / Display
+        display.setText(rd.getUser().getDrivenKm() + " / " + rd.getUser().getGoalKm() + " km");
+        progressBar.setProgress((int)rd.user.getDrivenKm());
+        progressBar.setMax((int)rd.user.getGoalKm());
+
+
+        fab_menu.close(true);
     }
 
 
@@ -131,20 +195,25 @@ public class StartActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_achievements) {
-
+            Intent i = new Intent(getApplicationContext(), AchievementsActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_export) {
-
+            MakeToast("export",getApplicationContext());
         } else if (id == R.id.nav_settings) {
-
+            Intent i = new Intent(getApplicationContext(), SettingsBackend.class);
+            startActivity(i);
+        } else if (id == R.id.nav_infos) {
+            Intent intent = new Intent(getApplicationContext(), InfosActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public ArrayAdapter createAdapter(final List<DrivingSession> sessions){
 
 
 
+    public ArrayAdapter createAdapter(final List<DrivingSession> sessions) {
 
         ArrayAdapter adapter = new ArrayAdapter<DrivingSession>(this,
                 R.layout.listitem_start,R.id.startitem_name, sessions) {
@@ -157,8 +226,8 @@ public class StartActivity extends AppCompatActivity
                 TextView tv_distance = (TextView) view.findViewById(R.id.startitem_distance);
 
                 tv_name.setText(sessions.get(position).getName());
-                tv_time.setText("" + sessions.get(position).getTimeSpan());
-                tv_distance.setText("" + sessions.get(position).getDistance() + " km");
+                tv_time.setText(sessions.get(position).getDateStringStart());
+                tv_distance.setText(sessions.get(position).getDistance() + " km");
 
                 return view;
             }

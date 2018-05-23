@@ -24,7 +24,14 @@ public class CoDriver extends SugarRecord {
 
     // toString
     public String toString() {
-        return "name: " + getName() + ", user: " + getUser().getName();
+        if(getUser() != null)
+        {
+            return "name: " + getName() + ", user: " + getUser().getName();
+        }
+        else {
+            return "test data";
+        }
+
     }
 
 

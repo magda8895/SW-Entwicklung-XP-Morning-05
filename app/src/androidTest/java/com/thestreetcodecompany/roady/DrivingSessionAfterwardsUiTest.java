@@ -89,10 +89,12 @@ public class DrivingSessionAfterwardsUiTest {
         UiTestsHelper.setDate_andSetTime(R.id.buttonDateEnd,R.id.buttonTimeEnd,2018,3,2,23,50);
     }
 
+    /*
     @Test
     public void setName() {
-    UiTestsHelper.setText(R.id.editTextName, "Max Mustermann");
+    UiTestsHelper.setText(R.id.editTextRoute, "Max Mustermann");
     }
+    */
 
     @Test
     public void setStartMileage() {
@@ -111,7 +113,7 @@ public class DrivingSessionAfterwardsUiTest {
 
     @Test
     public void setCoDriver() {
-        UiTestsHelper.setSpinnerwithoutData(R.id.spinnerCoDriver);
+        UiTestsHelper.setSpinner(R.id.spinnerCoDriver,"Carlos");
     }
 
     @Test

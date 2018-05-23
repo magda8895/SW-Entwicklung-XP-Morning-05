@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
@@ -50,6 +51,8 @@ public class DrivingSessionAfter extends AppCompatActivity {
     int Pass;
 
 
+    RoadyData rd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +73,9 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Button startTime = findViewById(R.id.buttonTimeStart);
         TextView kmStart = findViewById(R.id.editTextMileageStart);
 
-        Pass = getIntent().getExtras().getInt("Pass");
-        PassedDate =  getIntent().getExtras().getString("StartTime");
-        String PassedTime = PassedDate.substring(11);
-        PassedDate = PassedDate.substring(0,10);
+        Pass = getIntent().getIntExtra("Pass",0);
+
+
 
         final SimpleDateFormat sdfDate = new SimpleDateFormat("EEE, d MMM yyyy");
         final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
@@ -90,7 +92,9 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
         if (Pass == 1)
         {
-
+            PassedDate =  getIntent().getStringExtra("StartTime");
+            String PassedTime = PassedDate.substring(11);
+            PassedDate = PassedDate.substring(0,10);
            if(checkDate.equals(PassedDate))
            {
                 startDate.setText(sdfDate.format(new Date()));
@@ -125,9 +129,10 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
         // DB Connect
         final DBHandler dbh = new DBHandler();
+        rd = RoadyData.getInstance();
 
         // list cars
-        List<Car> cars = dbh.getAllCars();
+        List<Car> cars = rd.user.getCars();
         ArrayList<String> carArray = new ArrayList<>();
         for (int i = 0; i < cars.size(); i++) {
             carArray.add(cars.get(i).getName());
@@ -141,7 +146,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Log.d("cars", cars.toString());
 
         // list coDriver
-        List<CoDriver> coDrivers = dbh.getAllCoDrivers();
+        List<CoDriver> coDrivers = rd.user.getCoDrivers();
         ArrayList<String> coDriverArray = new ArrayList<>();
         for (int i = 0; i < coDrivers.size(); i++) {
             coDriverArray.add(coDrivers.get(i).getName()); }
@@ -153,14 +158,15 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
         //Log.d("coDrivers", coDrivers.toString());
 
-        Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
+
+        final Spinner weatherSpinner = findViewById(R.id.spinnerWeather);
         ArrayAdapter<CharSequence> adapterWeather = ArrayAdapter.createFromResource(this,
                 R.array.Weather, android.R.layout.simple_spinner_item);
         adapterWeather.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         weatherSpinner.setAdapter(adapterWeather);
 
         // Road Condition
-        Spinner roadConditionsSpinner = findViewById(R.id.spinnerRoadCondition);
+        final Spinner roadConditionsSpinner = findViewById(R.id.spinnerRoadCondition);
         ArrayAdapter<CharSequence> adapterRoadCondition = ArrayAdapter.createFromResource(this,
                 R.array.RoadConditions, android.R.layout.simple_spinner_item);
         adapterRoadCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -237,7 +243,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                 try {
 
-                    TextView nameText = findViewById(R.id.editTextName);
+                    TextView nameText = findViewById(R.id.editTextRoute);
                     String name = nameText.getText().toString();
 
                     if (name == null || name.isEmpty()) {
@@ -281,9 +287,8 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                     // DB Connect
                     //DBHandler dbh = new DBHandler();
-                    User user = dbh.getTestUser();
 
-                    if (user == null) {
+                    if (rd.user == null) {
                         throw new DrivingSessionException("please add a user in settings first");
                     }
 
@@ -291,12 +296,12 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     Spinner coDriverSpinner = findViewById(R.id.spinnerCoDriver);
                     String co_driver = coDriverSpinner.getSelectedItem().toString();
 
-                    int weather = 0;
-                    int street_condition = 0;
+                    int weather = weatherSpinner.getSelectedItemPosition();
+                    int street_condition = roadConditionsSpinner.getSelectedItemPosition();
 
                     // save to db
-                    DrivingSession newSession = new DrivingSession(name, dateTime_start, dateTime_end, car, co_driver,
-                            km_start, km_end, weather, street_condition, user);
+                    DrivingSession newSession = new DrivingSession(name, dateTime_start.getTime(), dateTime_end.getTime(), car, co_driver,
+                            km_start, km_end, weather, street_condition, rd.user);
                     newSession.save();
 
                     // make toast
