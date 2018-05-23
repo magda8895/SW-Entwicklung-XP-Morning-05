@@ -14,6 +14,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.formatters.MonthAxisValueFormatter;
 import com.thestreetcodecompany.roady.classes.formatters.YearAxisValueFormatter;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
@@ -29,6 +30,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+
 public class InfosActivity extends AppCompatActivity {
     private BarChart barChart;
     private TabLayout tabLayout;
@@ -40,6 +42,7 @@ public class InfosActivity extends AppCompatActivity {
     private TextView averageTextView;
     private List<TextView> weatherConditionsTextView;
     private List<TextView> roadConditionsTextView;
+    RoadyData rd;
 
     private int index = 0;
 
@@ -96,7 +99,7 @@ public class InfosActivity extends AppCompatActivity {
             endDate = c.getTime();
         }
 
-        List<DrivingSession> sessions =  DrivingSession.getAllDrivingSessionsTimePeriod(User.getTestUser(), startDate, endDate);
+        List<DrivingSession> sessions =  DrivingSession.getAllDrivingSessionsTimePeriod(rd.user, startDate, endDate);
         return sessions;
     }
 
@@ -124,7 +127,7 @@ public class InfosActivity extends AppCompatActivity {
             endDate = c.getTime();
         }
 
-        List<DrivingSession> sessions = DrivingSession.getAllDrivingSessionsTimePeriod(User.getTestUser(), startDate, endDate);
+        List<DrivingSession> sessions = DrivingSession.getAllDrivingSessionsTimePeriod(rd.user, startDate, endDate);
         int sum = 0;
         for(DrivingSession session: sessions) {
             sum += session.getDistance();
@@ -136,9 +139,9 @@ public class InfosActivity extends AppCompatActivity {
         averageTextView.setText(average+"km");
 
         for (int i = 0; i < 4; i++) {
-            int percentage = DrivingSession.getStreetConditionPercentageTimePeriod(User.getTestUser(), startDate, endDate, i);
+            int percentage = DrivingSession.getStreetConditionPercentageTimePeriod(rd.user, startDate, endDate, i);
             roadConditionsTextView.get(i).setText(percentage + "%");
-            percentage = DrivingSession.getWeatherConditionPercentageTimePeriod(User.getTestUser(), startDate, endDate, i);
+            percentage = DrivingSession.getWeatherConditionPercentageTimePeriod(rd.user, startDate, endDate, i);
             weatherConditionsTextView.get(i).setText(percentage+"%");
         }
     }
@@ -227,7 +230,7 @@ public class InfosActivity extends AppCompatActivity {
         timeForward = findViewById(R.id.time_forward);
         totalTextView = findViewById(R.id.total_text);
         averageTextView = findViewById(R.id.average_text);
-
+        rd = RoadyData.getInstance();
         weatherConditionsTextView = Arrays.asList((TextView)findViewById(R.id.weather_dry), (TextView)findViewById(R.id.weather_rain), (TextView)findViewById(R.id.weather_snow), (TextView)findViewById(R.id.weather_ice));
         roadConditionsTextView = Arrays.asList((TextView)findViewById(R.id.condition_clear), (TextView)findViewById(R.id.condition_crowd), (TextView)findViewById(R.id.condition_roadwork), (TextView)findViewById(R.id.condition_accident));
 

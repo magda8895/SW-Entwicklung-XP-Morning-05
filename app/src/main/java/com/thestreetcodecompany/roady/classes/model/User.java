@@ -45,17 +45,7 @@ public class User extends SugarRecord {
         setGoalKm(goal_km);
     }
 
-    public static User getTestUser() {
 
-        List<User> users = User.listAll(User.class);
-
-        if(users.size() <= 0)
-        {
-            new Exception();
-        }
-
-        return users.get(0);
-    }
 
     // toString
     public String toString() {
@@ -158,15 +148,15 @@ public class User extends SugarRecord {
 
     }
 
-    public Boolean hasActiveDrivingSession()
+    public DrivingSession hasActiveDrivingSession()
     {
+        Log.d("User","hasActiveDrivingSession()");
         DrivingSession last_ds = getLastDrivingSession();
-
         if(last_ds != null && last_ds.getActive())
         {
-            return true;
+            return last_ds;
         }
-        return false;
+        return null;
     }
 
 

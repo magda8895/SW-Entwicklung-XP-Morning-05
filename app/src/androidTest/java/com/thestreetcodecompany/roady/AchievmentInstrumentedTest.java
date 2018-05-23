@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
@@ -61,10 +62,9 @@ public class AchievmentInstrumentedTest {
     public void testMostRecent() throws  Exception {
         // DB Connect
          DBHandler dbh = new DBHandler();
-         User user = dbh.getTestUser();
-
+        RoadyData rd = RoadyData.getInstance();
         // most recent
-        List<Achievement> achievementsList = user.getAchievements();
+        List<Achievement> achievementsList = rd.user.getAchievements();
         int latest = -1;
         for (int position = 0; position < achievementsList.size(); position++) {
             if (achievementsList.get(position).getReached()) {
@@ -97,9 +97,9 @@ public class AchievmentInstrumentedTest {
     public void testConditions() throws Exception {
         // DB Connect
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
+        RoadyData rd = RoadyData.getInstance();
         // Conditions
-        List<Achievement> achievementsCondition = user.getAchievementsCondition();
+        List<Achievement> achievementsCondition = rd.user.getAchievementsCondition();
 
         for(int index = 0; index < achievementsCondition.size(); index++)
         {
@@ -125,13 +125,13 @@ public class AchievmentInstrumentedTest {
     {
         // DB Connect
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
+        RoadyData rd = RoadyData.getInstance();
 
         for(int index = 0; index < 4; index++)
         {
             int type = index + 4;
 
-            List<Achievement> achievements = user.getAchievementsTypeReached(type);
+            List<Achievement> achievements = rd.user.getAchievementsTypeReached(type);
             String text;
 
             if (achievements.isEmpty()) {
@@ -139,7 +139,7 @@ public class AchievmentInstrumentedTest {
                 if(type == 7){
                     text = "Hidden\nThis achievment is hidden";
                 }else{
-                    text = user.getAchievementsType(type).get(index).getTitle() + "\n" + "Not achieved yet";
+                    text = rd.user.getAchievementsType(type).get(index).getTitle() + "\n" + "Not achieved yet";
                 }
             } else {
                 onData(anything()).inAdapterView(withId(R.id.gridViewLevel)).atPosition(index).perform(click());

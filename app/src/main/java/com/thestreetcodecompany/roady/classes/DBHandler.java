@@ -52,7 +52,7 @@ public class DBHandler extends SugarApp {
 
     public void makeTestData()
     {
-        User user = new User("Karl Heinz", 67, 1000);
+        /*User user = new User("Karl Heinz", 67, 1000);
         user.save();
 
         Date date = new Date();
@@ -84,7 +84,7 @@ public class DBHandler extends SugarApp {
 
 
         Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
-        cord.save();
+        cord.save();*/
     }
 
 
@@ -165,19 +165,19 @@ public class DBHandler extends SugarApp {
         return users.get(0);
     }
 
-    public User getTestUser() {
+    /*public User getTestUser() {
 
         User.deleteAll(User.class);
         List<User> users = User.listAll(User.class);
 
         if(users.size() <= 0)
         {
-            makeTestData();
+            //makeTestData();
             users = User.listAll(User.class);
         }
 
         return users.get(0);
-    }
+    }*/
 
 
     public CoDriver getTestCoDriver() {
@@ -186,7 +186,7 @@ public class DBHandler extends SugarApp {
 
         if(coDrivers.size() <= 0)
         {
-            makeTestData();
+            //makeTestData();
             coDrivers = CoDriver.listAll(CoDriver.class);
         }
 

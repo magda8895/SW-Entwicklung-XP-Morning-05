@@ -73,9 +73,7 @@ public class StartActivity extends AppCompatActivity
             }
         });
 
-        //get Data
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+
 
         //Singleton Test
         //TODO: if the database contains one user, add this user object to the Singleton (RoadyData)
@@ -83,6 +81,9 @@ public class StartActivity extends AppCompatActivity
         rd = RoadyData.getInstance();
         Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
 
+
+        //get Data
+        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(rd.user);
 
 
 
@@ -109,7 +110,7 @@ public class StartActivity extends AppCompatActivity
 
                 if(rd.user.getCoDrivers().size() > 0 && rd.user.getCars().size() > 0)
                 {
-                    Intent i = new Intent(getApplicationContext(), StopWatch.class);
+                    Intent i = new Intent(getApplicationContext(), NewDrivingSession.class);
                     startActivity(i);
                 }
                 else {

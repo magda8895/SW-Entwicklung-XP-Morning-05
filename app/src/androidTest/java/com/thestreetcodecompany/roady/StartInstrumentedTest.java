@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
@@ -65,8 +66,8 @@ public class StartInstrumentedTest {
     @Test
     public void testDistanceData() {
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        onView(withText(user.getDrivenKm() + " / " + user.getGoalKm() + " km")).check(matches(isDisplayed()));
+        RoadyData rd = RoadyData.getInstance();
+        onView(withText(rd.user.getDrivenKm() + " / " + rd.user.getGoalKm() + " km")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -85,8 +86,8 @@ public class StartInstrumentedTest {
     public void testListData() {
         //get Data
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+        RoadyData rd = RoadyData.getInstance();
+        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(rd.user);
         onView(withId(R.id.start_list)).check(matches(isDisplayed()));
         onView(withId(R.id.start_list)).check(ViewAssertions.matches(Matchers.withListSize(sessions.size())));
     }

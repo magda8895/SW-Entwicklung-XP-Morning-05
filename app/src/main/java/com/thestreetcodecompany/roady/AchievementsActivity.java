@@ -41,7 +41,7 @@ public class AchievementsActivity extends AppCompatActivity {
 
         // DB Connect
         //DBHandler dbh = new DBHandler();
-        //User user = dbh.getTestUser();
+        //RoadyData rd = RoadyData.getInstance();
         rd = RoadyData.getInstance();
 
 
