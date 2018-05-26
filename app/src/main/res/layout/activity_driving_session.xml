@@ -13,7 +13,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="30 november 2017, at 21:55"
+        tools:text="30 november 2017, at 21:55"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_slab_bold"
-        android:text="63,5 km"
+        tools:text="63,5 km"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,16 +50,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <LinearLayout
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_timer" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_timer" />
 
                 <LinearLayout
+                    android:paddingLeft="7dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -73,9 +71,8 @@
                         android:id="@+id/duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="01:55" />
+                        tools:text="01:55" />
                 </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -86,9 +83,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_person" />
 
             <LinearLayout
+                android:paddingLeft="7dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -102,7 +101,7 @@
                     android:id="@+id/co_driver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Paul" />
+                    tools:text="Paul" />
             </LinearLayout>
         </LinearLayout>
 
@@ -114,12 +113,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_car" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="7dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -130,7 +131,7 @@
                     android:id="@+id/car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ferrari" />
+                    tools:text="Ferrari" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -160,12 +161,14 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_cloud" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingLeft="7dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -176,7 +179,7 @@
                         android:id="@+id/weather_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Snow" />
+                        tools:text="Snow" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -189,12 +192,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_sign" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="7dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -205,7 +210,7 @@
                     android:id="@+id/street_condition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Roadwork" />
+                    tools:text="Roadwork" />
             </LinearLayout>
         </LinearLayout>
 
