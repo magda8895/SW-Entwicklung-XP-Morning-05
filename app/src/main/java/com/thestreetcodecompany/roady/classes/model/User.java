@@ -1,8 +1,10 @@
 package com.thestreetcodecompany.roady.classes.model;
 
+import android.media.MediaCas;
 import android.util.Log;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Table;
 
 import java.util.Collections;
 import java.util.Calendar;
@@ -133,6 +135,26 @@ public class User extends SugarRecord {
         return null;
     }
 
+
+
+
+
+    public long getLastDrivingSessionID()
+    {
+        List<DrivingSession> list = DrivingSession.find(DrivingSession.class,"user = ?", "" + getId());
+        if(list.size() > 0)
+        {
+            DrivingSession last_ds = list.get(list.size() - 1);
+            return last_ds.getId();
+        }
+
+        return -1;
+    }
+
+
+
+
+
     public long getTimeSinceLastDrivingSession()
     {
         DrivingSession last_ds = getLastDrivingSession();
@@ -145,8 +167,21 @@ public class User extends SugarRecord {
 
         return 0;
 
-
     }
+
+    public boolean updatelastDrivingSession()
+    {
+        DrivingSession last_ds = getLastDrivingSession();
+        if(last_ds != null)
+        {
+         last_ds.executeQuery("DELETE from last_ds where name = 'undefined'");
+        }
+
+        return true;
+    }
+
+
+
 
     public DrivingSession hasActiveDrivingSession()
     {
@@ -164,6 +199,7 @@ public class User extends SugarRecord {
     {
         return DrivingSession.find(DrivingSession.class, "user = ?", "" + getId());
     }
+
 
 
 }

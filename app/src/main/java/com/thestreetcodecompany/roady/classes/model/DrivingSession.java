@@ -65,6 +65,11 @@ public class DrivingSession extends SugarRecord {
     }
 
 
+
+
+
+
+
     // getter
     public boolean getActive() {
         return this.active;
