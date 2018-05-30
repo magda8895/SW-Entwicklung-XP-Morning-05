@@ -38,6 +38,7 @@ public class StartActivity extends AppCompatActivity
     RoadyData rd;
     View headerView;
     TextView navUsername;
+    NavigationView navigationView;
     com.github.clans.fab.FloatingActionMenu fab_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class StartActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -171,6 +172,10 @@ public class StartActivity extends AppCompatActivity
         progressBar.setProgress((int)rd.user.getDrivenKm());
         progressBar.setMax((int)rd.user.getGoalKm());
 
+        //set Name in Navigation
+        headerView = navigationView.getHeaderView(0);
+        navUsername = (TextView) headerView.findViewById(R.id.navName);
+        navUsername.setText(rd.user.getName());
 
         fab_menu.close(true);
     }
