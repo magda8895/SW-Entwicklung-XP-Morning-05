@@ -58,7 +58,7 @@ public class SettingsBackend extends AppCompatActivity {
             rd.user = new User();
             rd.user.setName("Test User");
             rd.user.save();
-            dbh.createAchievements(rd.user);
+            dbh.createAchievements();
 
             dbh.makeTestData();
 

@@ -88,14 +88,14 @@ public class DBHandler extends SugarApp {
 
 
         //Driving sessions
-        DrivingSession ds = new DrivingSession("Wien-Graz",formatDateTimeTimestamp("30-10-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),209f,300f,4,3,rd.user);
+        DrivingSession ds = new DrivingSession("Wien-Graz",formatDateTimeTimestamp("30-10-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),209f,300f,3,3,rd.user);
 
         ds.save();
-        ds = new DrivingSession("Salzburg-Graz",formatDateTimeTimestamp("15-11-2017 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),300f,400f,4,3,rd.user);
+        ds = new DrivingSession("Salzburg-Graz",formatDateTimeTimestamp("15-11-2017 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),300f,400f,2,3,rd.user);
         ds.save();
-        ds = new DrivingSession("Moskau-Graz",formatDateTimeTimestamp("01-01-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c2.getName(),cd.getName(),400f,450f,4,3,rd.user);
+        ds = new DrivingSession("Moskau-Graz",formatDateTimeTimestamp("01-01-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c2.getName(),cd.getName(),400f,450f,0,3,rd.user);
         ds.save();
-        ds = new DrivingSession("London-Liverpool",formatDateTimeTimestamp("05-16-2015 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c1.getName(),cd.getName(),450f,600f,4,3,rd.user);
+        ds = new DrivingSession("London-Liverpool",formatDateTimeTimestamp("05-16-2015 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c1.getName(),cd.getName(),450f,600f,1,3,rd.user);
         ds.save();
 
 
