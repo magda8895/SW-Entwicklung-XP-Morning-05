@@ -17,11 +17,13 @@ import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.Push;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
+import static com.thestreetcodecompany.roady.classes.model.DrivingSession.formatDateTimeTimestamp;
 
 /**
  * Created by Rutter on 23.03.2018.
@@ -52,39 +54,32 @@ public class DBHandler extends SugarApp {
 
     public void makeTestData()
     {
-        /*User user = new User("Karl Heinz", 67, 1000);
-        user.save();
-
+        RoadyData rd = RoadyData.getInstance();
         Date date = new Date();
 
-        Car c1 = new Car("Bugatti","GU-123YEAH", user);
+        Car c1 = new Car("Bugatti","GU-123YEAH", rd.user);
         c1.save();
-        Car c2 = new Car("Audi A6", "G-AUDI1", user);
+        Car c2 = new Car("Audi A6", "G-AUDI1", rd.user);
         c2.save();
-        Car c3 = new Car("VW Golf", "SL-234KK", user);
+        Car c3 = new Car("VW Golf", "SL-234KK", rd.user);
         c3.save();
-        CoDriver cd = new CoDriver("Carlos", user);
+        CoDriver cd = new CoDriver("Carlos", rd.user);
         cd.save();
+
+
+
         //Driving sessions
-        DrivingSession ds = new DrivingSession(true, "12-12-2012 05:21:12", 2099, user);
+        DrivingSession ds = new DrivingSession("Wien-Graz",formatDateTimeTimestamp("30-10-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),209f,300f,4,3,rd.user);
+
         ds.save();
-        ds = new DrivingSession(true, "12-12-2012 05:21:12", 123, user);
+        ds = new DrivingSession("Salzburg-Graz",formatDateTimeTimestamp("15-11-2017 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),300f,400f,4,3,rd.user);
         ds.save();
-        ds = new DrivingSession(true, "13-12-2012 05:21:12", 203, user);
+        ds = new DrivingSession("Moskau-Graz",formatDateTimeTimestamp("01-01-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c2.getName(),cd.getName(),400f,450f,4,3,rd.user);
         ds.save();
-        ds = new DrivingSession(true, "14-12-2012 05:21:12", 200, user);
-        ds.save();
-        ds = new DrivingSession(true, "15-12-2012 05:21:12", 20, user);
-        ds.save();
-        ds = new DrivingSession(true, "16-12-2012 05:21:12", 99, user);
+        ds = new DrivingSession("London-Liverpool",formatDateTimeTimestamp("05-16-2015 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c1.getName(),cd.getName(),450f,600f,4,3,rd.user);
         ds.save();
 
-        Push p = new Push(Calendar.getInstance().getTimeInMillis());
-        p.save();
 
-
-        Coordinate cord = new Coordinate(1, 39.2300F, 15.223F, ds);
-        cord.save();*/
     }
 
 

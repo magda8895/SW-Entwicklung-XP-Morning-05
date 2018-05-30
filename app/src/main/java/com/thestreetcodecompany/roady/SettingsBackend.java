@@ -59,6 +59,9 @@ public class SettingsBackend extends AppCompatActivity {
             rd.user.setName("Test User");
             rd.user.save();
             dbh.createAchievements(rd.user);
+
+            dbh.makeTestData();
+
         }
 
 
@@ -117,14 +120,20 @@ public class SettingsBackend extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = editText_achievements.getText().toString();
-                float km = Float.valueOf(editText_achievements_km.getText().toString());
-                if(name != null && !name.isEmpty() && km != 0)
+
+                String strKm = editText_achievements_km.getText().toString();
+                if(name != null && !name.isEmpty() && !strKm.equals("") && strKm != null)
                 {
-                    Achievement a = new Achievement(name, "custom achievement", 10, km, R.drawable.ic_stars, "", rd.user);
-                    a.save();
-                    achievements.add(a);
-                    listview_achievements.setAdapter(createAchievmentAdapter(achievements));
-                    adaptListViewHeight(listview_achievements);
+                    float km = Float.valueOf(strKm);
+                    if(km != 0)
+                    {
+                        Achievement a = new Achievement(name, "custom achievement", 10, km, R.drawable.ic_stars, "", rd.user);
+                        a.save();
+                        achievements.add(a);
+                        listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+                        adaptListViewHeight(listview_achievements);
+                    }
+
                 }
 
 
