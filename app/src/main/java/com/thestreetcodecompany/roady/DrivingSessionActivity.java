@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
@@ -12,6 +14,7 @@ import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class DrivingSessionActivity extends AppCompatActivity {
     @Override
@@ -22,7 +25,12 @@ public class DrivingSessionActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         long id = intent.getLongExtra("id", 1);
-        DrivingSession session = DrivingSession.find(DrivingSession.class, "id = ?", id+"").get(0);
+        List<DrivingSession> sessions = DrivingSession.find(DrivingSession.class, "id = ?", id+"");
+        if(sessions.size() == 0) {
+            finish();
+            return;
+        }
+        final DrivingSession session = sessions.get(0);
 
         TextView distance = findViewById(R.id.distance);
         TextView car = findViewById(R.id.car);
@@ -31,6 +39,7 @@ public class DrivingSessionActivity extends AppCompatActivity {
         TextView duration = findViewById(R.id.duration);
         TextView weatherCondition = findViewById(R.id.weather_condition);
         TextView roadCondition = findViewById(R.id.street_condition);
+        Button deleteButton = findViewById(R.id.delete_button);
 
         Spanned unknown = Html.fromHtml("<i>Unknown</i>");
 
@@ -50,5 +59,13 @@ public class DrivingSessionActivity extends AppCompatActivity {
         duration.setText(dfDuration.format(d));
         weatherCondition.setText(getResources().getStringArray(R.array.Weather)[session.getWeather()]);
         roadCondition.setText(getResources().getStringArray(R.array.RoadConditions)[session.getStreetCondition()]);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(DrivingSession.delete(session))
+                    finish();
+            }
+        });
     }
 }
