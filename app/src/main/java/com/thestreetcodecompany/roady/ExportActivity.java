@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
@@ -107,8 +108,12 @@ public class ExportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                DBHandler db = new DBHandler();
-                User user = db.makeTestDataForExport();
+                // for testing
+                // DBHandler db = new DBHandler();
+                // User user = db.makeTestDataForExport();
+
+                RoadyData rd = RoadyData.getInstance();
+                User user = rd.user;
 
                 List<DrivingSession> drivingSessions = user.getAllDrivingSessions();
                 if(drivingSessions.isEmpty())
