@@ -42,7 +42,6 @@ public class ExportActivity extends AppCompatActivity {
     Button shareButton;
     EditText textFieldFileName;
 
-
     public String getDaytime(DrivingSession ds){
 
         SimpleDateFormat localHourFormat = new SimpleDateFormat("HH");
@@ -112,8 +111,19 @@ public class ExportActivity extends AppCompatActivity {
                 User user = db.makeTestDataForExport();
 
                 List<DrivingSession> drivingSessions = user.getAllDrivingSessions();
+                if(drivingSessions.isEmpty())
+                {
+                    Snackbar.make(view, R.string.export_no_driving_sessions, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
 
                 String fileName = textFieldFileName.getText().toString() + ".csv" ;
+
+                if(fileName.equals(".csv")){
+                    Snackbar.make(view, R.string.export_empty_filename, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+
                 File file = new File(getApplicationContext().getFilesDir(), fileName);
 
                 try {
@@ -159,14 +169,14 @@ public class ExportActivity extends AppCompatActivity {
                 SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 Date today = new Date();
 
-
                 Intent sharingIntent = new Intent();
+                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
                 sharingIntent.setAction(Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_STREAM, csvURI);
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Journey Log");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Here is your recent journey log from:\n" + dt.format(today) );
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                //sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Here is your recent journey log from:\n" + dt.format(today) );
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, csvURI);
+                sharingIntent.setType("text/plain");
+                startActivity(sharingIntent);
             }
         });
 

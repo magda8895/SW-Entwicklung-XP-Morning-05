@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
-                    android:text="File Name"
+                    android:text="Filename"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
