@@ -39,6 +39,8 @@
     <string name="achievements_recent_title">Aww…</string>
     <string name="achievements_recent_description">You have not achieved anything yet</string>
     <string name="stats">Statistics</string>
+    <string name="export_empty_filename">Filename cannot be empty!</string>
+    <string name="export_no_driving_sessions">There are no driving sessions!</string>
 
     <string-array name="Weather">
         <item>Dry</item>
@@ -64,8 +66,7 @@
 
 
     <string name="wrong_input">Name, goal kilometers or driven kilometers are wrong</string>
-
-
+    <string name="title_activity_export">ExportActivity</string>
 
 
 </resources>
