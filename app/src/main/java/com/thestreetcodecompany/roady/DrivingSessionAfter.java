@@ -3,6 +3,7 @@ package com.thestreetcodecompany.roady;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.media.MediaCas;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.amitshekhar.utils.DatabaseHelper;
+import com.orm.SugarRecord;
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Car;
@@ -39,6 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 
+
 public class DrivingSessionAfter extends AppCompatActivity {
 
     final Calendar calStart = Calendar.getInstance();
@@ -54,12 +58,16 @@ public class DrivingSessionAfter extends AppCompatActivity {
     RoadyData rd;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Context c = this;
         setContentView(R.layout.activity_driving_session_after);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //if bool true
+        //object holen
 
 
         // show date and time
@@ -72,6 +80,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Button endTime = findViewById(R.id.buttonTimeEnd);
         Button startTime = findViewById(R.id.buttonTimeStart);
         TextView kmStart = findViewById(R.id.editTextMileageStart);
+
 
         Pass = getIntent().getIntExtra("Pass",0);
 
@@ -89,13 +98,16 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
 
+        // DB Connect
+        final DBHandler dbh = new DBHandler();
+        rd = RoadyData.getInstance();
 
         if (Pass == 1)
         {
             PassedDate =  getIntent().getStringExtra("StartTime");
             String PassedTime = PassedDate.substring(11);
             PassedDate = PassedDate.substring(0,10);
-           if(checkDate.equals(PassedDate))
+            if(checkDate.equals(PassedDate))
            {
                 startDate.setText(sdfDate.format(new Date()));
                 startTime.setText(PassedTime);
@@ -114,7 +126,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
             //Set passed Mileage
             StMileage = getIntent().getExtras().getString("from_SW_to_NDA");
             kmStart.setText(StMileage);
-            Pass = 0;
             }
 
         else
@@ -125,11 +136,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
             startTime.setText(formatTime.format(calStart.getTime()));
         }
 
-
-
-        // DB Connect
-        final DBHandler dbh = new DBHandler();
-        rd = RoadyData.getInstance();
 
         // list cars
         List<Car> cars = rd.user.getCars();
@@ -300,13 +306,38 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     int street_condition = roadConditionsSpinner.getSelectedItemPosition();
 
                     // save to db
-                    DrivingSession newSession = new DrivingSession(name, dateTime_start.getTime(), dateTime_end.getTime(), car, co_driver,
-                            km_start, km_end, weather, street_condition, rd.user);
-                    newSession.save();
+                    if(Pass == 1){
+                        //get the ID from the db-row we created in the stopwatch screen
+                        //long drivingSessionID = rd.user.getLastDrivingSessionID();
+                       //long lastId = lastDrivingSession.getId();
+                      //latestSession.executeQuery("UPDATE user SET name = 'updatetest' WHERE id=? " + lastId );
 
+                        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();;
+
+                        lastDrivingSession.setName(name);
+                        lastDrivingSession.setDateTimeStart(dateTime_start.getTime());
+                        lastDrivingSession.setDateTimeEnd(dateTime_end.getTime());
+                        lastDrivingSession.setCar(car);
+                        lastDrivingSession.setCoDriver(co_driver);
+                        lastDrivingSession.setKmStart(km_start);
+                        lastDrivingSession.setKmEnd(km_end);
+                        lastDrivingSession.setWeather(weather);
+                        lastDrivingSession.setStreetCondition(street_condition);
+                        lastDrivingSession.setUser(rd.user);
+                        lastDrivingSession.save();
+                        //lastDrivingSession.update();
+
+                    }
+                    else {
+                        DrivingSession newSession = new DrivingSession(name, dateTime_start.getTime(), dateTime_end.getTime(), car, co_driver,
+                                km_start, km_end, weather, street_condition, rd.user);
+                        newSession.save();
+                    }
                     // make toast
                     Toast.makeText(c, "saved successfully", Toast.LENGTH_SHORT).show();
                     finish();
+
+
 
                 } catch (DrivingSessionException ex) {
 
@@ -326,11 +357,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
     }
-
-
-
-
-
 
 
     private DatePickerDialog.OnDateSetListener datePickerListener
