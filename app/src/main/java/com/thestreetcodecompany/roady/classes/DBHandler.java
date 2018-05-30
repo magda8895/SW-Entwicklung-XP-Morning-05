@@ -62,6 +62,7 @@ public class DBHandler extends SugarApp {
 
         CoDriver coDriver = new CoDriver("Export CoDriver", user);
 
+
         DrivingSession ds = new DrivingSession("Graz - Feldkirchen", (new Date()).getTime(), (new Date()).getTime(), c1.getName(), coDriver.getName(), 0f, 350f, 0, 0, user);
         ds.save();
         ds = new DrivingSession("Feldkirchen - Villach", (new Date()).getTime(), (new Date()).getTime(), c1.getName(), coDriver.getName(), 350f, 370f, 1, 1, user);
@@ -118,48 +119,50 @@ public class DBHandler extends SugarApp {
 
     }
 
-    public void createAchievements(User user)
+    public void createAchievements()
     {
+        RoadyData rd = RoadyData.getInstance();
+
         Date date = new Date();
-        Achievement a1 = new Achievement("Rain", "Drive while it's raining", 0, 0, R.drawable.ic_rain, date, user);
+        Achievement a1 = new Achievement("Rain", "Drive while it's raining", 0, 0, R.drawable.ic_rain, date, rd.user);
         a1.save();
-        Achievement a2 = new Achievement("Snow", "Drive while it's snowing", 1, 0, R.drawable.ic_snow, "", user);
+        Achievement a2 = new Achievement("Snow", "Drive while it's snowing", 1, 0, R.drawable.ic_snow, "", rd.user);
         a2.save();
-        Achievement a3 = new Achievement("Ice", "Drive while the road is icy", 2, 0, R.drawable.ic_ice, "", user);
+        Achievement a3 = new Achievement("Ice", "Drive while the road is icy", 2, 0, R.drawable.ic_ice, "", rd.user);
         a3.save();
-        Achievement a4 = new Achievement("Night", "Dive at night", 3, 0, R.drawable.ic_night, "", user);
+        Achievement a4 = new Achievement("Night", "Dive at night", 3, 0, R.drawable.ic_night, "", rd.user);
         a4.save();
 
-        Achievement a5 = new Achievement("Everyday is driving day (Bronze)", "Drive 2 days in a row", 4, 2, R.drawable.ic_streak_bronze, "", user);
+        Achievement a5 = new Achievement("Everyday is driving day (Bronze)", "Drive 2 days in a row", 4, 2, R.drawable.ic_streak_bronze, "", rd.user);
         a5.save();
-        Achievement a6 = new Achievement("Everyday is driving day (Silver)", "Drive 3 days in a row", 4, 3, R.drawable.ic_streak_silver, "", user);
+        Achievement a6 = new Achievement("Everyday is driving day (Silver)", "Drive 3 days in a row", 4, 3, R.drawable.ic_streak_silver, "", rd.user);
         a6.save();
-        Achievement a7 = new Achievement("Everyday is driving day (Gold)", "Drive 4 days in a row", 4, 4, R.drawable.ic_streak_gold, "", user);
+        Achievement a7 = new Achievement("Everyday is driving day (Gold)", "Drive 4 days in a row", 4, 4, R.drawable.ic_streak_gold, "", rd.user);
         a7.save();
-        Achievement a8 = new Achievement("Everyday is driving day (Platinum)", "Drive 7 days in a row", 4, 7, R.drawable.ic_streak_platinum, "", user);
+        Achievement a8 = new Achievement("Everyday is driving day (Platinum)", "Drive 7 days in a row", 4, 7, R.drawable.ic_streak_platinum, "", rd.user);
         a8.save();
 
-        Achievement a9 = new Achievement("Came a long way (Bronze)", "Drive 1000 km", 5, 1000, R.drawable.ic_distance_bronze, date, user);
+        Achievement a9 = new Achievement("Came a long way (Bronze)", "Drive 1000 km", 5, 1000, R.drawable.ic_distance_bronze, date, rd.user);
         a9.save();
-        Achievement a10 = new Achievement("Came a long way (Silver)", "Drive 2000 km", 5, 2000, R.drawable.ic_distance_silver, "", user);
+        Achievement a10 = new Achievement("Came a long way (Silver)", "Drive 2000 km", 5, 2000, R.drawable.ic_distance_silver, "", rd.user);
         a10.save();
-        Achievement a11 = new Achievement("Came a long way (Gold)", "Drive 3000 km", 5, 3000, R.drawable.ic_distance_gold, "", user);
+        Achievement a11 = new Achievement("Came a long way (Gold)", "Drive 3000 km", 5, 3000, R.drawable.ic_distance_gold, "", rd.user);
         a11.save();
-        Achievement a12 = new Achievement("Came a long way (Platinum)", "Drive 5000 km", 5, 5000, R.drawable.ic_distance_platinum, "", user);
+        Achievement a12 = new Achievement("Came a long way (Platinum)", "Drive 5000 km", 5, 5000, R.drawable.ic_distance_platinum, "", rd.user);
         a12.save();
 
-        Achievement a13 = new Achievement("All day long (Bronze)", "Drive 1h", 6, 1, R.drawable.ic_time_bronze, date, user);
+        Achievement a13 = new Achievement("All day long (Bronze)", "Drive 1h", 6, 1, R.drawable.ic_time_bronze, date, rd.user);
         a13.save();
-        Achievement a14 = new Achievement("All day long (Silver)", "Drive 2h", 6, 2, R.drawable.ic_time_silver, date, user);
+        Achievement a14 = new Achievement("All day long (Silver)", "Drive 2h", 6, 2, R.drawable.ic_time_silver, date, rd.user);
         a14.save();
-        Achievement a15 = new Achievement("All day long (Gold)", "Drive 3h", 6, 3, R.drawable.ic_time_gold, "", user);
+        Achievement a15 = new Achievement("All day long (Gold)", "Drive 3h", 6, 3, R.drawable.ic_time_gold, "", rd.user);
         a15.save();
-        Achievement a16 = new Achievement("All day long (Platinum)", "Drive 5h", 6, 5, R.drawable.ic_time_platinum, "", user);
+        Achievement a16 = new Achievement("All day long (Platinum)", "Drive 5h", 6, 5, R.drawable.ic_time_platinum, "", rd.user);
         a16.save();
 
-        Achievement a17 = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_fast_and_furious, "", user);
+        Achievement a17 = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_fast_and_furious, "", rd.user);
         a17.save();
-        Achievement a18 = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_fast_and_furious, "", user);
+        Achievement a18 = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_fast_and_furious, "", rd.user);
         a18.save();
 
     }

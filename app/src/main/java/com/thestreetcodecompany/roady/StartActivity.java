@@ -203,7 +203,9 @@ public class StartActivity extends AppCompatActivity
             Intent i = new Intent(getApplicationContext(), AchievementsActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_export) {
-            MakeToast("export",getApplicationContext());
+            //MakeToast("export",getApplicationContext());
+            Intent i = new Intent(getApplicationContext(), ExportActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_settings) {
             Intent i = new Intent(getApplicationContext(), SettingsBackend.class);
             startActivity(i);

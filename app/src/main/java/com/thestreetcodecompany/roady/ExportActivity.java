@@ -113,9 +113,8 @@ public class ExportActivity extends AppCompatActivity {
                 // User user = db.makeTestDataForExport();
 
                 RoadyData rd = RoadyData.getInstance();
-                User user = rd.user;
 
-                List<DrivingSession> drivingSessions = user.getAllDrivingSessions();
+                List<DrivingSession> drivingSessions = rd.user.getAllDrivingSessions();
                 if(drivingSessions.isEmpty())
                 {
                     Snackbar.make(view, R.string.export_no_driving_sessions, Snackbar.LENGTH_LONG).show();
