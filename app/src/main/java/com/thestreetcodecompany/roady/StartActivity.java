@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,6 +28,8 @@ import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
@@ -118,7 +122,9 @@ public class StartActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 fab_menu.close(true);
-                long id = Integer.parseInt(((TextView)view.findViewById(R.id.driving_session_id)).getText().toString());
+                String str = ((TextView)view.findViewById(R.id.driving_session_id)).getText().toString();
+                if(str.equals("")) return;
+                long id = Integer.parseInt(str);
                 Intent intent = new Intent(StartActivity.this, DrivingSessionActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
@@ -197,6 +203,17 @@ public class StartActivity extends AppCompatActivity
 
 
     public ArrayAdapter createAdapter(final List<DrivingSession> sessions) {
+        // Add initial
+        float sum = 0;
+        for (DrivingSession session: sessions) {
+            sum += session.getDistance();
+        }
+        final DrivingSession initialSession = new DrivingSession();
+        initialSession.setKmStart(0);
+        DBHandler dbh = new DBHandler();
+        User user = dbh.getTestUser();
+        initialSession.setKmEnd(user.getDrivenKm() - sum);
+        sessions.add(initialSession);
 
         ArrayAdapter adapter = new ArrayAdapter<DrivingSession>(this,
                 R.layout.listitem_start, R.id.startitem_name, sessions) {
@@ -209,10 +226,24 @@ public class StartActivity extends AppCompatActivity
                 TextView tv_distance = (TextView) view.findViewById(R.id.startitem_distance);
                 TextView tv_id = view.findViewById(R.id.driving_session_id);
 
-                tv_name.setText(sessions.get(position).getName());
-                tv_time.setText(sessions.get(position).getDateStringStart());
-                tv_distance.setText(sessions.get(position).getDistance() + " km");
-                tv_id.setText(sessions.get(position).getId()+"");
+                if(position == sessions.size() - 1) {
+                    try {
+                        long installed = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0).firstInstallTime;
+                        Date installDate = new Date(installed);
+                        SimpleDateFormat df = new SimpleDateFormat("dd. MMM yyyy");
+                        tv_time.setText(df.format(installDate));
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    tv_distance.setText(initialSession.getDistance() + " km");
+                    tv_name.setText("Already driven");
+                } else {
+                    tv_name.setText(sessions.get(position).getName());
+                    tv_time.setText(sessions.get(position).getDateStringStart());
+                    tv_id.setText(sessions.get(position).getId()+"");
+                    tv_distance.setText(sessions.get(position).getDistance() + " km");
+                }
+
 
                 return view;
             }

@@ -50,7 +50,7 @@ public class DBHandler extends SugarApp {
 
     public void makeTestData()
     {
-        User user = new User("Karl Heinz", 67, 1000);
+        User user = new User("Karl Heinz", 0, 1000);
         user.save();
         Achievement a = new Achievement("king",1,500,"/",false, user);
         a.save();
