@@ -52,6 +52,24 @@ public class DBHandler extends SugarApp {
 
     }
 
+    public User makeTestDataForExport()
+    {
+        User user = new User("Export User", 88, 1000);
+        user.save();
+
+        Car c1 = new Car("Bugatti","GU-123YEAH", user);
+        c1.save();
+
+        CoDriver coDriver = new CoDriver("Export CoDriver", user);
+
+        DrivingSession ds = new DrivingSession("Graz - Feldkirchen", (new Date()).getTime(), (new Date()).getTime(), c1.getName(), coDriver.getName(), 0f, 350f, 0, 0, user);
+        ds.save();
+        ds = new DrivingSession("Feldkirchen - Villach", (new Date()).getTime(), (new Date()).getTime(), c1.getName(), coDriver.getName(), 350f, 370f, 1, 1, user);
+        ds.save();
+
+        return user;
+    }
+
     public void makeTestData()
     {
         RoadyData rd = RoadyData.getInstance();
