@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaCas;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,8 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.Toast;
 
+import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 
 public class NewDrivingSession extends AppCompatActivity  {
@@ -42,7 +45,7 @@ public class NewDrivingSession extends AppCompatActivity  {
 
     String st;
     String stDateandTime;
-
+    RoadyData rd;
 
 
     @Override
@@ -52,6 +55,7 @@ public class NewDrivingSession extends AppCompatActivity  {
         setContentView(R.layout.activity_new_driving_session);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
 
         //EnterMileage
@@ -85,6 +89,9 @@ public class NewDrivingSession extends AppCompatActivity  {
         }.start();
         ;
 
+        //In case the user comes back to change the mileage
+        //
+
 
         //Change to StopWatchScreen
         findViewById(R.id.StopwatchStartButton).setOnClickListener(new View.OnClickListener() {
@@ -95,13 +102,33 @@ public class NewDrivingSession extends AppCompatActivity  {
                 i.putExtra("from_NDS_to_SW",st);
                 stDateandTime = StartDate.getText().toString();
                 i.putExtra("StartTime",stDateandTime);
+                savetoDB();
                 startActivity(i);
             }
         });
         ;
 
+
+
     }
 
+    public void savetoDB()
+    {
+        // DB Connect
+        final DBHandler dbh = new DBHandler();
+        rd = RoadyData.getInstance();
+
+        //prepare Data for Database
+        final Calendar calStart = Calendar.getInstance();
+        Date dateTime_start = calStart.getTime();
+        Float Mileage = Float.parseFloat(st);
+
+
+        DrivingSession newSession = new DrivingSession("undefined", dateTime_start.getTime(), 00000, "Bugatti", "Hans",
+                Mileage, 0, 1, 1, rd.user);
+        newSession.save();
+
+    }
 
 
 

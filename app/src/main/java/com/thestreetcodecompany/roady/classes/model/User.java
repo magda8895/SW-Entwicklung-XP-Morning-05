@@ -187,7 +187,7 @@ public class User extends SugarRecord {
     {
         Log.d("User","hasActiveDrivingSession()");
         DrivingSession last_ds = getLastDrivingSession();
-        if(last_ds != null && last_ds.getActive())
+        if(last_ds != null && (last_ds.getActive()==true))
         {
             return last_ds;
         }

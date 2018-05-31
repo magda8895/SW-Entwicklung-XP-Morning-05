@@ -39,6 +39,7 @@ public class StartActivity extends AppCompatActivity
     View headerView;
     TextView navUsername;
     com.github.clans.fab.FloatingActionMenu fab_menu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -29,6 +29,11 @@ public class StopWatch extends AppCompatActivity {
     private Chronometer chronometer;
     String St;
     String StDateandTime;
+
+   // boolean activeDrivingSession = getIntent().getBooleanExtra("activeDrivingSession",false);
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,18 +54,7 @@ public class StopWatch extends AppCompatActivity {
         StartTimeView.setText(StDateandTime);
 
 
-        final Calendar calStart = Calendar.getInstance();
-        Date dateTime_start = calStart.getTime();
 
-
-        // DB Connect
-        final DBHandler dbh = new DBHandler();
-        rd = RoadyData.getInstance();
-
-        // save to db incase the app crashes
-        DrivingSession newSession = new DrivingSession("undefined", dateTime_start.getTime(), 00000, "Bugatti", "Hans",
-                Mileage, 0, 1, 1, rd.user);
-        newSession.save();
 
         //STOP Chronometer and change to DrivingSessionAfterScreen
         Button StopChronometer = (Button) findViewById(R.id.finishchronometer);
@@ -88,7 +82,6 @@ public class StopWatch extends AppCompatActivity {
                 finish();
             }
         });
-
 
     }
 

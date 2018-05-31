@@ -312,7 +312,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                        //long lastId = lastDrivingSession.getId();
                       //latestSession.executeQuery("UPDATE user SET name = 'updatetest' WHERE id=? " + lastId );
 
-                        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();;
+                        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
 
                         lastDrivingSession.setName(name);
                         lastDrivingSession.setDateTimeStart(dateTime_start.getTime());
