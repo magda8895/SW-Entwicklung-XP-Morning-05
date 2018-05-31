@@ -32,13 +32,44 @@ public class StopWatch extends AppCompatActivity {
 
    // boolean activeDrivingSession = getIntent().getBooleanExtra("activeDrivingSession",false);
 
+    RoadyData rd;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stop_watch);
+
+
+        // DB Connect
+        final DBHandler dbh = new DBHandler();
+        rd = RoadyData.getInstance();
+        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
+
+
+        //when the app was quit unexep.
+
+        int StopWatchCrash = getIntent().getIntExtra("StopWatchCrash",0);
+        if(StopWatchCrash == 1)
+        {
+
+            long lgLastSessionStartTime =lastDrivingSession.getDateTimeStart();
+
+
+            Date d = new Date(lgLastSessionStartTime);
+            Date now = new Date();
+
+
+            String lastSessionTime = d.toString();
+            //lastSessionTime = lastSessionTime.substring(11,19);
+            Toast.makeText(this, "last Driving Session : " + lastSessionTime + d  , Toast.LENGTH_SHORT).show();
+
+
+        }
+
+
         chronometer = findViewById(R.id.chronometer);
+        //chronometer.setBase(SystemClock.elapsedRealtime() - (2 * 60000 + 3 * 1000));
         chronometer.start();
         TextView MileageView = (TextView) findViewById(R.id.textViewMileage);
         TextView StartTimeView = (TextView) findViewById(R.id.textViewStartTime);
@@ -52,25 +83,15 @@ public class StopWatch extends AppCompatActivity {
 
         StDateandTime = getIntent().getExtras().getString("StartTime");
         StartTimeView.setText(StDateandTime);
-
         final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm ");
 
 
-        //when the app was quit unexep.
-        int StopWatchCrash = getIntent().getIntExtra("StopWatchCrash",0);
-        if(StopWatchCrash == 1)
-        {
-            final String CrashTime = sdf.format(new Date());
-            StartTimeView.setText(CrashTime);
-
-        }
 
 
 
-      // DB Connect
-        final DBHandler dbh = new DBHandler();
-        rd = RoadyData.getInstance();
-        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
+
+
+
 
 
         //STOP Chronometer and change to DrivingSessionAfterScreen
@@ -101,7 +122,6 @@ public class StopWatch extends AppCompatActivity {
         });
 
     }
-
 
 
 }
