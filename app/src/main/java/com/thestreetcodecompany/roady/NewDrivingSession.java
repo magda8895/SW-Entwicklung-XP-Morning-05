@@ -61,7 +61,7 @@ public class NewDrivingSession extends AppCompatActivity  {
 
         //SetCurrentDateandTime
         final TextView StartDate = (TextView) findViewById(R.id.textViewDate);
-        final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm ");
+        final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
         final String currentDateandTime = sdf.format(new Date());
         StartDate.setText(currentDateandTime);
 
@@ -73,7 +73,7 @@ public class NewDrivingSession extends AppCompatActivity  {
 
             @Override
             public void onFinish() {
-               final SimpleDateFormat checkCurrentDateandTime = new SimpleDateFormat("dd MM yyyy HH:mm ");
+               final SimpleDateFormat checkCurrentDateandTime = new SimpleDateFormat("dd MM yyyy HH:mm");
                final String currentDateandTime = checkCurrentDateandTime.format(new Date());
 
                 if(sdf != checkCurrentDateandTime)

@@ -45,7 +45,7 @@ public class StopWatch extends AppCompatActivity {
         Float Mileage = Float.parseFloat(St);
 
 
-        StDateandTime = getIntent().getExtras().getString("StartTime");
+        StDateandTime = getIntent().getStringExtra("StartTime");
         StartTimeView.setText(StDateandTime);
 
 

@@ -52,6 +52,26 @@ public class DrivingSession extends SugarRecord {
         setDateTimeStart(dateTime_start);
         setDateTimeEnd(dateTime_end);
 
+        setCarString(car);
+        setCoDriverString(coDriver);
+
+        setKmStart(km_start);
+        setKmEnd(km_end);
+
+        setWeather(weather);
+        setStreetCondition(street_condition);
+
+        setUser(user);
+    }
+
+    public DrivingSession(String name, long dateTime_start, long dateTime_end, Car car, CoDriver coDriver,
+                          float km_start, float km_end, int weather, int street_condition, User user) {
+
+        setName(name);
+
+        setDateTimeStart(dateTime_start);
+        setDateTimeEnd(dateTime_end);
+
         setCar(car);
         setCoDriver(coDriver);
 
@@ -177,7 +197,12 @@ public class DrivingSession extends SugarRecord {
         this.dateTime_end = formatDateTimeTimestamp(dateTime);
     }
 
-    public void setCar(String car) {
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+
+    public void setCarString(String car) {
         List<Car> cars = Car.find(Car.class, "name = ?", car);
         if (cars.size() <= 0) {
             this.car = null;
@@ -202,7 +227,11 @@ public class DrivingSession extends SugarRecord {
         this.user = user;
     }
 
-    public void setCoDriver(String coDriver) {
+    public void setCoDriver(CoDriver coDriver) {
+        this.coDriver = coDriver;
+    }
+
+    public void setCoDriverString(String coDriver) {
         List<CoDriver> coDrivers = CoDriver.find(CoDriver.class, "name = ?", coDriver);
         if (coDrivers.size() <= 0) {
             // DB Connect
