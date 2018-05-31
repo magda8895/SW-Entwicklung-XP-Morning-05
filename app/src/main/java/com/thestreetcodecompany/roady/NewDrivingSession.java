@@ -58,6 +58,8 @@ public class NewDrivingSession extends AppCompatActivity  {
 
 
 
+
+
         //EnterMileage
          final EditText editTextMileage =(EditText) findViewById(R.id.editMileage);
 
@@ -112,8 +114,11 @@ public class NewDrivingSession extends AppCompatActivity  {
 
     }
 
+
+
     public void savetoDB()
     {
+
         // DB Connect
         final DBHandler dbh = new DBHandler();
         rd = RoadyData.getInstance();
@@ -122,12 +127,13 @@ public class NewDrivingSession extends AppCompatActivity  {
         final Calendar calStart = Calendar.getInstance();
         Date dateTime_start = calStart.getTime();
         Float Mileage = Float.parseFloat(st);
-
-
-        DrivingSession newSession = new DrivingSession("undefined", dateTime_start.getTime(), 00000, "Bugatti", "Hans",
-                Mileage, 0, 1, 1, rd.user);
-        newSession.save();
-
+        DrivingSession lastSession = rd.user.getLastDrivingSession();
+        if(lastSession.getActive() == false) {
+            DrivingSession newSession = new DrivingSession("unfinished", dateTime_start.getTime(), 00000, "Bugatti", "Hans",
+                    Mileage, 0, 1, 1, rd.user);
+            newSession.setActive(true);
+            newSession.save();
+        }
     }
 
 

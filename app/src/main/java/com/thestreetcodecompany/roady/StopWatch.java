@@ -53,7 +53,24 @@ public class StopWatch extends AppCompatActivity {
         StDateandTime = getIntent().getExtras().getString("StartTime");
         StartTimeView.setText(StDateandTime);
 
+        final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm ");
 
+
+        //when the app was quit unexep.
+        int StopWatchCrash = getIntent().getIntExtra("StopWatchCrash",0);
+        if(StopWatchCrash == 1)
+        {
+            final String CrashTime = sdf.format(new Date());
+            StartTimeView.setText(CrashTime);
+
+        }
+
+
+
+      // DB Connect
+        final DBHandler dbh = new DBHandler();
+        rd = RoadyData.getInstance();
+        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
 
 
         //STOP Chronometer and change to DrivingSessionAfterScreen

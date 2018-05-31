@@ -3,6 +3,7 @@ package com.thestreetcodecompany.roady;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaCas;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -324,6 +325,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                         lastDrivingSession.setWeather(weather);
                         lastDrivingSession.setStreetCondition(street_condition);
                         lastDrivingSession.setUser(rd.user);
+                        lastDrivingSession.setActive(false);
                         lastDrivingSession.save();
                         //lastDrivingSession.update();
 
@@ -350,6 +352,8 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
 
+                Intent i = new Intent(DrivingSessionAfter.this, StartActivity.class);
+                startActivity(i);
 
             }
         });

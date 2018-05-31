@@ -1,8 +1,11 @@
 package com.thestreetcodecompany.roady;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.RoadyData;
@@ -55,6 +59,7 @@ public class StartActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
 
         //get View Elements
@@ -161,6 +166,10 @@ public class StartActivity extends AppCompatActivity
     protected void onResume(){
         super.onResume();
 
+        if ( rd.user.getLastDrivingSession() != null ) {
+
+            unfinishedSession();
+        }
         //get all Driving Sessions
         final List<DrivingSession> sessions = rd.getUser().getAllDrivingSessions();
 
@@ -230,6 +239,8 @@ public class StartActivity extends AppCompatActivity
                 tv_time.setText(sessions.get(position).getDateStringStart());
                 tv_distance.setText(sessions.get(position).getDistance() + " km");
 
+
+
                 return view;
             }
 
@@ -239,6 +250,40 @@ public class StartActivity extends AppCompatActivity
         return adapter;
 
     }
+
+
+    //if a Driving Session is left unfinished you will be asked if u want to finish it now or to stash it
+    public void unfinishedSession()
+    {
+        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
+        //Toast.makeText(this, "" + lastDrivingSession.getActive() , Toast.LENGTH_SHORT).show();
+
+        if(((lastDrivingSession.getActive()) == true )){
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(StartActivity.this);
+            mBuilder.setTitle("This should not happen!");
+            mBuilder.setMessage("Roady was quit unexpectedly. The last Driving Session is still unfinished. Should we stash?");
+            mBuilder.setPositiveButton("Stash it!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            mBuilder.setNegativeButton("Resume!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    dialogInterface.dismiss();
+                    Intent intent = new Intent(StartActivity.this,StopWatch.class);
+                    startActivity(intent);
+
+                }
+            });
+            AlertDialog alertDialog = mBuilder.create();
+            alertDialog.show();
+        }
+
+        }
+
 
 
 
