@@ -40,17 +40,30 @@ public class AchievementsActivity extends AppCompatActivity {
 
 
         // DB Connect
-        //DBHandler dbh = new DBHandler();
-        //RoadyData rd = RoadyData.getInstance();
         rd = RoadyData.getInstance();
 
 
         // most recent
+
+        /*Achievement latestAchievement = rd.user.getLatestAchievement();
+        if (latestAchievement != null) {
+            ImageView recentImage = findViewById(R.id.imageViewRecentAchievement);
+            TextView recentTitle = findViewById(R.id.textViewRecentAchievementTitle);
+            TextView recentDesc = findViewById(R.id.textViewRecentAchievementDescription);
+            TextView recentDate = findViewById(R.id.textViewRecentAchievementDate);
+
+            recentImage.setImageResource(latestAchievement.getImage());
+            recentTitle.setText(latestAchievement.getTitle());
+            recentDesc.setText(latestAchievement.getDescription());
+            String date = "Achieved on " + latestAchievement.getReachedStringFormated();
+            recentDate.setText(date);
+        }*/
+
         List<Achievement> achievementsList = rd.user.getAchievements();
         int latest = -1;
         for (int position = 0; position < achievementsList.size(); position++) {
             if (achievementsList.get(position).getReached()) {
-                if (latest == -1 || achievementsList.get(position).getReachedDate().after(achievementsList.get(latest).getReachedDate())) {
+                if (latest == -1 || !achievementsList.get(latest).getReachedDate().after(achievementsList.get(position).getReachedDate())) {
                     latest = position;
                 }
             }
@@ -82,7 +95,9 @@ public class AchievementsActivity extends AppCompatActivity {
         // Streak
         List<Achievement> achievementsStreak = rd.user.getAchievementsTypeReached(4);
         if (achievementsStreak.isEmpty()) {
-            achievementsLevel.add(rd.user.getAchievementsType(4).get(0));
+            if (!rd.user.getAchievementsType(4).isEmpty()) {
+                achievementsLevel.add(rd.user.getAchievementsType(4).get(0));
+            }
         } else {
             achievementsLevel.add(achievementsStreak.get(achievementsStreak.size() - 1));
         }
@@ -90,7 +105,9 @@ public class AchievementsActivity extends AppCompatActivity {
         // Distance
         List<Achievement> achievementsDistance = rd.user.getAchievementsTypeReached(5);
         if (achievementsDistance.isEmpty()) {
-            achievementsLevel.add(rd.user.getAchievementsType(5).get(0));
+            if (!rd.user.getAchievementsType(5).isEmpty()) {
+                achievementsLevel.add(rd.user.getAchievementsType(5).get(0));
+            }
         } else {
             achievementsLevel.add(achievementsDistance.get(achievementsDistance.size() - 1));
         }
@@ -100,7 +117,9 @@ public class AchievementsActivity extends AppCompatActivity {
         //List<Achievement> achievementsTime = Achievement.findWithQuery(Achievement.class, "Select * from Achievement where type = 6 and reached = true LIMIT 4");
         Log.d("achievements counter", "" + achievementsTime.size());
         if (achievementsTime.isEmpty()) {
-            achievementsLevel.add(rd.user.getAchievementsType(6).get(0));
+            if (!rd.user.getAchievementsType(6).isEmpty()) {
+                achievementsLevel.add(rd.user.getAchievementsType(6).get(0));
+            }
         } else {
             achievementsLevel.add(achievementsTime.get(achievementsTime.size() - 1));
         }
@@ -108,7 +127,9 @@ public class AchievementsActivity extends AppCompatActivity {
         // Fast & Furious
         List<Achievement> achievementsFastAndFurious = rd.user.getAchievementsTypeReached(7);
         if (achievementsFastAndFurious.isEmpty()) {
-            achievementsLevel.add(rd.user.getAchievementsType(7).get(0));
+            if (!rd.user.getAchievementsType(7).isEmpty()) {
+                achievementsLevel.add(rd.user.getAchievementsType(7).get(0));
+            }
         } else {
             achievementsLevel.add(achievementsFastAndFurious.get(achievementsFastAndFurious.size() - 1));
         }

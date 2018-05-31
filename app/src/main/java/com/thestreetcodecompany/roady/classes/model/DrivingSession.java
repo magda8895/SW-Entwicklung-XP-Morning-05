@@ -197,11 +197,6 @@ public class DrivingSession extends SugarRecord {
         this.dateTime_end = formatDateTimeTimestamp(dateTime);
     }
 
-    public void setCar(Car car) {
-        this.car = car;
-    }
-
-
     public void setCarString(String car) {
         List<Car> cars = Car.find(Car.class, "name = ?", car);
         if (cars.size() <= 0) {
