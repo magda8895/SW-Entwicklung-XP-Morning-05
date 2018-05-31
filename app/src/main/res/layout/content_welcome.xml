@@ -36,4 +36,35 @@
         tools:layout_editor_absoluteX="0dp"
         tools:ignore="MissingConstraints" />
 
+
+    <LinearLayout
+        android:id="@+id/newCoDriver"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/coDriverName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.85"
+            android:hint="@string/co_driver_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/coDriverAdd"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.15"
+            android:clickable="true"
+            android:tint="@android:color/background_light"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:elevation="0dp"
+
+            app:srcCompat="@android:drawable/ic_input_add" />
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

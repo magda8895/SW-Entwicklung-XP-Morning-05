@@ -51,11 +51,15 @@
                     android:text="@string/driven_km_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <SeekBar
+
+
+                <EditText
                     android:id="@+id/drivenKm"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
-                    android:max="3000" />
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -68,11 +72,16 @@
                     android:text="@string/goal_km_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <SeekBar
+
+
+                <EditText
                     android:id="@+id/goalKm"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:max="3000" />
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
 
                 <Space
                     android:layout_width="match_parent"
@@ -83,7 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/achievements_user_created_label"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/black" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -106,44 +116,42 @@
                 <LinearLayout
                     android:id="@+id/newAchievement"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
+                    android:layout_height="70dp"
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.85"
+                    android:layout_height="70dp">
                     <EditText
                         android:id="@+id/achievementsUserCreated"
-                        android:layout_width="177dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/achievements_user_created_name"
+                        android:layout_weight="0.2"
+                        android:hint="@string/achievements_user_created_name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <EditText
                         android:id="@+id/achievementsUserCreatedKm"
-                        android:layout_width="106dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.45"
                         android:ems="10"
+                        android:layout_marginLeft="10dp"
                         android:inputType="textPersonName"
-                        android:text="100.0"
+                        android:hint="100.0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-                    <TextView
-                        android:id="@+id/achievementsUserCreatedKmLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/achievements_user_created_km" />
+                </LinearLayout>
 
-                    <Space
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/achievementUserCreatedAdd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="0.15"
+                        android:layout_marginLeft="7dp"
                         android:clickable="true"
                         android:tint="@android:color/background_light"
                         app:backgroundTint="@color/colorPrimaryDark"
@@ -179,33 +187,33 @@
                 <LinearLayout
                     android:id="@+id/newCoDriver"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    app:layout_constraintEnd_toEndOf="parent">
 
                     <EditText
                         android:id="@+id/coDriverName"
-                        android:layout_width="313dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/co_driver_name"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="0.85"
+                        android:hint="@string/co_driver_name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                    <Space
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/coDriverAdd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="0.15"
                         android:clickable="true"
                         android:tint="@android:color/background_light"
                         app:backgroundTint="@color/colorPrimaryDark"
                         app:elevation="0dp"
+
                         app:srcCompat="@android:drawable/ic_input_add" />
                 </LinearLayout>
+
 
                 <Space
                     android:layout_width="match_parent"
@@ -233,40 +241,42 @@
                     android:layout_width="match_parent"
                     android:layout_height="15dp" />
 
+
                 <LinearLayout
                     android:id="@+id/newCar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
+                    android:layout_height="70dp"
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="0.85"
+                        android:layout_height="70dp">
                     <EditText
                         android:id="@+id/carName"
-                        android:layout_width="163dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/car_name"
+                        android:layout_weight="0.425"
+                        android:hint="@string/car_name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <EditText
                         android:id="@+id/carKfz"
-                        android:layout_width="134dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.425"
                         android:ems="10"
                         android:inputType="textPersonName"
-                        android:text="@string/car_kfz"
+                        android:hint="@string/car_kfz"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                    <Space
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                    </LinearLayout>
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/carAdd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="0.15"
                         android:clickable="true"
                         android:tint="@android:color/background_light"
                         app:backgroundTint="@color/colorPrimaryDark"

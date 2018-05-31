@@ -58,7 +58,10 @@ public class SettingsBackend extends AppCompatActivity {
             rd.user = new User();
             rd.user.setName("Test User");
             rd.user.save();
-            dbh.createAchievements(rd.user);
+            dbh.createAchievements();
+
+            dbh.makeTestData();
+
         }
 
 
@@ -75,12 +78,14 @@ public class SettingsBackend extends AppCompatActivity {
         final EditText editText_car_name = (EditText) findViewById(R.id.carName);
         final EditText editText_car_kfz = (EditText) findViewById(R.id.carKfz);
         final EditText edittext_name = (EditText) findViewById(R.id.userName);
-        final SeekBar seekbar_drivenkm = (SeekBar) findViewById(R.id.drivenKm);
-        final SeekBar seekbar_goalkm = (SeekBar) findViewById(R.id.goalKm);
+        final EditText editText_drivenkm = (EditText) findViewById(R.id.drivenKm);
+        final EditText editText_goalkm = (EditText) findViewById(R.id.goalKm);
         final Button button_savesettings = (Button) findViewById(R.id.saveSettings);
 
 
 
+        editText_drivenkm.setText(Float.toString(rd.user.getDrivenKm()));
+        editText_goalkm.setText(Float.toString(rd.user.getGoalKm()));
 
         final Switch pushSwitch = (Switch) findViewById(R.id.switchPush);
 
@@ -90,7 +95,7 @@ public class SettingsBackend extends AppCompatActivity {
 
         final List<Car> cars = rd.user.getCars();
         final List<CoDriver> co_drivers = rd.user.getCoDrivers();
-        final List<Achievement> achievements = rd.user.getAchievements();
+        final List<Achievement> achievements = rd.user.getUserGeneratedAchievements();
 
 
         if(!rd.user.getName().equals("Test User"))
@@ -100,8 +105,6 @@ public class SettingsBackend extends AppCompatActivity {
         else {
             edittext_name.setText("");
         }
-        seekbar_drivenkm.setProgress((int) rd.user.getDrivenKm());
-        seekbar_goalkm.setProgress((int) rd.user.getGoalKm());
 
         //set List Adapter
         listview_car.setAdapter(createCarAdapter(cars));
@@ -117,12 +120,24 @@ public class SettingsBackend extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = editText_achievements.getText().toString();
-                float km = Float.valueOf(editText_achievements_km.getText().toString());
-                Achievement a = new Achievement(name, "custom achievement", 2, km, R.drawable.ic_stars, "", rd.user);
-                a.save();
-                achievements.add(a);
-                listview_achievements.setAdapter(createAchievmentAdapter(achievements));
-                adaptListViewHeight(listview_achievements);
+
+                String strKm = editText_achievements_km.getText().toString();
+                if(name != null && !name.isEmpty() && !strKm.equals("") && strKm != null)
+                {
+                    float km = Float.valueOf(strKm);
+                    if(km != 0)
+                    {
+                        Achievement a = new Achievement(name, "custom achievement", 10, km, R.drawable.ic_stars, "", rd.user);
+                        a.save();
+                        achievements.add(a);
+                        listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+                        adaptListViewHeight(listview_achievements);
+                    }
+
+                }
+
+
+
             }
         });
 
@@ -130,11 +145,15 @@ public class SettingsBackend extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String co_driver = editText_codriver.getText().toString();
-                CoDriver co = new CoDriver(co_driver, rd.user);
-                co.save();
-                co_drivers.add(co);
-                listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
-                adaptListViewHeight(listview_codriver);
+                if(co_driver != null && !co_driver.isEmpty())
+                {
+                    CoDriver co = new CoDriver(co_driver, rd.user);
+                    co.save();
+                    co_drivers.add(co);
+                    listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
+                    adaptListViewHeight(listview_codriver);
+                }
+
             }
         });
 
@@ -143,11 +162,15 @@ public class SettingsBackend extends AppCompatActivity {
             public void onClick(View view) {
                 String name = editText_car_name.getText().toString();
                 String kfz = editText_car_kfz.getText().toString();
-                Car c = new Car(name, kfz, rd.user);
-                c.save();
-                cars.add(c);
-                listview_car.setAdapter(createCarAdapter(cars));
-                adaptListViewHeight(listview_car);
+                if(name != null && !name.isEmpty() && kfz != null && !kfz.isEmpty())
+                {
+                    Car c = new Car(name, kfz, rd.user);
+                    c.save();
+                    cars.add(c);
+                    listview_car.setAdapter(createCarAdapter(cars));
+                    adaptListViewHeight(listview_car);
+                }
+
             }
         });
 
@@ -157,10 +180,17 @@ public class SettingsBackend extends AppCompatActivity {
             public void onClick(View view) {
                 //get Userdetail
                 String name = edittext_name.getText().toString();
-                float driven_km = seekbar_drivenkm.getProgress();
-                float goal_km = seekbar_goalkm.getProgress();
-                if (name != "" && goal_km != 0) {
+                String driven_km_str = editText_drivenkm.getText().toString();
+                String goal_km_str = editText_goalkm.getText().toString();
 
+
+
+
+
+                if (name != "" && goal_km_str != null && !goal_km_str.isEmpty() && driven_km_str != null && !driven_km_str.isEmpty()) {
+
+                    float driven_km = Float.valueOf(driven_km_str);
+                    float goal_km = Float.valueOf(goal_km_str);
 
                     //update User
                     rd.user.setName(name);
@@ -189,6 +219,7 @@ public class SettingsBackend extends AppCompatActivity {
                             rd.user.setPushes(false);
                         }
                     }
+                    //if (driven_km < 0 || goal_km < 0)
                     rd.user.update();
 
                     Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();

@@ -65,7 +65,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        MakePush("Comeback from Settings " + requestCode +" | "+ resultCode,getApplicationContext());
         Intent intent = new Intent(getApplicationContext(), StartActivity.class);
         startActivity(intent);
         finish();
