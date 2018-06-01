@@ -318,7 +318,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                         achievementLevelDistance = 0,
                         achievementLevelTime = 0,
                         achievementLevelFastFurious = 0;
-                    ArrayList<Calendar> achievementLevelStreakDateArray = new ArrayList<>();
+                    ArrayList<Long> achievementLevelStreakDateArray = new ArrayList<>();
 
                     // get achieved data
                     List<DrivingSession> drivingSessions = rd.user.getAllDrivingSessions();
@@ -351,15 +351,26 @@ public class DrivingSessionAfter extends AppCompatActivity {
                         }
 
                         // time
-                        int difference = (int) ((sessionEnd.getTimeInMillis() - sessionStart.getTimeInMillis()) / 1000);
-                        if (difference >= (60*60)) {
-                            achievementLevelTime++;
-                            if (difference >= (2*60*60)) {
-                                achievementLevelTime++;
-                                if (difference >= (3*60*60)) {
-                                    achievementLevelTime++;
-                                    if (difference >= (5*60*60)) {
-                                        achievementLevelTime++;
+                        long difference = (sessionEnd.getTimeInMillis() - sessionStart.getTimeInMillis());
+                        if (difference >= (60*60*1000)) {
+                            if (achievementLevelTime < 1) {
+                                achievementLevelTime = 1;
+                            }
+
+                            if (difference >= (2*60*60*1000)) {
+                                if (achievementLevelTime < 2) {
+                                    achievementLevelTime = 2;
+                                }
+
+                                if (difference >= (3*60*60*1000)) {
+                                    if (achievementLevelTime < 3) {
+                                        achievementLevelTime = 3;
+                                    }
+
+                                    if (difference >= (5*60*60*1000)) {
+                                        if (achievementLevelTime < 4) {
+                                            achievementLevelTime = 4;
+                                        }
                                     }
                                 }
                             }
@@ -379,14 +390,17 @@ public class DrivingSessionAfter extends AppCompatActivity {
                         sessionEnd.set(Calendar.MINUTE, 0);
                         sessionEnd.set(Calendar.SECOND, 0);
                         sessionEnd.set(Calendar.MILLISECOND, 0);
-                        Log.d("Achievements", sessionStart.toString());
+                        Log.d("Achievements", "Date Start: " + sessionStart.getTimeInMillis() + ", Date End: " + sessionEnd.getTimeInMillis());
 
-                        if (!achievementLevelStreakDateArray.contains(sessionStart)) {
-                            achievementLevelStreakDateArray.add(sessionStart);
+                        if (!achievementLevelStreakDateArray.contains(sessionStart.getTimeInMillis())) {
+                            achievementLevelStreakDateArray.add(sessionStart.getTimeInMillis());
+                            Log.d("Achievements", "Add Start: " + sessionStart.getTimeInMillis());
                         }
-                        if (sessionStart.equals(sessionEnd)) {
-                            if (!achievementLevelStreakDateArray.contains(sessionEnd)) {
-                                achievementLevelStreakDateArray.add(sessionEnd);
+
+                        if (!sessionStart.equals(sessionEnd)) {
+                            if (!achievementLevelStreakDateArray.contains(sessionEnd.getTimeInMillis())) {
+                                achievementLevelStreakDateArray.add(sessionEnd.getTimeInMillis());
+                                Log.d("Achievements", "Add End: " + sessionEnd.getTimeInMillis());
                             }
                         }
 
@@ -394,28 +408,34 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                     // streak
                     for (int i = 0; i < achievementLevelStreakDateArray.size(); i++) {
-                        Calendar current = achievementLevelStreakDateArray.get(i);
+                        Calendar current = Calendar.getInstance();
+                        current.setTimeInMillis(achievementLevelStreakDateArray.get(i));
+                        Log.d("Achievements", "Compare Base: " + current.getTimeInMillis());
 
                         current.add(Calendar.DATE, 1);
-                        if (achievementLevelStreakDateArray.contains(current)) {
+                        Log.d("Achievements", "Compare New: " + current.getTimeInMillis());
+                        if (achievementLevelStreakDateArray.contains(current.getTimeInMillis())) {
                             if (achievementLevelStreak < 1) {
                                 achievementLevelStreak = 1;
                             }
 
                             current.add(Calendar.DATE, 1);
-                            if (achievementLevelStreakDateArray.contains(current)) {
+                            Log.d("Achievements", "Compare New: " + current.getTimeInMillis());
+                            if (achievementLevelStreakDateArray.contains(current.getTimeInMillis())) {
                                 if (achievementLevelStreak < 2) {
                                     achievementLevelStreak = 2;
                                 }
 
                                 current.add(Calendar.DATE, 1);
-                                if (achievementLevelStreakDateArray.contains(current)) {
+                                Log.d("Achievements", "Compare New: " + current.getTimeInMillis());
+                                if (achievementLevelStreakDateArray.contains(current.getTimeInMillis())) {
                                     if (achievementLevelStreak < 3) {
                                         achievementLevelStreak = 3;
                                     }
 
                                     current.add(Calendar.DATE, 3);
-                                    if (achievementLevelStreakDateArray.contains(current)) {
+                                    Log.d("Achievements", "Compare New: " + current.getTimeInMillis());
+                                    if (achievementLevelStreakDateArray.contains(current.getTimeInMillis())) {
                                         if (achievementLevelStreak < 4) {
                                             achievementLevelStreak = 4;
                                         }
@@ -429,13 +449,24 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     // distance
                     int distance = (int) rd.user.getDrivenKm();
                     if (distance > 1000) {
-                        achievementLevelDistance++;
+                        if (achievementLevelDistance < 1) {
+                            achievementLevelDistance = 1;
+                        }
+
                         if (distance > 2000) {
-                            achievementLevelDistance++;
+                            if (achievementLevelDistance < 2) {
+                                achievementLevelDistance = 2;
+                            }
+
                             if (distance > 3000) {
-                                achievementLevelDistance++;
+                                if (achievementLevelDistance < 3) {
+                                    achievementLevelDistance = 3;
+                                }
+
                                 if (distance > 5000) {
-                                    achievementLevelDistance++;
+                                    if (achievementLevelDistance < 4) {
+                                        achievementLevelDistance = 4;
+                                    }
                                 }
                             }
                         }
