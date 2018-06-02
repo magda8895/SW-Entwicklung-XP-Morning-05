@@ -41,36 +41,23 @@ public class StopWatch extends AppCompatActivity {
         setContentView(R.layout.activity_stop_watch);
 
 
-        // DB Connect
-        final DBHandler dbh = new DBHandler();
-        rd = RoadyData.getInstance();
-        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
+
+        chronometer = findViewById(R.id.chronometer);
 
 
         //when the app was quit unexep.
 
-        int StopWatchCrash = getIntent().getIntExtra("StopWatchCrash",0);
+        int StopWatchCrash = getIntent().getIntExtra("StopWatchCrash",1);
         if(StopWatchCrash == 1)
         {
-
-            long lgLastSessionStartTime =lastDrivingSession.getDateTimeStart();
-
-
-            Date d = new Date(lgLastSessionStartTime);
-            Date now = new Date();
-
-
-            String lastSessionTime = d.toString();
-            //lastSessionTime = lastSessionTime.substring(11,19);
-            Toast.makeText(this, "last Driving Session : " + lastSessionTime + d  , Toast.LENGTH_SHORT).show();
-
+            calcDiff();
+        }
+        else
+        {
+            chronometer.start();
 
         }
 
-
-        chronometer = findViewById(R.id.chronometer);
-        //chronometer.setBase(SystemClock.elapsedRealtime() - (2 * 60000 + 3 * 1000));
-        chronometer.start();
         TextView MileageView = (TextView) findViewById(R.id.textViewMileage);
         TextView StartTimeView = (TextView) findViewById(R.id.textViewStartTime);
         RoadyData rd;
@@ -84,13 +71,6 @@ public class StopWatch extends AppCompatActivity {
         StDateandTime = getIntent().getExtras().getString("StartTime");
         StartTimeView.setText(StDateandTime);
         final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm ");
-
-
-
-
-
-
-
 
 
 
@@ -122,6 +102,161 @@ public class StopWatch extends AppCompatActivity {
         });
 
     }
+
+
+    public  void calcDiff() {
+        // DB Connect
+        final DBHandler dbh = new DBHandler();
+        rd = RoadyData.getInstance();
+        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
+        long lgLastSessionStartTime = lastDrivingSession.getDateTimeStart();
+        Date d = new Date(lgLastSessionStartTime);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String StLastSessionStartTime = dateFormat.format(d);
+        String stringlastStartedHour = StLastSessionStartTime.substring(11,13);
+        String stringlastStartedMinute = StLastSessionStartTime.substring(14,16);
+        String stringlastStartedSecond = StLastSessionStartTime.substring(17,19);
+
+        Date now = Calendar.getInstance().getTime();
+        String Stnow = dateFormat.format(now);
+        String stringhournow = Stnow.substring(11,13);
+        String stringminutenow = Stnow.substring(14,16);
+        String stringsecondnow = Stnow.substring(17,19);
+
+
+
+        //How many hours have passed since last session
+        //Specify the data format
+        DateFormat df = new SimpleDateFormat("HH");
+        String lastTime = stringlastStartedHour;
+        String currentTime = stringhournow;
+        long diff = 0;
+
+        try {
+
+            //Convert to Date
+            Date startDate = df.parse(lastTime);
+            Calendar c1 = Calendar.getInstance();
+            //Change to Calendar Date
+            c1.setTime(startDate);
+
+            //Convert to Date
+            Date endDate = df.parse(currentTime);
+            Calendar c2 = Calendar.getInstance();
+            //Change to Calendar Date
+            c2.setTime(endDate);
+
+            //get Time in milli seconds
+            long ms1 = c1.getTimeInMillis();
+            long ms2 = c2.getTimeInMillis();
+            //get difference in milli seconds
+            diff = ms2 - ms1;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Find number of days by dividing the mili seconds
+        int diffHour = (int) (diff / ( 60 * 1000));
+
+        //To get number of seconds diff/1000
+        //To get number of minutes diff/(1000 * 60)
+        //To get number of hours diff/(1000 * 60 * 60)
+
+
+
+        //--How many hours have passed since last session
+
+
+        //How many minutes have passed since last session
+
+        //Specify the data format
+        DateFormat dm = new SimpleDateFormat("mm");
+        String lastMin = stringlastStartedMinute;
+        String currentMin = stringminutenow;
+        long diffmin = 0;
+
+        try {
+
+            //Convert to Date
+            Date startDate = dm.parse(lastMin);
+            Calendar c1 = Calendar.getInstance();
+            //Change to Calendar Date
+            c1.setTime(startDate);
+
+            //Convert to Date
+            Date endDate = dm.parse(currentMin);
+            Calendar c2 = Calendar.getInstance();
+            //Change to Calendar Date
+            c2.setTime(endDate);
+
+            //get Time in milli seconds
+            long ms1 = c1.getTimeInMillis();
+            long ms2 = c2.getTimeInMillis();
+            //get difference in milli seconds
+            diffmin = ms2 - ms1;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Find number of days by dividing the mili seconds
+        int diffMin = (int) (diffmin / ( 60 * 1000));
+
+        //--How many minutes have passed since last session
+
+
+        //How many seconds have passed since last session
+
+        //Specify the data format
+        DateFormat ds = new SimpleDateFormat("ss");
+        String lastSec = stringlastStartedSecond;
+        String currentSec = stringsecondnow;
+        long diffsec = 0;
+
+        try {
+
+            //Convert to Date
+            Date startDate = ds.parse(lastSec);
+            Calendar c1 = Calendar.getInstance();
+            //Change to Calendar Date
+            c1.setTime(startDate);
+
+            //Convert to Date
+            Date endDate = ds.parse(currentSec);
+            Calendar c2 = Calendar.getInstance();
+            //Change to Calendar Date
+            c2.setTime(endDate);
+
+            //get Time in milli seconds
+            long ms1 = c1.getTimeInMillis();
+            long ms2 = c2.getTimeInMillis();
+            //get difference in milli seconds
+            diffsec = ms2 - ms1;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Find number of days by dividing the mili seconds
+        int diffSec = (int) (diffsec / (1000));
+
+        //--How many seconds have passed since last session
+        //Toast.makeText(this, "saved successfully" + d , Toast.LENGTH_SHORT).show();
+
+
+
+
+        chronometer.setBase(SystemClock.elapsedRealtime() - ((diffMin + diffHour) * 60000 + diffSec * 1000));
+        chronometer.start();
+
+
+    }
+
+
+
+
+
 
 
 }
