@@ -15,7 +15,7 @@
             android:value="roady.db" />
         <meta-data
             android:name="VERSION"
-            android:value="18" />
+            android:value="19" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -79,6 +79,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -88,7 +89,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 

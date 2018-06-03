@@ -3,6 +3,7 @@ package com.thestreetcodecompany.roady;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.media.MediaCas;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,8 +20,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.amitshekhar.utils.DatabaseHelper;
+import com.orm.SugarRecord;
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.RoadyData;
+import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
@@ -39,16 +43,16 @@ import java.util.Date;
 import java.util.List;
 
 
+
 public class DrivingSessionAfter extends AppCompatActivity {
 
     final Calendar calStart = Calendar.getInstance();
     final Calendar calEnd = Calendar.getInstance();
+    /* TODO: make formatDateTime general accepted format for parsing: "EEE, d MMM yyyy HH:mm" */
+    final SimpleDateFormat formatDateTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
     final SimpleDateFormat formatDate = new SimpleDateFormat("EEE, d MMM yyyy");
     final SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
     int buttonID = 0;
-    String PassedDate;
-    String StMileage;
-    int Pass;
 
 
     RoadyData rd;
@@ -61,6 +65,11 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // DB instance
+        rd = RoadyData.getInstance();
+
+        // pass variable
+        final int pass = getIntent().getIntExtra("Pass", 0);
 
         // show date and time
         calStart.add(Calendar.HOUR_OF_DAY, -1);
@@ -73,63 +82,42 @@ public class DrivingSessionAfter extends AppCompatActivity {
         Button startTime = findViewById(R.id.buttonTimeStart);
         TextView kmStart = findViewById(R.id.editTextMileageStart);
 
-        Pass = getIntent().getIntExtra("Pass",0);
 
-
-
-        final SimpleDateFormat sdfDate = new SimpleDateFormat("EEE, d MMM yyyy");
-        final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
-        final String currentDate = sdfDate.format(new Date());
-        final String currentTime = sdfTime.format(new Date());
+        //final SimpleDateFormat sdfDate = new SimpleDateFormat("EEE, d MMM yyyy");
+        //final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+        //final String currentDate = sdfDate.format(new Date());
+        //final String currentTime = sdfTime.format(new Date());
 
         // in case the drive was started yesterday
-        final SimpleDateFormat sdfCheckDate = new SimpleDateFormat("dd MM yyyy");
-        String checkDate = sdfCheckDate.format(new Date());
-        checkDate = checkDate.substring(0,10);
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
+        //final SimpleDateFormat sdfCheckDate = new SimpleDateFormat("dd MM yyyy");
+        //String checkDate = sdfCheckDate.format(new Date());
+        //checkDate = checkDate.substring(0,10);
+        //Calendar cal = Calendar.getInstance();
+        //cal.add(Calendar.DATE, -1);
 
-
-        if (Pass == 1)
+        if (pass == 1)
         {
-            PassedDate =  getIntent().getStringExtra("StartTime");
-            String PassedTime = PassedDate.substring(11);
-            PassedDate = PassedDate.substring(0,10);
-           if(checkDate.equals(PassedDate))
-           {
-                startDate.setText(sdfDate.format(new Date()));
-                startTime.setText(PassedTime);
-           }
+            String passedDateTime = getIntent().getStringExtra("StartTime");
 
-            else
-           {
-               startDate.setText(sdfDate.format(cal.getTime()));
-               startTime.setText(PassedTime);
-           }
-
-            //Set Current Date and Time as EndTime
-            endDate.setText(currentDate);
-            endTime.setText(currentTime);
-
-            //Set passed Mileage
-            StMileage = getIntent().getExtras().getString("from_SW_to_NDA");
-            kmStart.setText(StMileage);
-            Pass = 0;
+            try {
+                calStart.setTime(formatDateTime.parse(passedDateTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
-        else
-        {
-            startDate.setText(formatDate.format(calStart.getTime()));
-            endDate.setText(formatDate.format(calEnd.getTime()));
-            endTime.setText(formatTime.format(calEnd.getTime()));
-            startTime.setText(formatTime.format(calStart.getTime()));
+            calEnd.setTime(new Date());
+
+            //Set passed Mileage
+            String StMileage = getIntent().getStringExtra("from_SW_to_NDA");
+            kmStart.setText(StMileage);
         }
 
 
+        startDate.setText(formatDate.format(calStart.getTime()));
+        endDate.setText(formatDate.format(calEnd.getTime()));
+        endTime.setText(formatTime.format(calEnd.getTime()));
+        startTime.setText(formatTime.format(calStart.getTime()));
 
-        // DB Connect
-        final DBHandler dbh = new DBHandler();
-        rd = RoadyData.getInstance();
 
         // list cars
         List<Car> cars = rd.user.getCars();
@@ -143,7 +131,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
         adapterVehicle.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vehicleSpinner.setAdapter(adapterVehicle);
 
-        Log.d("cars", cars.toString());
+        //Log.d("cars", cars.toString());
 
         // list coDriver
         List<CoDriver> coDrivers = rd.user.getCoDrivers();
@@ -260,7 +248,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
                     Spinner carSpinner = findViewById(R.id.spinnerVehicle);
-                    String car = carSpinner.getSelectedItem().toString();
+                    Car car = Car.findById(Car.class, (long) carSpinner.getSelectedItemPosition());
 
 
                     float km_start = -1;
@@ -285,28 +273,397 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     }
 
 
-                    // DB Connect
-                    //DBHandler dbh = new DBHandler();
-
                     if (rd.user == null) {
                         throw new DrivingSessionException("please add a user in settings first");
                     }
 
-
                     Spinner coDriverSpinner = findViewById(R.id.spinnerCoDriver);
-                    String co_driver = coDriverSpinner.getSelectedItem().toString();
+                    CoDriver co_driver = CoDriver.findById(CoDriver.class, (long) coDriverSpinner.getSelectedItemPosition());
 
                     int weather = weatherSpinner.getSelectedItemPosition();
                     int street_condition = roadConditionsSpinner.getSelectedItemPosition();
 
                     // save to db
-                    DrivingSession newSession = new DrivingSession(name, dateTime_start.getTime(), dateTime_end.getTime(), car, co_driver,
-                            km_start, km_end, weather, street_condition, rd.user);
-                    newSession.save();
+                    if(pass == 1) {
+                        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();;
+
+                        lastDrivingSession.setName(name);
+                        lastDrivingSession.setDateTimeStart(dateTime_start.getTime());
+                        lastDrivingSession.setDateTimeEnd(dateTime_end.getTime());
+                        lastDrivingSession.setCar(car);
+                        lastDrivingSession.setCoDriver(co_driver);
+                        lastDrivingSession.setKmStart(km_start);
+                        lastDrivingSession.setKmEnd(km_end);
+                        lastDrivingSession.setWeather(weather);
+                        lastDrivingSession.setStreetCondition(street_condition);
+                        lastDrivingSession.setUser(rd.user);
+                        lastDrivingSession.save();
+                        //lastDrivingSession.update();
+
+                    } else {
+                        DrivingSession newSession = new DrivingSession(name, dateTime_start.getTime(), dateTime_end.getTime(), car, co_driver,
+                                km_start, km_end, weather, street_condition, rd.user);
+                        newSession.save();
+                    }
 
                     // make toast
                     Toast.makeText(c, "saved successfully", Toast.LENGTH_SHORT).show();
+
+                    // check achievements
+                    boolean achievementRain = false,
+                            achievementSnow = false,
+                            achievementIce = false,
+                            achievementNight = false;
+                    int achievementLevelStreak = 0,
+                        achievementLevelDistance = 0,
+                        achievementLevelTime = 0,
+                        achievementLevelFastFurious = 0;
+                    ArrayList<Long> achievementLevelStreakDateArray = new ArrayList<>();
+
+                    // get achieved data
+                    List<DrivingSession> drivingSessions = rd.user.getAllDrivingSessions();
+                    for (int i = 0; i < drivingSessions.size(); i++) {
+                        // weather switch
+                        switch (drivingSessions.get(i).getWeather()) {
+                            case 1: // rain
+                                achievementRain = true;
+                                break;
+                            case 2: // snow
+                                achievementSnow = true;
+                                break;
+                            case 3: // ice
+                                achievementIce = true;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        // night
+                        int nightStart = 20;
+                        int nightEnd = 8;
+                        Calendar sessionStart = Calendar.getInstance();
+                        Calendar sessionEnd = Calendar.getInstance();
+                        sessionStart.setTimeInMillis(drivingSessions.get(i).getDateTimeStart());
+                        sessionEnd.setTimeInMillis(drivingSessions.get(i).getDateTimeEnd());
+
+                        if (nightEnd > sessionStart.get(Calendar.HOUR_OF_DAY) || nightStart < sessionEnd.get(Calendar.HOUR_OF_DAY) || sessionStart.get(Calendar.DATE) != sessionEnd.get(Calendar.DATE)) {
+                            achievementNight = true;
+                        }
+
+                        // time
+                        long difference = (sessionEnd.getTimeInMillis() - sessionStart.getTimeInMillis());
+                        if (difference >= (60*60*1000)) {
+                            if (achievementLevelTime < 1) {
+                                achievementLevelTime = 1;
+                            }
+
+                            if (difference >= (2*60*60*1000)) {
+                                if (achievementLevelTime < 2) {
+                                    achievementLevelTime = 2;
+                                }
+
+                                if (difference >= (3*60*60*1000)) {
+                                    if (achievementLevelTime < 3) {
+                                        achievementLevelTime = 3;
+                                    }
+
+                                    if (difference >= (5*60*60*1000)) {
+                                        if (achievementLevelTime < 4) {
+                                            achievementLevelTime = 4;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // streak
+                        sessionStart.set(Calendar.AM_PM, Calendar.AM);
+                        sessionStart.set(Calendar.HOUR, 0);
+                        sessionStart.set(Calendar.HOUR_OF_DAY, 0);
+                        sessionStart.set(Calendar.MINUTE, 0);
+                        sessionStart.set(Calendar.SECOND, 0);
+                        sessionStart.set(Calendar.MILLISECOND, 0);
+                        sessionEnd.set(Calendar.AM_PM, Calendar.AM);
+                        sessionEnd.set(Calendar.HOUR, 0);
+                        sessionEnd.set(Calendar.HOUR_OF_DAY, 0);
+                        sessionEnd.set(Calendar.HOUR, 0);
+                        sessionEnd.set(Calendar.MINUTE, 0);
+                        sessionEnd.set(Calendar.SECOND, 0);
+                        sessionEnd.set(Calendar.MILLISECOND, 0);
+                        Log.d("Achievements", "Date Start: " + sessionStart.getTimeInMillis() + ", Date End: " + sessionEnd.getTimeInMillis());
+
+                        if (!achievementLevelStreakDateArray.contains(sessionStart.getTimeInMillis())) {
+                            achievementLevelStreakDateArray.add(sessionStart.getTimeInMillis());
+                            Log.d("Achievements", "Add Start: " + sessionStart.getTimeInMillis());
+                        }
+
+                        if (!sessionStart.equals(sessionEnd)) {
+                            if (!achievementLevelStreakDateArray.contains(sessionEnd.getTimeInMillis())) {
+                                achievementLevelStreakDateArray.add(sessionEnd.getTimeInMillis());
+                                Log.d("Achievements", "Add End: " + sessionEnd.getTimeInMillis());
+                            }
+                        }
+
+                    }
+
+                    // streak
+                    for (int i = 0; i < achievementLevelStreakDateArray.size(); i++) {
+                        Calendar current = Calendar.getInstance();
+                        current.setTimeInMillis(achievementLevelStreakDateArray.get(i));
+                        Log.d("Achievements", "Compare Base: " + current.getTimeInMillis());
+
+                        current.add(Calendar.DATE, 1);
+                        Log.d("Achievements", "Compare New: " + current.getTimeInMillis());
+                        if (achievementLevelStreakDateArray.contains(current.getTimeInMillis())) {
+                            if (achievementLevelStreak < 1) {
+                                achievementLevelStreak = 1;
+                            }
+
+                            current.add(Calendar.DATE, 1);
+                            Log.d("Achievements", "Compare New: " + current.getTimeInMillis());
+                            if (achievementLevelStreakDateArray.contains(current.getTimeInMillis())) {
+                                if (achievementLevelStreak < 2) {
+                                    achievementLevelStreak = 2;
+                                }
+
+                                current.add(Calendar.DATE, 1);
+                                Log.d("Achievements", "Compare New: " + current.getTimeInMillis());
+                                if (achievementLevelStreakDateArray.contains(current.getTimeInMillis())) {
+                                    if (achievementLevelStreak < 3) {
+                                        achievementLevelStreak = 3;
+                                    }
+
+                                    current.add(Calendar.DATE, 3);
+                                    Log.d("Achievements", "Compare New: " + current.getTimeInMillis());
+                                    if (achievementLevelStreakDateArray.contains(current.getTimeInMillis())) {
+                                        if (achievementLevelStreak < 4) {
+                                            achievementLevelStreak = 4;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    // distance
+                    int distance = (int) rd.user.getDrivenKm();
+                    if (distance > 1000) {
+                        if (achievementLevelDistance < 1) {
+                            achievementLevelDistance = 1;
+                        }
+
+                        if (distance > 2000) {
+                            if (achievementLevelDistance < 2) {
+                                achievementLevelDistance = 2;
+                            }
+
+                            if (distance > 3000) {
+                                if (achievementLevelDistance < 3) {
+                                    achievementLevelDistance = 3;
+                                }
+
+                                if (distance > 5000) {
+                                    if (achievementLevelDistance < 4) {
+                                        achievementLevelDistance = 4;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    // fast & furious
+                    if (achievementLevelStreak >= 3 && achievementLevelDistance >= 3 && achievementLevelTime >= 3 && achievementRain && achievementSnow && achievementIce && achievementNight) {
+                        achievementLevelFastFurious++;
+                        if (achievementLevelStreak >= 4 && achievementLevelDistance >= 4 && achievementLevelTime >= 4) {
+                            achievementLevelFastFurious++;
+                        }
+                    }
+
+
+                    // save achievements
+                    Date now = new Date();
+                    List<Achievement> achievements = rd.user.getAchievements();
+                    for (int i = 0; i < achievements.size(); i++) {
+                        if (achievements.get(i).getType() <= 3) {
+
+                            boolean currentReached = false;
+                            switch (achievements.get(i).getType()) {
+                                case 0:
+                                    currentReached = achievementRain;
+                                    break;
+                                case 1:
+                                    currentReached = achievementSnow;
+                                    break;
+                                case 2:
+                                    currentReached = achievementIce;
+                                    break;
+                                case 3:
+                                    currentReached = achievementNight;
+                                    break;
+                            }
+
+                            if (currentReached) {
+                                if (!achievements.get(i).getReached()) {
+                                    achievements.get(i).setReachedDate(now);
+                                }
+                            } else {
+                                if (achievements.get(i).getReached()) {
+                                    achievements.get(i).setReached("");
+                                }
+                            }
+
+                        } else if (achievements.get(i).getType() >= 4 && achievements.get(i).getType() <= 7) {
+
+                            int currentLevelReached = 0;
+                            switch (achievements.get(i).getType()) {
+                                case 4:
+                                    currentLevelReached = achievementLevelStreak;
+                                    break;
+                                case 5:
+                                    currentLevelReached = achievementLevelDistance;
+                                    break;
+                                case 6:
+                                    currentLevelReached = achievementLevelTime;
+                                    break;
+                                case 7:
+                                    currentLevelReached = achievementLevelFastFurious;
+                                    break;
+                            }
+
+                            if (currentLevelReached > 0) {
+                                if (!achievements.get(i).getReached()) {
+                                    achievements.get(i).setReachedDate(now);
+                                }
+
+                                switch (achievements.get(i).getType()) {
+                                    case 4:
+                                        achievementLevelStreak--;
+                                        break;
+                                    case 5:
+                                        achievementLevelDistance--;
+                                        break;
+                                    case 6:
+                                        achievementLevelTime--;
+                                        break;
+                                    case 7:
+                                        achievementLevelFastFurious--;
+                                        break;
+                                }
+
+                            } else {
+                                if (achievements.get(i).getReached()) {
+                                    achievements.get(i).setReached("");
+                                }
+                            }
+                        }
+
+                        achievements.get(i).save();
+
+                        /*
+                        switch (achievements.get(i).getType()) {
+                            case 0: // rain
+                                if (achievementRain) {
+                                    if (!achievements.get(i).getReached()) {
+                                        achievements.get(i).setReachedDate(now);
+                                    }
+                                } else {
+                                    if (achievements.get(i).getReached()) {
+                                        achievements.get(i).setReached("");
+                                    }
+                                }
+                                break;
+                            case 1: // snow
+                                if (achievementSnow) {
+                                    if (!achievements.get(i).getReached()) {
+                                        achievements.get(i).setReachedDate(now);
+                                    }
+                                } else {
+                                    if (achievements.get(i).getReached()) {
+                                        achievements.get(i).setReached("");
+                                    }
+                                }
+                                break;
+                            case 2: // ice
+                                if (achievementIce) {
+                                    if (!achievements.get(i).getReached()) {
+                                        achievements.get(i).setReachedDate(now);
+                                    }
+                                } else {
+                                    if (achievements.get(i).getReached()) {
+                                        achievements.get(i).setReached("");
+                                    }
+                                }
+                                break;
+                            case 3: // night
+                                if (achievementNight) {
+                                    if (!achievements.get(i).getReached()) {
+                                        achievements.get(i).setReachedDate(now);
+                                    }
+                                } else {
+                                    if (achievements.get(i).getReached()) {
+                                        achievements.get(i).setReached("");
+                                    }
+                                }
+                                break;
+                            case 4: // streak
+                                if (achievementLevelStreak > 0) {
+                                    if (!achievements.get(i).getReached()) {
+                                        achievements.get(i).setReachedDate(now);
+                                    }
+                                    achievementLevelStreak--;
+                                } else {
+                                    if (achievements.get(i).getReached()) {
+                                        achievements.get(i).setReached("");
+                                    }
+                                }
+                                break;
+                            case 5: // distance
+                                if ((int) rd.user.getDrivenKm() > achievements.get(i).getValue()) {
+                                    if (!achievements.get(i).getReached()) {
+                                        achievements.get(i).setReachedDate(now);
+                                    }
+                                } else {
+                                    if (achievements.get(i).getReached()) {
+                                        achievements.get(i).setReached("");
+                                    }
+                                }
+                                break;
+                            case 6: // time
+                                if (achievementLevelTime > 0) {
+                                    if (!achievements.get(i).getReached()) {
+                                        achievements.get(i).setReachedDate(now);
+                                    }
+                                    achievementLevelTime--;
+                                } else {
+                                    if (achievements.get(i).getReached()) {
+                                        achievements.get(i).setReached("");
+                                    }
+                                }
+                                break;
+                            case 7: // fast & furious
+                                if (achievementLevelFastFurious > 0) {
+                                    if (!achievements.get(i).getReached()) {
+                                        achievements.get(i).setReachedDate(now);
+                                    }
+                                    achievementLevelFastFurious--;
+                                } else {
+                                    if (achievements.get(i).getReached()) {
+                                        achievements.get(i).setReached("");
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        achievements.get(i).save();
+                        */
+                    }
+
                     finish();
+
+
 
                 } catch (DrivingSessionException ex) {
 
@@ -326,11 +683,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
     }
-
-
-
-
-
 
 
     private DatePickerDialog.OnDateSetListener datePickerListener

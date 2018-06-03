@@ -1,8 +1,10 @@
 package com.thestreetcodecompany.roady.classes.model;
 
+import android.media.MediaCas;
 import android.util.Log;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Table;
 
 import java.util.Collections;
 import java.util.Calendar;
@@ -86,28 +88,23 @@ public class User extends SugarRecord {
 
     // additional
     public List<Car> getCars() {
-        List<Car> cars = Car.find(Car.class, "user = ?", "" + getId());
-        return cars;
+        return Car.find(Car.class, "user = ?", "" + getId());
     }
 
     public List<CoDriver> getCoDrivers() {
-        List<CoDriver> coDrivers = CoDriver.find(CoDriver.class, "user = ?", "" + getId());
-        return coDrivers;
+        return CoDriver.find(CoDriver.class, "user = ?", "" + getId());
     }
 
     public List<Achievement> getAchievements() {
-        List<Achievement> achievements = Achievement.find(Achievement.class, "user = ?", "" + getId());
-        return achievements;
+        return Achievement.listAll(Achievement.class);
     }
 
     public List<Achievement> getAchievementsCondition() {
-        List<Achievement> achievements = Achievement.find(Achievement.class, "user = ? and type <= ?", "" + getId(), "3");
-        return achievements;
+        return Achievement.find(Achievement.class, "type <= ?", "3");
     }
 
     public List<Achievement> getAchievementsType(int type) {
-        List<Achievement> achievements = Achievement.find(Achievement.class, "user = ? and type = ?", "" + getId(), "" + type);
-        return achievements;
+        return Achievement.find(Achievement.class, "type = ?", "" + type);
     }
 
     public List<Achievement> getAchievementsTypeReached(int type) {
@@ -121,22 +118,49 @@ public class User extends SugarRecord {
         return achievements;
     }
 
+    public Achievement getLatestAchievement() {
+        List<Achievement> achievements = getAchievementsTypeReached(7);
+        if (!achievements.isEmpty()) {
+            return achievements.get(achievements.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
     public List<Achievement> getUserGeneratedAchievements() {
-        List<Achievement> achievements = Achievement.find(Achievement.class, "user = " + getId() + " AND type = 10" );
-        return achievements;
+        return Achievement.find(Achievement.class, "type = 10" );
     }
 
     public DrivingSession getLastDrivingSession()
+    {
+        List<DrivingSession> list = DrivingSession.listAll(DrivingSession.class);
+        if(list.size() > 0)
+        {
+            return list.get(list.size() - 1);
+        }
+
+        return null;
+    }
+
+
+
+
+
+    public long getLastDrivingSessionID()
     {
         List<DrivingSession> list = DrivingSession.find(DrivingSession.class,"user = ?", "" + getId());
         if(list.size() > 0)
         {
             DrivingSession last_ds = list.get(list.size() - 1);
-            return last_ds;
+            return last_ds.getId();
         }
 
-        return null;
+        return -1;
     }
+
+
+
+
 
     public long getTimeSinceLastDrivingSession()
     {
@@ -150,8 +174,21 @@ public class User extends SugarRecord {
 
         return 0;
 
-
     }
+
+    public boolean updatelastDrivingSession()
+    {
+        DrivingSession last_ds = getLastDrivingSession();
+        if(last_ds != null)
+        {
+         last_ds.executeQuery("DELETE from last_ds where name = 'undefined'");
+        }
+
+        return true;
+    }
+
+
+
 
     public DrivingSession hasActiveDrivingSession()
     {
