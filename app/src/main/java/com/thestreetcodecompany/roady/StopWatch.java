@@ -63,12 +63,12 @@ public class StopWatch extends AppCompatActivity {
         RoadyData rd;
 
         //get and set the passed Value
-        St = getIntent().getExtras().getString("from_NDS_to_SW");
+        St = getIntent().getExtras().getString("from_NDS_to_SW","123");
         MileageView.setText(St + " km");
         Float Mileage = Float.parseFloat(St);
 
 
-        StDateandTime = getIntent().getExtras().getString("StartTime");
+        StDateandTime = getIntent().getExtras().getString("StartTime", "123");
         StartTimeView.setText(StDateandTime);
         final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm ");
 

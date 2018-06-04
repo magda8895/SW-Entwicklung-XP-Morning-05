@@ -273,8 +273,8 @@ public class StartActivity extends AppCompatActivity
                 public void onClick(DialogInterface dialogInterface, int i) {
 
                     dialogInterface.dismiss();
-                   // Intent intent = new Intent(StartActivity.this,StopWatch.class);
-                    //startActivity(intent);
+                    Intent intent = new Intent(StartActivity.this,StopWatch.class);
+                    startActivity(intent);
 
                 }
             });
