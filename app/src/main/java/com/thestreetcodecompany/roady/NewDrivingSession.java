@@ -128,11 +128,11 @@ public class NewDrivingSession extends AppCompatActivity  {
         Date dateTime_start = calStart.getTime();
         Float Mileage = Float.parseFloat(st);
         DrivingSession lastSession = rd.user.getLastDrivingSession();
-        if(lastSession.getActive() == false) {
-            DrivingSession newSession = new DrivingSession("unfinished", dateTime_start.getTime(), 00000, "Bugatti", "Hans",
-                    Mileage, 0, 1, 1, rd.user);
-            newSession.setActive(true);
-            newSession.save();
+        if (lastSession == null){
+                DrivingSession newSession = new DrivingSession("unfinished", dateTime_start.getTime(), 00000, "Bugatti", "Hans",
+                        Mileage, 0, 1, 1, rd.user);
+                newSession.setActive(true);
+                newSession.save();
         }
     }
 
