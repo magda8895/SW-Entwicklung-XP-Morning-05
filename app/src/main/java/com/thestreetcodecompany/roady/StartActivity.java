@@ -274,7 +274,10 @@ public class StartActivity extends AppCompatActivity
 
                     dialogInterface.dismiss();
                     Intent intent = new Intent(StartActivity.this,StopWatch.class);
+
+                    intent.putExtra("from_NDS_to_SW","1");
                     startActivity(intent);
+
 
                 }
             });
