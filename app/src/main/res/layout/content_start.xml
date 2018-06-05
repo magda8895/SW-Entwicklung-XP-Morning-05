@@ -29,7 +29,7 @@
         android:id="@+id/start_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:text="400 / 1000 km"
         android:textColor="@android:color/black"
         android:textSize="30dp"
@@ -40,22 +40,23 @@
     <ListView
         android:id="@+id/start_list"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/list_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_progressBar" />
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/start_floating_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/start_list"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         fab:menu_animationDelayPerItem="50"
         fab:menu_backgroundColor="@android:color/transparent"
@@ -114,6 +115,16 @@
             tools:layout_editor_absoluteX="166dp"
             tools:layout_editor_absoluteY="59dp" />
     </com.github.clans.fab.FloatingActionMenu>
+
+    <TextView
+        android:id="@+id/percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="83%"
+        app:layout_constraintBottom_toBottomOf="@+id/start_progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/start_progressBar"
+        app:layout_constraintStart_toStartOf="@+id/start_progressBar"
+        app:layout_constraintTop_toTopOf="@+id/start_progressBar" />
 
 
 </android.support.constraint.ConstraintLayout>
