@@ -28,10 +28,14 @@ import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.text.ParseException;
 
 import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
 import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
+
 
 public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -258,6 +262,8 @@ public class StartActivity extends AppCompatActivity
         DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
         //Toast.makeText(this, "" + lastDrivingSession.getActive() , Toast.LENGTH_SHORT).show();
 
+        //SimpleDateFormat format = new SimpleDateFormat("dd MM yyyy HH:mm ");
+
         if(((lastDrivingSession.getActive()) == true )){
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(StartActivity.this);
             mBuilder.setTitle("This should not happen!");
@@ -275,8 +281,26 @@ public class StartActivity extends AppCompatActivity
                     dialogInterface.dismiss();
                     Intent intent = new Intent(StartActivity.this,StopWatch.class);
 
-                    intent.putExtra("from_NDS_to_SW","1");
+                    //prep. the dates from the last active driving Session for intent
+                    long lgStart = rd.user.getLastDrivingSession().getDateTimeStart();
+                    float KmStart = rd.user.getLastDrivingSession().getKmStart();
+                    int temp;
+                    temp =(int)KmStart;
+                    String stMileage = String.valueOf(temp);
+                    //String stStart = String.valueOf(lgStart);
+
+                    SimpleDateFormat df = new SimpleDateFormat("dd MM yyyy HH:mm");
+                    Date currentDate = new Date(lgStart);
+                    String stStart = df.format(currentDate);
+
+
+
+
+                    intent.putExtra("StartTime",stStart);
+                    intent.putExtra("from_NDS_to_SW",stMileage);
+                    intent.putExtra("StopWatchCrash",1);
                     startActivity(intent);
+
 
 
                 }

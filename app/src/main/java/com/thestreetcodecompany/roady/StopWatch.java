@@ -41,13 +41,15 @@ public class StopWatch extends AppCompatActivity {
         setContentView(R.layout.activity_stop_watch);
 
 
-
         chronometer = findViewById(R.id.chronometer);
+        TextView MileageView = (TextView) findViewById(R.id.textViewMileage);
+        TextView StartTimeView = (TextView) findViewById(R.id.textViewStartTime);
+
+        St = getIntent().getExtras().getString("from_NDS_to_SW","123");
+        StDateandTime = getIntent().getExtras().getString("StartTime", "123");
 
 
-        //when the app was quit unexep.
-
-        int StopWatchCrash = getIntent().getIntExtra("StopWatchCrash",1);
+        int StopWatchCrash = getIntent().getIntExtra("StopWatchCrash",0);
         if(StopWatchCrash == 1)
         {
             calcDiff();
@@ -55,22 +57,16 @@ public class StopWatch extends AppCompatActivity {
         else
         {
             chronometer.start();
-
         }
 
-        TextView MileageView = (TextView) findViewById(R.id.textViewMileage);
-        TextView StartTimeView = (TextView) findViewById(R.id.textViewStartTime);
+
         RoadyData rd;
 
         //get and set the passed Value
-        St = getIntent().getExtras().getString("from_NDS_to_SW","123");
         MileageView.setText(St + " km");
         Float Mileage = Float.parseFloat(St);
 
-
-        StDateandTime = getIntent().getExtras().getString("StartTime", "123");
         StartTimeView.setText(StDateandTime);
-        final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm ");
 
 
 
