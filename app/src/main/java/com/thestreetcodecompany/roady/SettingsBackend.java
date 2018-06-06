@@ -48,11 +48,12 @@ public class SettingsBackend extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        rd = RoadyData.getInstance();
         //get Intent data (default: false)
         Intent intent = getIntent();
         newUser = intent.getBooleanExtra("newUser", false);
+        rd = RoadyData.getInstance();
         DBHandler dbh = new DBHandler();
+        if(rd.user == null) rd.user = dbh.getUser();
         //get User Data
         if (newUser) {
             rd.user = new User();

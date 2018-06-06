@@ -68,6 +68,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
         // DB instance
         rd = RoadyData.getInstance();
+        if(rd.user == null) rd.user = new DBHandler().getUser();
 
         // pass variable
         final int pass = getIntent().getIntExtra("Pass", 0);
@@ -675,12 +676,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     Toast.makeText(c, ex.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
-
-
-
-                Intent i = new Intent(DrivingSessionAfter.this, StartActivity.class);
-                startActivity(i);
-
             }
         });
 

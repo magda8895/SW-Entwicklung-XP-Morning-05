@@ -50,7 +50,6 @@ public class DrivingSessionActivityTest {
     @Test
     public void testWithId() throws Exception {
         DBHandler dbh = new DBHandler();
-        dbh.makeTestData();
         dbh.getUser();
         User user = dbh.getUser();
         final List<DrivingSession> sessions = user.getAllDrivingSessions();
@@ -75,7 +74,7 @@ public class DrivingSessionActivityTest {
     @Test
     public void testDelete() {
         DBHandler dbh = new DBHandler();
-        dbh.makeTestData();
+        //dbh.makeTestData();
         dbh.getUser();
         User user = dbh.getUser();
         final List<DrivingSession> sessions = user.getAllDrivingSessions();
