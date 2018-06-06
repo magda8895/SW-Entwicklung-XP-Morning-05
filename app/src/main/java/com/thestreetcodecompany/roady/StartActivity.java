@@ -215,38 +215,15 @@ public class StartActivity extends AppCompatActivity
         for(Achievement a : achievements)
         {
             boolean r = a.getReached();
-            if(a.getValue() >= rd.getUser().getDrivenKm() && !r)
+            if(a.getValue() <= rd.getUser().getDrivenKm() && !r)
             {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
                 String currentDate = sdf.format(new Date());
                 a.setReached(currentDate);
-                MakePush(getString(R.string.user_generated_push_title), a.getDescription(), getApplicationContext());
-            }
+                a.save();
+                MakePush(getString(R.string.user_generated_push_title), a.getTitle(), getApplicationContext());             }
         }
 
-//        if(rd.user != null) {
-//            long time = rd.user.getTimeSinceLastDrivingSession();
-//            long one_week = 1000 * 60 * 60 * 24 * 7;
-//            long hours = 1000 * 60 * 60 * 8;
-//
-//            if (rd.user.hasActiveDrivingSession() != null && time > hours) {
-//                MakePush(getString(R.string.activepush_title), getString(R.string.activepush_body), StopWatch.class, getApplicationContext());
-//                Push p = new Push(Calendar.getInstance().getTimeInMillis());
-//                p.save();
-//            } else if (time > one_week) {
-//                long last = dbh.getTimeSinceLastPush();
-//                Log.d("Push", "last: " + last);
-//                if (last > one_week) {
-//                    MakePush(getString(R.string.timepush_title), getString(R.string.timepush_body), getApplicationContext());
-//                    Push p = new Push(Calendar.getInstance().getTimeInMillis());
-//                    p.save();
-//                }
-//            }
-
-            //push to DB
-
-
-//        }
     }
 
 

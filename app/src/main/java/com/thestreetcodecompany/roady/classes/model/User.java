@@ -128,7 +128,7 @@ public class User extends SugarRecord {
     }
 
     public List<Achievement> getUserGeneratedAchievements() {
-        return Achievement.find(Achievement.class, "type = 10" );
+        return Achievement.find(Achievement.class, "type = ?", "10" );
     }
 
     public DrivingSession getLastDrivingSession()
