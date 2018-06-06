@@ -122,7 +122,7 @@ public class AchievementInstrumentedTest {
             }
 
             onView(withText(text)).check(matches(isDisplayed()));
-            waitSeconds(7);
+            waitSeconds(4);
         }
     }
 
@@ -146,7 +146,7 @@ public class AchievementInstrumentedTest {
                         achievements.get(achievements.size() - 1).getDescription() + " | " +
                         achievements.get(achievements.size() - 1).getReachedStringFormated();
                 onView(withText(text)).check(matches(isDisplayed()));
-                waitSeconds(3);
+                waitSeconds(4);
             }
         }
     }
