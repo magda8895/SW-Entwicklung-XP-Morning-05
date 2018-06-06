@@ -185,6 +185,19 @@ public class DBHandler extends SugarApp {
         }
         return users.get(0);
     }
+    public User getUser(boolean welcome) {
+        List<User> users = User.listAll(User.class);
+
+        if(users.size() <= 0)
+        {
+           return null;
+        }
+        else if (users.size() >= 2)
+        {
+            Log.d("DBHandler","There is more than one user...");
+        }
+        return users.get(0);
+    }
 
     /*public User getTestUser() {
 
