@@ -14,7 +14,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/imageView4"
         android:layout_marginBottom="68dp"
-        android:text="Change Mileage" />
+        android:text="Abort session" />
 
     <Chronometer
         android:id="@+id/chronometer"
