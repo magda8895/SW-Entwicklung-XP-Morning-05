@@ -1,20 +1,28 @@
 package com.thestreetcodecompany.roady;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
@@ -22,6 +30,8 @@ import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +40,49 @@ import java.util.List;
 
 public class AchievementsActivity extends AppCompatActivity {
     RoadyData rd;
+
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) {
+       int id = item.getItemId();
+
+       if(id == R.id.action_share){
+           try{
+               View v1 = getWindow().getDecorView().getRootView();
+
+               View vtest = getWindow().getDecorView().getRootView();;
+               // View vtest = getWindow().getDecorView().findViewById(R.id.achievements);
+               vtest.setDrawingCacheEnabled(true);
+               Bitmap bitmap = Bitmap.createBitmap(vtest.getDrawingCache());
+               vtest.setDrawingCacheEnabled(false);
+
+               File imageFile = new File(getApplicationContext().getFilesDir(), "Test");
+
+               FileOutputStream outputStream = new FileOutputStream(imageFile);
+               int quality = 100;
+               bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+               outputStream.flush();
+               outputStream.close();
+
+               Uri screenshotURI = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() +
+                       ".com.thestreetcodecompany.roady.provider", imageFile);
+
+               Intent sharingIntent = new Intent();
+               sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+               sharingIntent.setAction(Intent.ACTION_SEND);
+               //sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Here is your recent journey log from:\n" + dt.format(today) );
+               sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotURI);
+               sharingIntent.setType("image/*");
+               startActivity(sharingIntent);
+
+           }catch (Throwable e) {
+               e.printStackTrace();
+           }
+       }
+
+       return super.onOptionsItemSelected(item);
+   }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,7 +260,18 @@ public class AchievementsActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+        //ShareActionProvider mShare = (ShareActionProvider) shareItem.getActionProvider();
+        return true;
+    }
+
+
 }
+
+
 
 
 

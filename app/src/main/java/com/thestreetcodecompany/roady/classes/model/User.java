@@ -6,6 +6,7 @@ import android.util.Log;
 import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Calendar;
 import java.util.Date;
@@ -207,6 +208,8 @@ public class User extends SugarRecord {
         return DrivingSession.findWithQuery(DrivingSession.class, "SELECT * FROM driving_session WHERE user = ? ORDER BY date_timestart DESC", "" + getId());
     }
 
-
-
+    public List<FileHistory> getAllFileHistories()
+    {
+        return FileHistory.find(FileHistory.class,"user = ?", "" + getId());
+    }
 }

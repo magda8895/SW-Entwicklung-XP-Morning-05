@@ -17,6 +17,7 @@ import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
 import com.thestreetcodecompany.roady.classes.model.Coordinate;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.FileHistory;
 import com.thestreetcodecompany.roady.classes.model.Push;
 import com.thestreetcodecompany.roady.classes.model.User;
 
@@ -53,7 +54,6 @@ public class DBHandler extends SugarApp {
         cord.save();
         DrivingSession ds = new DrivingSession();
         ds.save();*/
-
     }
 
     public User makeTestDataForExport()
@@ -90,8 +90,6 @@ public class DBHandler extends SugarApp {
         CoDriver cd = new CoDriver("Carlos", user);
         cd.save();
 
-
-
         //Driving sessions
         DrivingSession ds = new DrivingSession("Wien-Graz",formatDateTimeTimestamp("30-10-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),209f,300f,3,3, user);
         ds.save();
@@ -101,7 +99,15 @@ public class DBHandler extends SugarApp {
         ds.save();
         ds = new DrivingSession("London-Liverpool",formatDateTimeTimestamp("05-16-2015 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c2.getName(),cd.getName(),450f,600f,1,3, user);
         ds.save();
+        //ds = new DrivingSession("London-Liverpool",formatDateTimeTimestamp("05-16-2015 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),null,cd.getName(),450f,600f,1,3,rd.user);
+        //ds.save();
 
+        //ds = new DrivingSession(true, (new Date()).toString(), 400f, rd.user);
+        //ds.save();
+
+        String fileHistory = "File: Test.csv\nCreated on: " + new Date();
+        FileHistory fh = new FileHistory(fileHistory, rd.user);
+        fh.save();
         createAchievements();
 
         return user;
@@ -240,6 +246,7 @@ public class DBHandler extends SugarApp {
         return DrivingSession.find(DrivingSession.class, "user = ? and dateTime_start >= ? and dateTime_end < ? ", whereArgs);
     }
 
+
 //    public List<Car> getAllCars(User user)
 //    {
 //        System.out.println("in get all cars ");
@@ -268,7 +275,6 @@ public class DBHandler extends SugarApp {
     }
 
 
-
     //Logs all data from table CoDrivers
     //you can dublicate this funciton and modify it for other tables
 
@@ -283,8 +289,6 @@ public class DBHandler extends SugarApp {
                          "goal_km: " + user.getGoalKm();
 
             Log.d("DBHandler", msg);
-
-
         }
     }
 
@@ -312,4 +316,5 @@ public class DBHandler extends SugarApp {
             Log.d("DBHandler", msg);
         }
     }
+
 }

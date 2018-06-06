@@ -1,6 +1,7 @@
 package com.thestreetcodecompany.roady;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,13 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.FileHistory;
 import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.io.File;
@@ -33,15 +37,18 @@ import java.text.SimpleDateFormat;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 
 public class ExportActivity extends AppCompatActivity {
 
     Button shareButton;
     EditText textFieldFileName;
+    RoadyData rd = RoadyData.getInstance();
+    List<String> fileHistory = new ArrayList<String>();
+
 
     public String getDaytime(DrivingSession ds){
 
@@ -97,12 +104,22 @@ public class ExportActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_export);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         shareButton = (Button) findViewById(R.id.buttonShare);
         textFieldFileName = (EditText) findViewById(R.id.editTextFileName);
+
+        ListView listView = (ListView) findViewById(R.id.file_history_list);
+        List<FileHistory> fileHistories = rd.user.getAllFileHistories();
+        Log.i("Export", "Test " + fileHistories.size());
+        for(FileHistory fh : fileHistories){
+            fileHistory.add(fh.getHistory());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fileHistory);
+        listView.setAdapter(adapter);
 
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +133,7 @@ public class ExportActivity extends AppCompatActivity {
                 if(rd.user==null) rd.user = new DBHandler().makeTestData();
 
                 List<DrivingSession> drivingSessions = rd.user.getAllDrivingSessions();
+
                 if(drivingSessions.isEmpty())
                 {
                     Snackbar.make(view, R.string.export_no_driving_sessions, Snackbar.LENGTH_LONG).show();
@@ -136,7 +154,8 @@ public class ExportActivity extends AppCompatActivity {
 
                     String heading = "Date," +
                             "Driven Kilometers," +
-                            "\"Mileage\nStart\t\tEnd\", " +
+                            "Mileage Start," +
+                            "Mileage End, " +
                             "License Plate," +
                             "Daytime," +
                             "Driving Route," +
@@ -146,18 +165,18 @@ public class ExportActivity extends AppCompatActivity {
 
                     for(DrivingSession ds: drivingSessions){
 
-                        writer.append(ds.getDateStringStart() + ',');
-                        writer.append(String.valueOf(ds.getDistance()) + ',');
-                        String KMString = "\"" + String.valueOf(ds.getKmStart()) + "\t\t" +
-                                String.valueOf(ds.getKmEnd()) + "\",";
-                        writer.append(KMString);
-                        if(ds.getCar()!=null) writer.append(ds.getCar().getKfz() + ',');
-                        else writer.append("unknown car, ");
-                        writer.append(getDaytime(ds) + ',');
-                        writer.append(ds.getName() + ',');
-                        writer.append(getApplicationContext().getResources().getStringArray(R.array.Weather)[ds.getWeather()] + '/');
-                        writer.append(getApplicationContext().getResources().getStringArray(R.array.RoadConditions)[ds.getStreetCondition()] + ',');
-                        writer.append('\n');
+                        if(ds.getCar() != null  && ds.getActive() != true){
+                            writer.append(ds.getDateStringStart() + ',');
+                            writer.append(String.valueOf(ds.getDistance()) + ',');
+                            writer.append(String.valueOf(ds.getKmStart()) + ',');
+                            writer.append(String.valueOf(ds.getKmEnd()) + ',');
+                            writer.append(ds.getCar().getKfz() + ',');
+                            writer.append(getDaytime(ds) + ',');
+                            writer.append(ds.getName() + ',');
+                            writer.append(getApplicationContext().getResources().getStringArray(R.array.Weather)[ds.getWeather()] + '/');
+                            writer.append(getApplicationContext().getResources().getStringArray(R.array.RoadConditions)[ds.getStreetCondition()] + ',');
+                            writer.append('\n');
+                        }
                     }
 
                     writer.flush();
@@ -182,7 +201,17 @@ public class ExportActivity extends AppCompatActivity {
                 //sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Here is your recent journey log from:\n" + dt.format(today) );
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, csvURI);
                 sharingIntent.setType("text/plain");
-                startActivity(sharingIntent);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+                String newHistory = "File: " + fileName + "\nCreated on: " + new Date();
+                FileHistory fh = new FileHistory(newHistory, rd.user);
+                fh.save();
+                List<FileHistory> fileHistories = rd.user.getAllFileHistories();
+                Log.i("Export", "Test " + fileHistories.size());
+                fileHistory.clear();
+                for(FileHistory fhs : fileHistories){
+                    fileHistory.add(fhs.getHistory());
+                }
             }
         });
 

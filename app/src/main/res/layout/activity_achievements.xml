@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
+    android:id="@+id/achievements"
     tools:context="com.thestreetcodecompany.roady.AchievementsActivity">
 
     <android.support.design.widget.AppBarLayout
