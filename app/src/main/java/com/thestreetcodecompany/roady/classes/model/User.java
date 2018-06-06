@@ -41,6 +41,8 @@ public class User extends SugarRecord {
 
     public User(){
         pushes = false;
+        goal_km = 1;
+        driven_km = 0;
     }
     public User(String name, float driven_km, float goal_km) {
         setName(name);

@@ -1,55 +1,27 @@
 package com.thestreetcodecompany.roady;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.GeneralClickAction;
-import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.hamcrest.core.AllOf;
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsAnything;
-import org.hamcrest.core.IsInstanceOf;
-import org.hamcrest.core.StringContains;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
-
-
-import com.thestreetcodecompany.roady.classes.DBHandler;
-
-import junit.framework.Assert;
-
 import java.util.Calendar;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
-import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 
@@ -70,6 +42,7 @@ public class DrivingSessionAfterwardsUiTest {
     @Rule
     public ActivityTestRule<DrivingSessionAfter> mActivityRule =
             new ActivityTestRule<>(DrivingSessionAfter.class);
+
 
     @Before
     public void initValidString() {
@@ -181,16 +154,27 @@ public class DrivingSessionAfterwardsUiTest {
         UiTestsHelper.setSpinnerwithoutData(R.id.spinnerCoDriver);
     }
 
-    @Test
+   /* @Test
     public void setWeather() {
-        UiTestsHelper.setSpinner(R.id.spinnerWeather, "Snow");
-
-    }
+        UiTestsHelper.setSpinner(R.id.spinnerWeather, "Rain");
+    }*/
 
     @Test
     public void setRoadCondition() {
         UiTestsHelper.setSpinner(R.id.spinnerRoadCondition, "Free");
     }
+
+    @Test
+    public void testFromStopWatch() {
+        Intent i = new Intent();
+        i.putExtra("from_SW_to_NDA", "123");
+        i.putExtra("StartTime", "23423");
+        i.putExtra("Pass", 1);
+        mActivityRule.launchActivity(i);
+
+    }
+
+
 
 
 }

@@ -35,6 +35,8 @@ public class DrivingSessionActivityTest {
     public ActivityTestRule<DrivingSessionActivity> activityRule  = new ActivityTestRule<>(DrivingSessionActivity.class, true, false);
 
 
+
+
     @Test
     public void useAppContext() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();

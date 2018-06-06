@@ -71,7 +71,7 @@ public class RoadyInstrumentedTest {
         onView(withId(R.id.coDriverAdd)).perform(scrollTo(), click());
     }
 
-    @Test
+    /*@Test
     public void addNewCar() throws Exception {
         onView(withId(R.id.carName)).perform(scrollTo());
         onView(withId(R.id.carName)).perform(clearText());
@@ -79,6 +79,6 @@ public class RoadyInstrumentedTest {
         onView(withId(R.id.carName)).perform(typeText("Mustang"));
         onView(withId(R.id.carKfz)).perform(typeText("G-111HA"), closeSoftKeyboard());
         onView(withId(R.id.carAdd)).perform(scrollTo(), click());
-    }
+    }*/
 
 }

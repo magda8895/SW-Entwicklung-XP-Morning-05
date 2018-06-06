@@ -102,7 +102,7 @@ public class StopWatch extends AppCompatActivity {
     }
 
 
-    public  void calcDiff() {
+    public void calcDiff() {
         // DB Connect
         final DBHandler dbh = new DBHandler();
         rd = RoadyData.getInstance();

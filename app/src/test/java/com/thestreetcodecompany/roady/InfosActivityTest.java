@@ -43,4 +43,14 @@ public class InfosActivityTest {
 
         assertEquals("The percentage should be 100%", sum, 100);
     }
+
+    @Test
+    public void testDBHandler() {
+
+        DBHandler dbh = new DBHandler();
+        dbh.logAllDrivingSessions();
+        dbh.logAllUsers();
+        dbh.logAllCoDrivers();
+
+    }
 }

@@ -99,13 +99,19 @@ public class NewDrivingSession extends AppCompatActivity  {
         findViewById(R.id.StopwatchStartButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(NewDrivingSession.this,StopWatch.class);
-                st = editTextMileage.getText().toString();
-                i.putExtra("from_NDS_to_SW",st);
                 stDateandTime = StartDate.getText().toString();
-                i.putExtra("StartTime",stDateandTime);
-                savetoDB();
-                startActivity(i);
+                st = editTextMileage.getText().toString();
+                if(!stDateandTime.equals("") && !st.equals(""))
+                {
+                    Intent i = new Intent(NewDrivingSession.this,StopWatch.class);
+
+                    i.putExtra("from_NDS_to_SW",st);
+
+                    i.putExtra("StartTime",stDateandTime);
+                    savetoDB();
+                    startActivity(i);
+                }
+
             }
         });
         ;

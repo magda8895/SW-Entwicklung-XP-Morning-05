@@ -6,6 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,6 +15,12 @@ import org.junit.runner.RunWith;
 
 import java.util.Calendar;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -46,6 +53,20 @@ public class NewDrivingSessionUiTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("com.thestreetcodecompany.roady", appContext.getPackageName());
     }
+
+
+
+    private void waitSeconds(int seconds)
+    {
+        Calendar timeToWait = Calendar.getInstance();
+        timeToWait.add(Calendar.SECOND, seconds);
+        Calendar compareTime = Calendar.getInstance();
+
+        while(!compareTime.equals(timeToWait))
+            compareTime = Calendar.getInstance();
+    }
+
+
 
 
 
