@@ -53,17 +53,18 @@ public class SettingsBackend extends AppCompatActivity {
         newUser = intent.getBooleanExtra("newUser", false);
         rd = RoadyData.getInstance();
         DBHandler dbh = new DBHandler();
-        if(rd.user == null) rd.user = dbh.getUser();
+
         //get User Data
+
         if (newUser) {
-            rd.user = new User();
-            rd.user.setName("Test User");
+            rd.user = new User("Test User",0,1);
             rd.user.save();
             dbh.createAchievements();
 
-            dbh.makeTestData();
+            //dbh.makeTestData();
 
         }
+        else if(rd.user == null) rd.user = dbh.getUser();
 
 
         //get View Elements

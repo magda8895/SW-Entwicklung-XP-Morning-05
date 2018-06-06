@@ -29,11 +29,13 @@ public class WelcomeActivity extends AppCompatActivity {
         dbh.logAllDrivingSessions();
         dbh.logAllUsers();
         RoadyData rd = RoadyData.getInstance();
-        rd.user = dbh.getUser();
+
+        rd.user = dbh.getUser(true);
 
 
 
         if (rd.user == null) {
+
             Intent intent = new Intent(getApplicationContext(), SettingsBackend.class);
             intent.putExtra("newUser",true);
             startActivityForResult(intent,1);
