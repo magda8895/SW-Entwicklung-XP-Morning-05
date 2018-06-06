@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 
@@ -64,6 +65,9 @@ public class ExportInstrumentedTest {
         onView(withId(R.id.editTextFileName)).perform(typeText("export_test"), closeSoftKeyboard());
 
         onView(withId(R.id.buttonShare)).perform(click());
+
+        UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        mDevice.pressBack();
     }
 
 }

@@ -116,9 +116,16 @@ public class ExportActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.file_history_list);
         List<FileHistory> fileHistories = rd.user.getAllFileHistories();
-        Log.i("Export", "Test " + fileHistories.size());
-        for(FileHistory fh : fileHistories){
-            fileHistory.add(fh.getHistory());
+        if(fileHistories.size() == 0)
+        {
+            String noFile = "There has been no file shared yet.";
+            fileHistory.add(noFile);
+            //findViewById(R.id.textFileHistory).setVisibility(View.INVISIBLE);
+        }else {
+            Log.i("Export", "Test " + fileHistories.size());
+            for (FileHistory fh : fileHistories) {
+                fileHistory.add(fh.getHistory());
+            }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fileHistory);
         listView.setAdapter(adapter);
@@ -214,6 +221,7 @@ public class ExportActivity extends AppCompatActivity {
                 for(FileHistory fhs : fileHistories){
                     fileHistory.add(fhs.getHistory());
                 }
+                //findViewById(R.id.textFileHistory).setVisibility(View.VISIBLE);
             }
         });
 
