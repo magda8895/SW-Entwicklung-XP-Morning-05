@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/driving_session_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/startitem_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Graz - Villach"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/startitem_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="03.04.2018"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            tools:ignore="MissingConstraints"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/startitem_distance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_marginEnd="15dp"
+        android:gravity="center|right"
+        android:text="200 km"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+</LinearLayout>
+
