@@ -80,6 +80,9 @@ public class DBHandler extends SugarApp {
         RoadyData rd = RoadyData.getInstance();
         Date date = new Date();
 
+        User user = new User("Export User", 88, 1000);
+        user.save();
+
         Car c1 = new Car("Bugatti","GU-123YEAH", rd.user);
         c1.save();
         Car c2 = new Car("Audi A6", "G-AUDI1", rd.user);
