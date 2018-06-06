@@ -7,6 +7,6 @@
         android:orderInCategory="100"
         android:title="shareActivities"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_share"
+        android:icon="@drawable/ic_share_white"
        />
 </menu>
