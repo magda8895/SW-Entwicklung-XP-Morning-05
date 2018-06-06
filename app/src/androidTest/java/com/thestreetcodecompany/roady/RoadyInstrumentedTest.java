@@ -51,7 +51,6 @@ public class RoadyInstrumentedTest {
         onView(withId(R.id.userName)).perform(typeText("Max Mustermann"), closeSoftKeyboard());
         onView(withId(R.id.saveSettings))
                 .perform(scrollTo(), click());
-        onView(withId(R.id.saveSettings)).perform(click());
     }
 
     @Test

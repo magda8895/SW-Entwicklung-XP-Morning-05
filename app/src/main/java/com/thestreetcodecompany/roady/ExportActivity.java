@@ -113,6 +113,7 @@ public class ExportActivity extends AppCompatActivity {
                 // User user = db.makeTestDataForExport();
 
                 RoadyData rd = RoadyData.getInstance();
+                if(rd.user==null) rd.user = new DBHandler().makeTestData();
 
                 List<DrivingSession> drivingSessions = rd.user.getAllDrivingSessions();
                 if(drivingSessions.isEmpty())
@@ -150,7 +151,8 @@ public class ExportActivity extends AppCompatActivity {
                         String KMString = "\"" + String.valueOf(ds.getKmStart()) + "\t\t" +
                                 String.valueOf(ds.getKmEnd()) + "\",";
                         writer.append(KMString);
-                        writer.append(ds.getCar().getKfz() + ',');
+                        if(ds.getCar()!=null) writer.append(ds.getCar().getKfz() + ',');
+                        else writer.append("unknown car, ");
                         writer.append(getDaytime(ds) + ',');
                         writer.append(ds.getName() + ',');
                         writer.append(getApplicationContext().getResources().getStringArray(R.array.Weather)[ds.getWeather()] + '/');

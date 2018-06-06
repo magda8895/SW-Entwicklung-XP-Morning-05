@@ -51,11 +51,12 @@ public class SettingsBackend extends AppCompatActivity {
         final Context c = this;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        rd = RoadyData.getInstance();
         //get Intent data (default: false)
         Intent intent = getIntent();
         newUser = intent.getBooleanExtra("newUser", false);
+        rd = RoadyData.getInstance();
         DBHandler dbh = new DBHandler();
+        if(rd.user == null) rd.user = dbh.getUser();
         //get User Data
         if (newUser) {
             rd.user = new User();
@@ -149,6 +150,8 @@ public class SettingsBackend extends AppCompatActivity {
                         achievements.add(a);
                         listview_achievements.setAdapter(createAchievementAdapter(achievements));
                         adaptListViewHeight(listview_achievements);
+                        editText_achievements.setText("");
+                        editText_achievements_km.setText("");
                     }
 
                 }
@@ -173,6 +176,7 @@ public class SettingsBackend extends AppCompatActivity {
                     co_drivers.add(co);
                     listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
                     adaptListViewHeight(listview_codriver);
+                    editText_codriver.setText("");
                 }
                 else
                 {
@@ -194,6 +198,8 @@ public class SettingsBackend extends AppCompatActivity {
                     cars.add(c);
                     listview_car.setAdapter(createCarAdapter(cars));
                     adaptListViewHeight(listview_car);
+                    editText_car_name.setText("");
+                    editText_car_kfz.setText("");
                 }
                 else
                 {

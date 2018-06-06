@@ -7,9 +7,11 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
+import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +34,7 @@ public class DrivingSessionActivityTest {
     @Rule
     public ActivityTestRule<DrivingSessionActivity> activityRule  = new ActivityTestRule<>(DrivingSessionActivity.class, true, false);
 
+
     @Test
     public void useAppContext() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
@@ -47,8 +50,9 @@ public class DrivingSessionActivityTest {
     @Test
     public void testWithId() throws Exception {
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+        dbh.getUser();
+        User user = dbh.getUser();
+        final List<DrivingSession> sessions = user.getAllDrivingSessions();
         if(sessions.size() > 0) {
             Intent intent = new Intent();
             DrivingSession session = sessions.get(0);
@@ -70,8 +74,10 @@ public class DrivingSessionActivityTest {
     @Test
     public void testDelete() {
         DBHandler dbh = new DBHandler();
-        User user = dbh.getTestUser();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
+        //dbh.makeTestData();
+        dbh.getUser();
+        User user = dbh.getUser();
+        final List<DrivingSession> sessions = user.getAllDrivingSessions();
         if(sessions.size() > 0) {
             Intent intent = new Intent();
             DrivingSession session = sessions.get(0);

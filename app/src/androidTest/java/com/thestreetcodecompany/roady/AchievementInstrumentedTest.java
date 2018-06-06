@@ -20,6 +20,7 @@ import com.thestreetcodecompany.roady.classes.model.User;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,10 +47,16 @@ import static org.junit.Assert.assertEquals;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class AchievmentInstrumentedTest {
+public class AchievementInstrumentedTest {
 
     @Rule
     public ActivityTestRule<AchievementsActivity> rule = new ActivityTestRule<AchievementsActivity>(AchievementsActivity.class);
+
+    @Before
+    public void init() {
+        DBHandler dbh = new DBHandler();
+        dbh.getUser(); // Will make test data if it doesn't exist
+    }
 
     @Test
     public void useAppContext() throws Exception {
@@ -134,22 +141,14 @@ public class AchievmentInstrumentedTest {
             List<Achievement> achievements = rd.user.getAchievementsTypeReached(type);
             String text;
 
-            if (achievements.isEmpty()) {
-                onData(anything()).inAdapterView(withId(R.id.gridViewLevel)).atPosition(index).perform(click());
-                if(type == 7){
-                    text = "Hidden\nThis achievment is hidden";
-                }else{
-                    text = rd.user.getAchievementsType(type).get(index).getTitle() + "\n" + "Not achieved yet";
-                }
-            } else {
+            if (!achievements.isEmpty()) {
                 onData(anything()).inAdapterView(withId(R.id.gridViewLevel)).atPosition(index).perform(click());
                 text = achievements.get(achievements.size() - 1).getTitle() + "\n" +
                         achievements.get(achievements.size() - 1).getDescription() + " | " +
                         achievements.get(achievements.size() - 1).getReachedStringFormated();
+                onView(withText(text)).check(matches(isDisplayed()));
+                waitSeconds(3);
             }
-
-            onView(withText(text)).check(matches(isDisplayed()));
-            waitSeconds(3);
         }
     }
 

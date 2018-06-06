@@ -17,11 +17,6 @@ import static junit.framework.Assert.assertEquals;
  */
 
 public class InfosActivityTest {
-    @Before
-    public void initTestEnvironment() {
-        DBHandler db = new DBHandler();
-        db.makeTestData();
-    }
 
     @Test
     public void testWeatherConditionPercentage() {

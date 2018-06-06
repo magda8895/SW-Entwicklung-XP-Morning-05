@@ -128,7 +128,7 @@ public class User extends SugarRecord {
     }
 
     public List<Achievement> getUserGeneratedAchievements() {
-        return Achievement.find(Achievement.class, "type = 10" );
+        return Achievement.find(Achievement.class, "type = ?", "10" );
     }
 
     public DrivingSession getLastDrivingSession()
@@ -194,7 +194,7 @@ public class User extends SugarRecord {
     {
         Log.d("User","hasActiveDrivingSession()");
         DrivingSession last_ds = getLastDrivingSession();
-        if(last_ds != null && last_ds.getActive())
+        if(last_ds != null && (last_ds.getActive()==true))
         {
             return last_ds;
         }
@@ -204,7 +204,7 @@ public class User extends SugarRecord {
 
     public List<DrivingSession> getAllDrivingSessions()
     {
-        return DrivingSession.find(DrivingSession.class, "user = ?", "" + getId());
+        return DrivingSession.findWithQuery(DrivingSession.class, "SELECT * FROM driving_session WHERE user = ? ORDER BY date_timestart DESC", "" + getId());
     }
 
 
