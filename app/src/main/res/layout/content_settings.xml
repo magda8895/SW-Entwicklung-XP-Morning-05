@@ -365,18 +365,28 @@
                 android:visibility="invisible" />
 
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/pushNotificationsLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/push_label"
-                android:textSize="18sp"
-                android:textColor="@android:color/black" />
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-            <Switch
-                android:id="@+id/switchPush"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/push_label"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
+                <Switch
+                    android:id="@+id/switchPush"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
             <View
                 android:id="@+id/divider6"
