@@ -30,14 +30,18 @@ import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.RoadyData;
+import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
+import com.thestreetcodecompany.roady.classes.model.Push;
 import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.text.ParseException;
 
+import static com.thestreetcodecompany.roady.classes.Helper.MakePush;
 import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
 import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
 
@@ -97,6 +101,7 @@ public class StartActivity extends AppCompatActivity
         //TODO: if the database contains one user, add this user object to the Singleton (RoadyData)
         //TODO: if not: Intent to Settings and create the User
         rd = RoadyData.getInstance();
+        if(rd.user == null) rd.user = new DBHandler().getUser();
         Log.d("Singleton","username: " + rd.user.getName() + " (" +rd.user.getId()+ ")" );
 
 
@@ -218,6 +223,20 @@ public class StartActivity extends AppCompatActivity
         navUsername.setText(rd.user.getName());
 
         fab_menu.close(true);
+
+        List<Achievement> achievements = rd.getUser().getUserGeneratedAchievements();
+        for(Achievement a : achievements)
+        {
+            boolean r = a.getReached();
+            if(a.getValue() <= rd.getUser().getDrivenKm() && !r)
+            {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                String currentDate = sdf.format(new Date());
+                a.setReached(currentDate);
+                a.save();
+                MakePush(getString(R.string.user_generated_push_title), a.getTitle(), getApplicationContext());             }
+        }
+
     }
 
 

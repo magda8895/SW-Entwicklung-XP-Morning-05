@@ -5,11 +5,8 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiDevice;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
-import com.thestreetcodecompany.roady.classes.model.Achievement;
-import com.thestreetcodecompany.roady.classes.model.User;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,7 +50,12 @@ public class ExportInstrumentedTest {
     @Test
     public void testEmptyFilename(){
         onView(withId(R.id.buttonShare)).perform(click());
-        onView(withText(R.string.export_empty_filename)).check(matches(isDisplayed()));
+        DBHandler dbh = new DBHandler();
+        if(dbh.getAllDrivingSessions(dbh.getUser()).size() == 0) {
+            onView(withText(R.string.export_no_driving_sessions)).check(matches(isDisplayed()));
+        } else {
+            onView(withText(R.string.export_empty_filename)).check(matches(isDisplayed()));
+        }
     }
 
     @Test
@@ -63,8 +65,6 @@ public class ExportInstrumentedTest {
 
         onView(withId(R.id.buttonShare)).perform(click());
 
-        UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        mDevice.pressBack();
 
 
     }

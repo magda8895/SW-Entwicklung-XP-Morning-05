@@ -41,6 +41,7 @@ public class AchievementsActivity extends AppCompatActivity {
 
         // DB Connect
         rd = RoadyData.getInstance();
+        if(rd.user==null) rd.user = new DBHandler().getUser();
 
 
         // most recent
@@ -282,7 +283,7 @@ class gridAdapter extends BaseAdapter {
                     if (achievements.get(position).getType() == 7) {
                         iv.setImageResource(R.drawable.ic_hidden);
                         tv.setText(R.string.achievements_hidden);
-                        tvd.setText("This achievment is hidden");
+                        tvd.setText("This achievement is hidden");
                     } else {
                         iv.setImageResource(achievements.get(position).getImage());
                         tv.setText(achievements.get(position).getTitle());

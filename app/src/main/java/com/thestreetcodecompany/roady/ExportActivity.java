@@ -113,6 +113,7 @@ public class ExportActivity extends AppCompatActivity {
                 // User user = db.makeTestDataForExport();
 
                 RoadyData rd = RoadyData.getInstance();
+                if(rd.user==null) rd.user = new DBHandler().getUser();
 
                 List<DrivingSession> drivingSessions = rd.user.getAllDrivingSessions();
                 if(drivingSessions.isEmpty())

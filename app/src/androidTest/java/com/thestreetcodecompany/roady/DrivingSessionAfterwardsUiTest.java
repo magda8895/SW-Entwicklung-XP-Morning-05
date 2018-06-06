@@ -2,6 +2,7 @@ package com.thestreetcodecompany.roady;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
@@ -28,6 +29,8 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 
+import com.thestreetcodecompany.roady.classes.DBHandler;
+
 import junit.framework.Assert;
 
 import java.util.Calendar;
@@ -36,6 +39,7 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
@@ -64,13 +68,12 @@ public class DrivingSessionAfterwardsUiTest {
 
     @Rule
     public ActivityTestRule<DrivingSessionAfter> mActivityRule =
-            new ActivityTestRule(DrivingSessionAfter.class);
+            new ActivityTestRule<>(DrivingSessionAfter.class);
 
     @Before
     public void initValidString() {
         calendar = Calendar.getInstance();
     }
-
 
     @Test
     public void app_context_test() throws Exception {
@@ -113,7 +116,7 @@ public class DrivingSessionAfterwardsUiTest {
 
     @Test
     public void setCoDriver() {
-        UiTestsHelper.setSpinner(R.id.spinnerCoDriver,"Carlos");
+        UiTestsHelper.setSpinnerwithoutData(R.id.spinnerCoDriver);
     }
 
     @Test

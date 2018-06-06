@@ -14,6 +14,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.formatters.MonthAxisValueFormatter;
 import com.thestreetcodecompany.roady.classes.formatters.YearAxisValueFormatter;
@@ -159,7 +160,7 @@ public class InfosActivity extends AppCompatActivity {
             for(DrivingSession session: sessions) {
                 c = Calendar.getInstance();
                 c.setTime(new Date(session.getDateTimeStart()));
-                int month = c.get(Calendar.MONTH) - 1;
+                int month = c.get(Calendar.MONTH);
                 sums.set(month, sums.get(month) + (int)(session.getDistance()));
             }
 
@@ -231,6 +232,7 @@ public class InfosActivity extends AppCompatActivity {
         totalTextView = findViewById(R.id.total_text);
         averageTextView = findViewById(R.id.average_text);
         rd = RoadyData.getInstance();
+        if(rd.user == null) rd.user = new DBHandler().getUser();
         weatherConditionsTextView = Arrays.asList((TextView)findViewById(R.id.weather_dry), (TextView)findViewById(R.id.weather_rain), (TextView)findViewById(R.id.weather_snow), (TextView)findViewById(R.id.weather_ice));
         roadConditionsTextView = Arrays.asList((TextView)findViewById(R.id.condition_clear), (TextView)findViewById(R.id.condition_crowd), (TextView)findViewById(R.id.condition_roadwork), (TextView)findViewById(R.id.condition_accident));
 

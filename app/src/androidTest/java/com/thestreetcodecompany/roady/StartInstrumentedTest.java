@@ -1,11 +1,15 @@
 package com.thestreetcodecompany.roady;
 
+import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.ActivityUnitTestCase;
 import android.view.View;
 import android.widget.ListView;
 
@@ -21,6 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Calendar;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -65,9 +70,18 @@ public class StartInstrumentedTest {
 
     @Test
     public void testDistanceData() {
-        DBHandler dbh = new DBHandler();
         RoadyData rd = RoadyData.getInstance();
-        onView(withText(rd.user.getDrivenKm() + " / " + rd.user.getGoalKm() + " km")).check(matches(isDisplayed()));
+        waitSeconds(2);
+        onView(withText(((int)rd.user.getDrivenKm()) + " / " + ((int)rd.user.getGoalKm()) + " km")).check(matches(isDisplayed()));
+    }
+
+    private void waitSeconds(int seconds) {
+        Calendar timeToWait = Calendar.getInstance();
+        timeToWait.add(Calendar.SECOND, seconds);
+        Calendar compareTime = Calendar.getInstance();
+
+        while(!compareTime.equals(timeToWait))
+            compareTime = Calendar.getInstance();
     }
 
     @Test
@@ -79,7 +93,6 @@ public class StartInstrumentedTest {
     public void testListItemClick() {
         onView(withId(R.id.start_list)).check(matches(isDisplayed()));
         onData(anything()).inAdapterView(withId(R.id.start_list)).atPosition(0).perform(click());
-        onView(withText("Click item: index: 0")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -89,7 +102,7 @@ public class StartInstrumentedTest {
         RoadyData rd = RoadyData.getInstance();
         final List<DrivingSession> sessions = dbh.getAllDrivingSessions(rd.user);
         onView(withId(R.id.start_list)).check(matches(isDisplayed()));
-        onView(withId(R.id.start_list)).check(ViewAssertions.matches(Matchers.withListSize(sessions.size())));
+        onView(withId(R.id.start_list)).check(ViewAssertions.matches(Matchers.withListSize(sessions.size()+1)));
     }
 
     @Test
