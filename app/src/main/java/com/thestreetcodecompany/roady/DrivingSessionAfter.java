@@ -567,10 +567,9 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                     }
 
+                    Intent i = new Intent(DrivingSessionAfter.this, StartActivity.class);
+                    startActivity(i);
                     finish();
-
-
-
                 } catch (DrivingSessionException ex) {
 
                     ex.printStackTrace();
@@ -579,9 +578,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     Toast.makeText(c, ex.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
-                Intent i = new Intent(DrivingSessionAfter.this, StartActivity.class);
-                startActivity(i);
-                finish();
+
             }
         });
 
