@@ -189,7 +189,7 @@ public class DrivingSessionAfterwardsUiTest {
 
     @Test
     public void setRoadCondition() {
-        UiTestsHelper.setSpinner(R.id.spinnerRoadCondition, "Crowd");
+        UiTestsHelper.setSpinner(R.id.spinnerRoadCondition, "Free");
     }
 
 
