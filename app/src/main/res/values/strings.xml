@@ -20,15 +20,15 @@
 
 
     <string name="user_name_label">Name</string>
-    <string name="driven_km_label">Already Driven Kilometers</string>
-    <string name="goal_km_label">Goal Kilometers</string>
+    <string name="driven_km_label">Already Driven</string>
+    <string name="goal_km_label">Goal</string>
     <string name="achievements_user_created_label">Personal Achievements</string>
     <string name="achievements_user_created_name">New Achievement</string>
     <string name="achievements_user_created_km">km</string>
     <string name="co_driver_label">Co-Drivers</string>
     <string name="co_driver_name">New Co-Driver</string>
     <string name="car_label">Cars</string>
-    <string name="push_label">Push Notification</string>
+    <string name="push_label">Push Notifications</string>
     <string name="car_kfz">KFZ</string>
     <string name="car_name">New Car</string>
     <string name="save_settings">Save Settings</string>
@@ -49,8 +49,8 @@
         <item>Ice</item>
     </string-array>
     <string-array name="RoadConditions">
-        <item>Clear</item>
-        <item>Crowd</item>
+        <item>Free</item>
+        <item>Crowded</item>
         <item>Roadworks</item>
         <item>Accident</item>
     </string-array>
@@ -69,6 +69,20 @@
 
     <string name="wrong_input">Name, goal kilometers or driven kilometers are wrong</string>
     <string name="title_activity_export">ExportActivity</string>
+    <string name="settings_name">Name</string>
+    <string name="driving_session_afterwards_mileage">Mileage</string>
+    <string name="km">km</string>
+    <string name="driving_session_after_end">End</string>
+    <string name="driving_session_after_start">Start</string>
+    <string name="driving_session_after_weather">Weather</string>
+    <string name="driving_session_after_road_condition">Road condition</string>
+    <string name="driving_session_after_save">Save</string>
+    <string name="driving_session_after_codriver">CoDriver</string>
+    <string name="driving_session_after_vehicle">Vehicle</string>
+    <string name="driving_session_after_time">Time</string>
+    <string name="driving_session_after_date">Date</string>
+    <string name="driving_session_after_date_and_time">Date and Time</string>
+    <string name="driving_session_after_route">Route</string>
 
 
 </resources>

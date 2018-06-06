@@ -65,7 +65,7 @@ public class DBHandler extends SugarApp {
         c1.save();
 
         CoDriver coDriver = new CoDriver("Export CoDriver", user);
-
+        coDriver.save();
 
         DrivingSession ds = new DrivingSession("Graz - Feldkirchen", (new Date()).getTime(), (new Date()).getTime(), c1.getName(), coDriver.getName(), 0f, 350f, 0, 0, user);
         ds.save();
@@ -75,7 +75,7 @@ public class DBHandler extends SugarApp {
         return user;
     }
 
-    public void makeTestData()
+    public User makeTestData()
     {
         RoadyData rd = RoadyData.getInstance();
         Date date = new Date();
@@ -83,28 +83,26 @@ public class DBHandler extends SugarApp {
         User user = new User("Export User", 88, 1000);
         user.save();
 
-        Car c1 = new Car("Bugatti","GU-123YEAH", rd.user);
-        c1.save();
-        Car c2 = new Car("Audi A6", "G-AUDI1", rd.user);
+        Car c2 = new Car("Audi A6", "G-AUDI1", user);
         c2.save();
-        Car c3 = new Car("VW Golf", "SL-234KK", rd.user);
+        Car c3 = new Car("VW Golf", "SL-234KK", user);
         c3.save();
-        CoDriver cd = new CoDriver("Carlos", rd.user);
+        CoDriver cd = new CoDriver("Carlos", user);
         cd.save();
 
 
 
         //Driving sessions
-        DrivingSession ds = new DrivingSession("Wien-Graz",formatDateTimeTimestamp("30-10-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),209f,300f,3,3,rd.user);
+        DrivingSession ds = new DrivingSession("Wien-Graz",formatDateTimeTimestamp("30-10-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),209f,300f,3,3, user);
         ds.save();
-        ds = new DrivingSession("Salzburg-Graz",formatDateTimeTimestamp("15-11-2017 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),300f,400f,2,3,rd.user);
+        ds = new DrivingSession("Salzburg-Graz",formatDateTimeTimestamp("15-11-2017 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c3.getName(),cd.getName(),300f,400f,2,3, user);
         ds.save();
-        ds = new DrivingSession("Moskau-Graz",formatDateTimeTimestamp("01-01-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c2.getName(),cd.getName(),400f,450f,0,3,rd.user);
+        ds = new DrivingSession("Moskau-Graz",formatDateTimeTimestamp("01-01-2018 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c2.getName(),cd.getName(),400f,450f,0,3, user);
         ds.save();
-        ds = new DrivingSession("London-Liverpool",formatDateTimeTimestamp("05-16-2015 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c1.getName(),cd.getName(),450f,600f,1,3,rd.user);
+        ds = new DrivingSession("London-Liverpool",formatDateTimeTimestamp("05-16-2015 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),c2.getName(),cd.getName(),450f,600f,1,3, user);
         ds.save();
 
-
+        return user;
     }
 
 
@@ -166,9 +164,9 @@ public class DBHandler extends SugarApp {
         ac = new Achievement("All day long (Platinum)", "Drive 5h", 6, 5, R.drawable.ic_time_platinum, "", rd.user);
         ac.save();
 
-        ac = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_fast_and_furious, "", rd.user);
+        ac = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_fast_and_furious_gold, "", rd.user);
         ac.save();
-        ac = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_fast_and_furious, "", rd.user);
+        ac = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_fast_and_furious_platinum, "", rd.user);
         ac.save();
 
     }
