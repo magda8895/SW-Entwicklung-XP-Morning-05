@@ -105,8 +105,8 @@ public class DBHandler extends SugarApp {
         //ds = new DrivingSession("London-Liverpool",formatDateTimeTimestamp("05-16-2015 05:21:10"),formatDateTimeTimestamp("12-12-2012 05:21:10"),null,cd.getName(),450f,600f,1,3,rd.user);
         //ds.save();
 
-        ds = new DrivingSession(true, (new Date()).toString(), 400f, rd.user);
-        ds.save();
+        //ds = new DrivingSession(true, (new Date()).toString(), 400f, rd.user);
+        //ds.save();
 
         String fileHistory = "File: Test.csv\nCreated on: " + new Date();
         FileHistory fh = new FileHistory(fileHistory, rd.user);
