@@ -86,9 +86,23 @@ public class SettingsBackend extends AppCompatActivity {
         final Button button_savesettings = (Button) findViewById(R.id.saveSettings);
 
 
+        List<DrivingSession> sessions = rd.user.getAllDrivingSessions();
+        float sum = 0;
+        for (DrivingSession session: sessions) {
+            sum += session.getDistance();
+        }
 
-        editText_drivenkm.setText(Float.toString(rd.user.getDrivenKm()));
-        editText_goalkm.setText(Float.toString(rd.user.getGoalKm()));
+        float driven_km = rd.user.getDrivenKm();
+        float goal_km = rd.user.getGoalKm();
+
+        if (sum > driven_km) {
+            driven_km = 0;
+        } else {
+            driven_km -= sum;
+        }
+
+        editText_drivenkm.setText(Float.toString(driven_km));
+        editText_goalkm.setText(Float.toString(goal_km));
 
         final Switch pushSwitch = (Switch) findViewById(R.id.switchPush);
 
@@ -212,6 +226,8 @@ public class SettingsBackend extends AppCompatActivity {
                         for (DrivingSession session: sessions) {
                             sum += session.getDistance();
                         }
+
+                        driven_km += sum;
 
                         if (goal_km <= 0)
                         {
