@@ -221,14 +221,6 @@ public class SettingsBackend extends AppCompatActivity {
                         float driven_km = Float.valueOf(driven_km_str);
                         float goal_km = Float.valueOf(goal_km_str);
 
-                        List<DrivingSession> sessions = rd.getUser().getAllDrivingSessions();
-                        float sum = 0;
-                        for (DrivingSession session: sessions) {
-                            sum += session.getDistance();
-                        }
-
-                        driven_km += sum;
-
                         if (goal_km <= 0)
                         {
                             throw new SettingsException("Goal mileage can't be zero");
@@ -237,14 +229,14 @@ public class SettingsBackend extends AppCompatActivity {
                         {
                             throw new SettingsException("Driven mileage can't be lower than zero");
                         }
-                        else if (driven_km > goal_km)
-                        {
-                            throw new SettingsException("Driven mileage can't be larger than goal mileage");
+
+                        List<DrivingSession> sessions = rd.getUser().getAllDrivingSessions();
+                        float sum = 0;
+                        for (DrivingSession session: sessions) {
+                            sum += session.getDistance();
                         }
 
-                        if (driven_km < sum) {
-                            driven_km = sum;
-                        }
+                        driven_km += sum;
 
                         //update User
                         rd.user.setName(name);

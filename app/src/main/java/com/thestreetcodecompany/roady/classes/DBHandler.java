@@ -164,9 +164,9 @@ public class DBHandler extends SugarApp {
         ac = new Achievement("All day long (Platinum)", "Drive 5h", 6, 5, R.drawable.ic_time_platinum, "", rd.user);
         ac.save();
 
-        ac = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_fast_and_furious, "", rd.user);
+        ac = new Achievement("Fast & Furious", "You are the street king", 7, 1, R.drawable.ic_fast_and_furious_gold, "", rd.user);
         ac.save();
-        ac = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_fast_and_furious, "", rd.user);
+        ac = new Achievement("2 Fast & 2 Furious", "Not a king, a true god", 7, 2, R.drawable.ic_fast_and_furious_platinum, "", rd.user);
         ac.save();
 
     }
