@@ -103,7 +103,6 @@ public class AchievementInstrumentedTest {
     @Test
     public void testConditions() throws Exception {
         // DB Connect
-        DBHandler dbh = new DBHandler();
         RoadyData rd = RoadyData.getInstance();
         // Conditions
         List<Achievement> achievementsCondition = rd.user.getAchievementsCondition();
@@ -123,7 +122,7 @@ public class AchievementInstrumentedTest {
             }
 
             onView(withText(text)).check(matches(isDisplayed()));
-            waitSeconds(3);
+            waitSeconds(7);
         }
     }
 
