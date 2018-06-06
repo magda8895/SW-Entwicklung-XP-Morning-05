@@ -130,6 +130,62 @@ public class StopWatch extends AppCompatActivity {
         String currentTime = stringhournow;
         long diff = 0;
 
+        diff = getDiff(df, lastTime, currentTime, diff);
+
+        //Find number of days by dividing the mili seconds
+        int diffHour = (int) (diff / (60 * 60 * 1000));
+
+        //To get number of seconds diff/1000
+        //To get number of minutes diff/(1000 * 60)
+        //To get number of hours diff/(1000 * 60 * 60)
+
+
+
+        //--How many hours have passed since last session
+
+
+        //How many minutes have passed since last session
+
+        //Specify the data format
+        DateFormat dm = new SimpleDateFormat("mm");
+        String lastMin = stringlastStartedMinute;
+        String currentMin = stringminutenow;
+        long diffmin = 0;
+
+        diffmin = getDiff(dm, lastMin, currentMin, diffmin);
+
+        //Find number of days by dividing the mili seconds
+        int diffMin = (int) (diffmin / ( 60 * 1000));
+
+        //--How many minutes have passed since last session
+
+
+        //How many seconds have passed since last session
+
+        //Specify the data format
+        DateFormat ds = new SimpleDateFormat("ss");
+        String lastSec = stringlastStartedSecond;
+        String currentSec = stringsecondnow;
+        long diffsec = 0;
+
+        diffsec = getDiff(ds, lastSec, currentSec, diffsec);
+
+        //Find number of days by dividing the mili seconds
+        int diffSec = (int) (diffsec / (1000));
+
+        //--How many seconds have passed since last session
+        //Toast.makeText(this, "saved successfully" + d , Toast.LENGTH_SHORT).show();
+
+
+
+
+        chronometer.setBase(SystemClock.elapsedRealtime() - ((diffMin + diffHour) * 60000 + diffSec * 1000));
+        chronometer.start();
+
+
+    }
+
+    public static long getDiff(DateFormat df, String lastTime, String currentTime, long diff) {
         try {
 
             //Convert to Date
@@ -153,108 +209,8 @@ public class StopWatch extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        //Find number of days by dividing the mili seconds
-        int diffHour = (int) (diff / ( 60 * 1000));
-
-        //To get number of seconds diff/1000
-        //To get number of minutes diff/(1000 * 60)
-        //To get number of hours diff/(1000 * 60 * 60)
-
-
-
-        //--How many hours have passed since last session
-
-
-        //How many minutes have passed since last session
-
-        //Specify the data format
-        DateFormat dm = new SimpleDateFormat("mm");
-        String lastMin = stringlastStartedMinute;
-        String currentMin = stringminutenow;
-        long diffmin = 0;
-
-        try {
-
-            //Convert to Date
-            Date startDate = dm.parse(lastMin);
-            Calendar c1 = Calendar.getInstance();
-            //Change to Calendar Date
-            c1.setTime(startDate);
-
-            //Convert to Date
-            Date endDate = dm.parse(currentMin);
-            Calendar c2 = Calendar.getInstance();
-            //Change to Calendar Date
-            c2.setTime(endDate);
-
-            //get Time in milli seconds
-            long ms1 = c1.getTimeInMillis();
-            long ms2 = c2.getTimeInMillis();
-            //get difference in milli seconds
-            diffmin = ms2 - ms1;
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        //Find number of days by dividing the mili seconds
-        int diffMin = (int) (diffmin / ( 60 * 1000));
-
-        //--How many minutes have passed since last session
-
-
-        //How many seconds have passed since last session
-
-        //Specify the data format
-        DateFormat ds = new SimpleDateFormat("ss");
-        String lastSec = stringlastStartedSecond;
-        String currentSec = stringsecondnow;
-        long diffsec = 0;
-
-        try {
-
-            //Convert to Date
-            Date startDate = ds.parse(lastSec);
-            Calendar c1 = Calendar.getInstance();
-            //Change to Calendar Date
-            c1.setTime(startDate);
-
-            //Convert to Date
-            Date endDate = ds.parse(currentSec);
-            Calendar c2 = Calendar.getInstance();
-            //Change to Calendar Date
-            c2.setTime(endDate);
-
-            //get Time in milli seconds
-            long ms1 = c1.getTimeInMillis();
-            long ms2 = c2.getTimeInMillis();
-            //get difference in milli seconds
-            diffsec = ms2 - ms1;
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        //Find number of days by dividing the mili seconds
-        int diffSec = (int) (diffsec / (1000));
-
-        //--How many seconds have passed since last session
-        //Toast.makeText(this, "saved successfully" + d , Toast.LENGTH_SHORT).show();
-
-
-
-
-        chronometer.setBase(SystemClock.elapsedRealtime() - ((diffMin + diffHour) * 60000 + diffSec * 1000));
-        chronometer.start();
-
-
+        return diff;
     }
-
-
-
-
-
 
 
 }

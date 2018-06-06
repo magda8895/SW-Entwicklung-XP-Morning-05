@@ -15,7 +15,7 @@
             android:value="roady.db" />
         <meta-data
             android:name="VERSION"
-            android:value="19" />
+            android:value="22" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
