@@ -1,5 +1,6 @@
 package com.thestreetcodecompany.roady;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -578,6 +579,9 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     Toast.makeText(c, ex.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
+                Intent i = new Intent(DrivingSessionAfter.this, StartActivity.class);
+                startActivity(i);
+                finish();
             }
         });
 
@@ -614,6 +618,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     button.setText(formatDate.format(calEnd.getTime()));
                     break;
             }
+
 
         }
     };
