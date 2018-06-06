@@ -22,6 +22,9 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.thestreetcodecompany.roady.classes.model" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".StartActivity"
@@ -82,6 +85,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".InfosActivity" />
+        <activity android:name=".StopWatch" />
+        <activity android:name=".DrivingSessionActivity"></activity>
 
         <activity
             android:name=".ExportActivity"

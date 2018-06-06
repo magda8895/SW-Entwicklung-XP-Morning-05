@@ -1,8 +1,13 @@
 package com.thestreetcodecompany.roady;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,6 +29,8 @@ import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
@@ -39,6 +46,7 @@ public class StartActivity extends AppCompatActivity
     View headerView;
     TextView navUsername;
     NavigationView navigationView;
+    TextView percentage;
     com.github.clans.fab.FloatingActionMenu fab_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +72,7 @@ public class StartActivity extends AppCompatActivity
         final com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.start_fab_old);
         display = (TextView) findViewById(R.id.start_display);
         progressBar = (ProgressBar) findViewById(R.id.start_progressBar);
+        percentage = findViewById(R.id.percentage);
 
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.start_container);
         final DBHandler dbh = new DBHandler();
@@ -84,26 +93,34 @@ public class StartActivity extends AppCompatActivity
 
 
         //get Data
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(rd.user);
-
-
-
+        User user = rd.getUser();
+        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(user);
 
         //set Name in Navigation
         headerView = navigationView.getHeaderView(0);
         navUsername = (TextView) headerView.findViewById(R.id.navName);
         navUsername.setText(rd.user.getName());
 
-
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
         //set Display
-        display.setText(rd.user.getDrivenKm() + " / " + rd.user.getGoalKm() + " km");
-        progressBar.setMax((int)rd.user.getGoalKm());
-        progressBar.setProgress((int)rd.user.getDrivenKm());
+        final int goal = (int)user.getGoalKm();
+        display.setText("0 / " + goal + " km");
+        progressBar.setMax((int)user.getGoalKm());
 
-
+        ObjectAnimator animator = ObjectAnimator.ofInt(progressBar, "progress", 0, (int) user.getDrivenKm());
+        animator.setDuration(2000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(final ValueAnimator valueAnimator) {
+                int progress = (int)valueAnimator.getAnimatedValue();
+                int ratio = (int)100 * progress/goal;
+                percentage.setText(ratio + "%");
+                display.setText(progress + " / " + goal + " km");
+            }
+        });
+        animator.start();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +159,13 @@ public class StartActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 fab_menu.close(true);
-                MakeSnackbar("Click item: index: " + i,view);
+                String str = ((TextView)view.findViewById(R.id.driving_session_id)).getText().toString();
+                if(str.equals("")) return;
+                long id = Integer.parseInt(str);
+                Intent intent = new Intent(StartActivity.this, DrivingSessionActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                // MakeSnackbar("Click item: index: " + id, view);
             }
         });
 
@@ -161,16 +184,21 @@ public class StartActivity extends AppCompatActivity
     protected void onResume(){
         super.onResume();
 
+        User user = rd.getUser();
         //get all Driving Sessions
-        final List<DrivingSession> sessions = rd.getUser().getAllDrivingSessions();
+        final List<DrivingSession> sessions = user.getAllDrivingSessions();
 
         //set List Adapter
         listview.setAdapter(createAdapter(sessions));
 
         //set Progressbar / Display
-        display.setText(rd.getUser().getDrivenKm() + " / " + rd.getUser().getGoalKm() + " km");
-        progressBar.setProgress((int)rd.user.getDrivenKm());
-        progressBar.setMax((int)rd.user.getGoalKm());
+        int goal = (int)user.getGoalKm();
+        int progress = (int)user.getDrivenKm();
+        int ratio = (int) 100 * progress / goal;
+        display.setText(progress + " / " + goal + " km");
+        percentage.setText(ratio + "%");
+        progressBar.setProgress((int)user.getDrivenKm());
+        //progressBar.refreshDrawableState();
 
         //set Name in Navigation
         headerView = navigationView.getHeaderView(0);
@@ -221,9 +249,20 @@ public class StartActivity extends AppCompatActivity
 
 
     public ArrayAdapter createAdapter(final List<DrivingSession> sessions) {
+        // Add initial
+        float sum = 0;
+        for (DrivingSession session: sessions) {
+            sum += session.getDistance();
+        }
+        final DrivingSession initialSession = new DrivingSession();
+        initialSession.setKmStart(0);
+
+        User user = rd.getUser();
+        initialSession.setKmEnd(user.getDrivenKm() - sum);
+        sessions.add(initialSession);
 
         ArrayAdapter adapter = new ArrayAdapter<DrivingSession>(this,
-                R.layout.listitem_start,R.id.startitem_name, sessions) {
+                R.layout.listitem_start, R.id.startitem_name, sessions) {
             @Override
             public View getView(int position,View convertView, ViewGroup parent) {
                 View view = super.getView(position,convertView,parent);
@@ -231,10 +270,26 @@ public class StartActivity extends AppCompatActivity
                 TextView tv_name = (TextView) view.findViewById(R.id.startitem_name);
                 TextView tv_time = (TextView) view.findViewById(R.id.startitem_date);
                 TextView tv_distance = (TextView) view.findViewById(R.id.startitem_distance);
+                TextView tv_id = view.findViewById(R.id.driving_session_id);
 
-                tv_name.setText(sessions.get(position).getName());
-                tv_time.setText(sessions.get(position).getDateStringStart());
-                tv_distance.setText(sessions.get(position).getDistance() + " km");
+                if(position == sessions.size() - 1) {
+                    try {
+                        long installed = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0).firstInstallTime;
+                        Date installDate = new Date(installed);
+                        SimpleDateFormat df = new SimpleDateFormat("dd. MMM yyyy");
+                        tv_time.setText(df.format(installDate));
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    tv_distance.setText(initialSession.getDistance() + " km");
+                    tv_name.setText("Already driven");
+                } else {
+                    tv_name.setText(sessions.get(position).getName());
+                    tv_time.setText(sessions.get(position).getDateStringStart());
+                    tv_id.setText(sessions.get(position).getId()+"");
+                    tv_distance.setText(sessions.get(position).getDistance() + " km");
+                }
+
 
                 return view;
             }
