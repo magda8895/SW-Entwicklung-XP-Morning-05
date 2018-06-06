@@ -72,6 +72,21 @@ public class DrivingSessionActivityTest {
     }
 
     @Test
+    public void testControls() {
+        DBHandler dbh = new DBHandler();
+        dbh.getUser();
+        User user = dbh.getUser();
+        final List<DrivingSession> sessions = user.getAllDrivingSessions();
+        if (sessions.size() > 0) {
+            Intent intent = new Intent();
+            DrivingSession session = sessions.get(0);
+            intent.putExtra("id", session.getId());
+            activityRule.launchActivity(intent);
+            onView(withId(R.id.left)).perform(click());
+            onView(withId(R.id.right)).perform(click());
+        }
+    }
+    @Test
     public void testDelete() {
         DBHandler dbh = new DBHandler();
         //dbh.makeTestData();
