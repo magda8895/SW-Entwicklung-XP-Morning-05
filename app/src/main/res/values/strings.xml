@@ -64,6 +64,8 @@
     <string name="activepush_body">You started driving more than eight hours ago.</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
 
+    <string name="user_generated_push_title">New controll Point</string>
+
 
     <string name="wrong_input">Name, goal kilometers or driven kilometers are wrong</string>
     <string name="title_activity_export">ExportActivity</string>
