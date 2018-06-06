@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.PushService;
@@ -29,6 +30,7 @@ import com.thestreetcodecompany.roady.classes.RoadyData;
 import com.thestreetcodecompany.roady.classes.model.Achievement;
 import com.thestreetcodecompany.roady.classes.model.Car;
 import com.thestreetcodecompany.roady.classes.model.CoDriver;
+import com.thestreetcodecompany.roady.classes.model.DrivingSession;
 import com.thestreetcodecompany.roady.classes.model.User;
 
 import java.util.Calendar;
@@ -46,6 +48,7 @@ public class SettingsBackend extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        final Context c = this;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //get Intent data (default: false)
@@ -84,9 +87,23 @@ public class SettingsBackend extends AppCompatActivity {
         final Button button_savesettings = (Button) findViewById(R.id.saveSettings);
 
 
+        List<DrivingSession> sessions = rd.user.getAllDrivingSessions();
+        float sum = 0;
+        for (DrivingSession session: sessions) {
+            sum += session.getDistance();
+        }
 
-        editText_drivenkm.setText(Float.toString(rd.user.getDrivenKm()));
-        editText_goalkm.setText(Float.toString(rd.user.getGoalKm()));
+        float driven_km = rd.user.getDrivenKm();
+        float goal_km = rd.user.getGoalKm();
+
+        if (sum > driven_km) {
+            driven_km = 0;
+        } else {
+            driven_km -= sum;
+        }
+
+        editText_drivenkm.setText(Float.toString(driven_km));
+        editText_goalkm.setText(Float.toString(goal_km));
 
         final Switch pushSwitch = (Switch) findViewById(R.id.switchPush);
 
@@ -112,7 +129,7 @@ public class SettingsBackend extends AppCompatActivity {
         adaptListViewHeight(listview_car);
         listview_codriver.setAdapter(createCoDriverAdapter(co_drivers));
         adaptListViewHeight(listview_codriver);
-        listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+        listview_achievements.setAdapter(createAchievementAdapter(achievements));
         adaptListViewHeight(listview_achievements);
 
 
@@ -123,7 +140,7 @@ public class SettingsBackend extends AppCompatActivity {
                 String name = editText_achievements.getText().toString();
 
                 String strKm = editText_achievements_km.getText().toString();
-                if(name != null && !name.isEmpty() && !strKm.equals("") && strKm != null)
+                if(name != null && !name.isEmpty() && strKm != null && !strKm.isEmpty())
                 {
                     float km = Float.valueOf(strKm);
                     if(km != 0)
@@ -131,12 +148,16 @@ public class SettingsBackend extends AppCompatActivity {
                         Achievement a = new Achievement(name, "custom achievement", 10, km, R.drawable.ic_stars, "", rd.user);
                         a.save();
                         achievements.add(a);
-                        listview_achievements.setAdapter(createAchievmentAdapter(achievements));
+                        listview_achievements.setAdapter(createAchievementAdapter(achievements));
                         adaptListViewHeight(listview_achievements);
                         editText_achievements.setText("");
                         editText_achievements_km.setText("");
                     }
 
+                }
+                else
+                {
+                    Toast.makeText(c, "Something is missing", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -157,6 +178,10 @@ public class SettingsBackend extends AppCompatActivity {
                     adaptListViewHeight(listview_codriver);
                     editText_codriver.setText("");
                 }
+                else
+                {
+                    Toast.makeText(c, "Something is missing", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -176,6 +201,10 @@ public class SettingsBackend extends AppCompatActivity {
                     editText_car_name.setText("");
                     editText_car_kfz.setText("");
                 }
+                else
+                {
+                    Toast.makeText(c, "Something is missing", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -191,47 +220,78 @@ public class SettingsBackend extends AppCompatActivity {
 
 
 
+                try {
 
+                    if (name != null && !name.isEmpty() && goal_km_str != null && !goal_km_str.isEmpty() && driven_km_str != null && !driven_km_str.isEmpty()) {
 
-                if (name != "" && goal_km_str != null && !goal_km_str.isEmpty() && driven_km_str != null && !driven_km_str.isEmpty()) {
+                        float driven_km = Float.valueOf(driven_km_str);
+                        float goal_km = Float.valueOf(goal_km_str);
 
-                    float driven_km = Float.valueOf(driven_km_str);
-                    float goal_km = Float.valueOf(goal_km_str);
-
-                    //update User
-                    rd.user.setName(name);
-                    rd.user.setDrivenKm(driven_km);
-                    rd.user.setGoalKm(goal_km);
-
-                    rd.user.update();
-
-
-                    if (pushSwitch.isChecked() != rd.user.getPushes()) {
-                        final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                        final Calendar cal = Calendar.getInstance();
-                        Intent intent = new Intent(getApplicationContext(), PushService.class);
-                        final PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
-
-                        if (pushSwitch.isChecked() && rd.user.getPushes() == false) {
-                            if (pushSwitch.isChecked()) {
-                                startService(new Intent(getApplicationContext(), PushService.class));
-                                alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                                        AlarmManager.INTERVAL_HOUR, pintent);
-                            }
-                            rd.user.setPushes(true);
-                        } else if (!pushSwitch.isChecked() && rd.user.getPushes() == true) {
-                            alarm.cancel(pintent);
-                            stopService(new Intent(getApplicationContext(), PushService.class));
-                            rd.user.setPushes(false);
+                        if (goal_km <= 0)
+                        {
+                            throw new SettingsException("Goal mileage can't be zero");
                         }
-                    }
-                    //if (driven_km < 0 || goal_km < 0)
-                    rd.user.update();
+                        else if (driven_km < 0)
+                        {
+                            throw new SettingsException("Driven mileage can't be lower than zero");
+                        }
 
-                    Snackbar.make(view, "Settings Saved!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    finish();
-                } else {
-                    MakeSnackbar(getString(R.string.wrong_input), view);
+                        List<DrivingSession> sessions = rd.getUser().getAllDrivingSessions();
+                        float sum = 0;
+                        for (DrivingSession session: sessions) {
+                            sum += session.getDistance();
+                        }
+
+                        driven_km += sum;
+
+                        //update User
+                        rd.user.setName(name);
+                        rd.user.setDrivenKm(driven_km);
+                        rd.user.setGoalKm(goal_km);
+
+                        //rd.user.update();
+
+
+                        if (pushSwitch.isChecked() != rd.user.getPushes()) {
+                            final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                            final Calendar cal = Calendar.getInstance();
+                            Intent intent = new Intent(getApplicationContext(), PushService.class);
+                            final PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
+
+                            if (pushSwitch.isChecked() && rd.user.getPushes() == false) {
+                                if (pushSwitch.isChecked()) {
+                                    startService(new Intent(getApplicationContext(), PushService.class));
+                                    alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                                            AlarmManager.INTERVAL_HOUR, pintent);
+                                }
+                                rd.user.setPushes(true);
+                            } else if (!pushSwitch.isChecked() && rd.user.getPushes() == true) {
+                                alarm.cancel(pintent);
+                                stopService(new Intent(getApplicationContext(), PushService.class));
+                                rd.user.setPushes(false);
+                            }
+                        }
+
+
+                        rd.user.update();
+
+                        Toast.makeText(c, "Settings saved", Toast.LENGTH_SHORT).show();
+
+                        finish();
+
+                    } else {
+
+                        throw new SettingsException("Something is missing");
+
+                    }
+
+                } catch (SettingsException ex) {
+
+                    ex.printStackTrace();
+
+                    // make toast
+                    Toast.makeText(c, ex.getMessage(), Toast.LENGTH_SHORT).show();
+
                 }
 
 
@@ -279,7 +339,7 @@ public class SettingsBackend extends AppCompatActivity {
         return adapter;
     }
 
-    public ArrayAdapter createAchievmentAdapter(final List<Achievement> achievements) {
+    public ArrayAdapter createAchievementAdapter(final List<Achievement> achievements) {
 
         ArrayAdapter adapter = new ArrayAdapter<Achievement>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, achievements) {
@@ -319,4 +379,21 @@ public class SettingsBackend extends AppCompatActivity {
         listview.requestLayout();
     }
 
+}
+
+
+
+/**
+ * settings exception
+ */
+class SettingsException extends Exception
+{
+    // Parameterless Constructor
+    public SettingsException() {}
+
+    // Constructor that accepts a message
+    public SettingsException(String message)
+    {
+        super(message);
+    }
 }

@@ -277,8 +277,8 @@ class gridAdapter extends BaseAdapter {
                     tvd.setText(desc);
 
                 } else {
-                    iv.setAlpha((float) 0.36);
-                    tv.setAlpha((float) 0.36);
+                    iv.setAlpha((float) 0.20);
+                    tv.setAlpha((float) 0.20);
 
                     if (achievements.get(position).getType() == 7) {
                         iv.setImageResource(R.drawable.ic_hidden);

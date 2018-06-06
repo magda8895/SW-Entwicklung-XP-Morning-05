@@ -10,22 +10,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_margin="8dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints">
 
             <LinearLayout
@@ -38,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:text="Route"
+                    android:text="@string/driving_session_after_route"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -65,7 +57,7 @@
                 android:id="@+id/textViewDateTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date and Time"
+                android:text="@string/driving_session_after_date_and_time"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -88,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:background="@android:color/transparent"
-                    android:text="Date" />
+                    android:text="@string/driving_session_after_date" />
 
                 <Button
                     android:id="@+id/buttonTimeStart"
@@ -96,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
                     android:background="@android:color/transparent"
-                    android:text="Time" />
+                    android:text="@string/driving_session_after_time" />
 
             </LinearLayout>
 
@@ -119,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:background="@android:color/transparent"
-                    android:text="Date" />
+                    android:text="@string/driving_session_after_date" />
 
                 <Button
                     android:id="@+id/buttonTimeEnd"
@@ -127,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
                     android:background="@android:color/transparent"
-                    android:text="Time" />
+                    android:text="@string/driving_session_after_time" />
 
             </LinearLayout>
 
@@ -149,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:text="Vehicle"
+                    android:text="@string/driving_session_after_vehicle"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -178,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:text="CoDriver"
+                    android:text="@string/driving_session_after_codriver"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -206,7 +198,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Mileage"
+                    android:text="@string/driving_session_afterwards_mileage"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -221,7 +213,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Start"
+                        android:text="@string/driving_session_after_start"
                         android:textColor="@android:color/black" />
 
                     <EditText
@@ -237,7 +229,7 @@
                         android:id="@+id/textViewMileageStartKM"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="km"
+                        android:text="@string/km"
                         android:textColor="@android:color/black" />
 
                 </LinearLayout>
@@ -253,7 +245,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="End"
+                        android:text="@string/driving_session_after_end"
                         android:textColor="@android:color/black" />
 
                     <EditText
@@ -269,7 +261,7 @@
                         android:id="@+id/textViewMileageEndKM"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="km"
+                        android:text="@string/km"
                         android:textColor="@android:color/black" />
 
                 </LinearLayout>
@@ -293,7 +285,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:text="Weather"
+                    android:text="@string/driving_session_after_weather"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -323,7 +315,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:text="Road condition"
+                    android:text="@string/driving_session_after_road_condition"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -334,6 +326,7 @@
                     android:layout_weight="0.4" />
             </LinearLayout>
 
+
             <View
                 android:id="@+id/divider5"
                 android:layout_width="40dp"
@@ -342,12 +335,21 @@
                 android:background="?android:attr/listDivider"
                 android:visibility="invisible" />
 
+
             <Button
                 android:id="@+id/buttonSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Save" />
+                android:text="@string/driving_session_after_save" />
 
+
+            <View
+                android:id="@+id/dividerBottom"
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="?android:attr/listDivider"
+                android:visibility="invisible" />
 
         </LinearLayout>
     </ScrollView>
