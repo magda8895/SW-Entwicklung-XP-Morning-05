@@ -20,22 +20,22 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/startitem_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="03.04.2018"
-            android:textColor="@android:color/black"
-            android:textSize="24dp"
-            tools:ignore="MissingConstraints"/>
-
-        <TextView
             android:id="@+id/startitem_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Graz - Villach"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
+            android:textSize="20sp"
             tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/startitem_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="03.04.2018"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            tools:ignore="MissingConstraints"/>
 
 
     </LinearLayout>
@@ -49,6 +49,6 @@
         android:gravity="center|right"
         android:text="200 km"
         android:textColor="@android:color/black"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 </LinearLayout>
 

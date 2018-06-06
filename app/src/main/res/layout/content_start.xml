@@ -53,16 +53,16 @@
         android:id="@+id/start_floating_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         fab:menu_animationDelayPerItem="50"
         fab:menu_backgroundColor="@android:color/transparent"
         fab:menu_buttonSpacing="0dp"
-        fab:menu_colorNormal="#DA4336"
-        fab:menu_colorPressed="#E75043"
+        app:menu_colorNormal="@color/colorAccent"
+        app:menu_colorPressed="@color/colorAccentDark"
         fab:menu_colorRipple="#99FFFFFF"
         fab:menu_fab_size="normal"
         fab:menu_icon="@drawable/fab_add"
@@ -101,6 +101,8 @@
             fab:fab_label="@string/lable_addnew"
             fab:fab_size="mini"
             fab:menu_showShadow="false"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="@color/colorAccentDark"
             tools:layout_editor_absoluteX="166dp"
             tools:layout_editor_absoluteY="5dp" />
 
@@ -112,6 +114,8 @@
             fab:fab_label="@string/lable_addold"
             fab:fab_size="mini"
             fab:menu_showShadow="false"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="@color/colorAccentDark"
             tools:layout_editor_absoluteX="166dp"
             tools:layout_editor_absoluteY="59dp" />
     </com.github.clans.fab.FloatingActionMenu>

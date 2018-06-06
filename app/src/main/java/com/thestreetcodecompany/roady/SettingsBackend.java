@@ -247,8 +247,8 @@ public class SettingsBackend extends AppCompatActivity {
 
                         //update User
                         rd.user.setName(name);
-                        rd.user.setDrivenKm(driven_km);
-                        rd.user.setGoalKm(goal_km);
+                        rd.user.setDrivenKm((float) (int) driven_km);
+                        rd.user.setGoalKm((float) (int) goal_km);
 
                         //rd.user.update();
 

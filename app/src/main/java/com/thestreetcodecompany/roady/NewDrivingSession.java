@@ -135,8 +135,8 @@ public class NewDrivingSession extends AppCompatActivity  {
         Float Mileage = Float.parseFloat(st);
         DrivingSession lastSession = rd.user.getLastDrivingSession();
         if (lastSession == null || !lastSession.getActive()){
-                DrivingSession newSession = new DrivingSession("unfinished", dateTime_start.getTime(), 00000, "Bugatti", "Hans",
-                        Mileage, 0, 1, 1, rd.user);
+                DrivingSession newSession = new DrivingSession("unfinished", dateTime_start.getTime(), 0, "", "",
+                        Mileage, 0, 0, 0, rd.user);
                 newSession.setActive(true);
                 newSession.save();
 

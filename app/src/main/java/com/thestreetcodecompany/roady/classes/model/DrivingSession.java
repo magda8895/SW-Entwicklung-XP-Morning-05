@@ -229,9 +229,7 @@ public class DrivingSession extends SugarRecord {
     public void setCoDriverString(String coDriver) {
         List<CoDriver> coDrivers = CoDriver.find(CoDriver.class, "name = ?", coDriver);
         if (coDrivers.size() <= 0) {
-            // DB Connect
-            DBHandler dbh = new DBHandler();
-            this.coDriver = dbh.getTestCoDriver();
+            this.coDriver = null;
         } else {
             this.coDriver = coDrivers.get(0);
         }
