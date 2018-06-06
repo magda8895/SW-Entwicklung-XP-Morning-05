@@ -185,7 +185,7 @@ public class StopWatch extends AppCompatActivity {
 
     }
 
-    private long getDiff(DateFormat df, String lastTime, String currentTime, long diff) {
+    public static long getDiff(DateFormat df, String lastTime, String currentTime, long diff) {
         try {
 
             //Convert to Date
