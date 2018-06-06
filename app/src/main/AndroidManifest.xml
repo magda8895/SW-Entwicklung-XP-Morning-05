@@ -39,7 +39,8 @@
         <activity
             android:name=".SettingsBackend"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/label_settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -69,14 +70,17 @@
 
         <activity
             android:name=".NewDrivingSession"
-            android:label="@string/title_activity_new_driving_session"
+            android:label="@string/label_new_driving_session"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfosActivity" />
-        <activity android:name=".StopWatch" >
+        <activity android:name=".InfosActivity"
+            android:label="@string/label_statistics">
+        </activity>
+        <activity android:name=".StopWatch"
+            android:label="@string/label_stop_watch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -94,7 +98,7 @@
 
         <activity
             android:name=".ExportActivity"
-            android:label="@string/title_activity_export"
+            android:label="@string/label_export"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
