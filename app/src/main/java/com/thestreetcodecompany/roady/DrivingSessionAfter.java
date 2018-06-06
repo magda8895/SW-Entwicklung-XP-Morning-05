@@ -50,7 +50,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
     final Calendar calStart = Calendar.getInstance();
     final Calendar calEnd = Calendar.getInstance();
     /* TODO: make formatDateTime general accepted format for parsing: "EEE, d MMM yyyy HH:mm" */
-    final SimpleDateFormat formatDateTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
+    final SimpleDateFormat formatDateTime = new SimpleDateFormat("dd MM yyyy HH:mm");
     final SimpleDateFormat formatDate = new SimpleDateFormat("EEE, d MMM yyyy");
     final SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
     int buttonID = 0;
