@@ -90,8 +90,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfosActivity" />
-        <activity android:name=".StopWatch" />
         <activity android:name=".DrivingSessionActivity"></activity>
 
         <activity

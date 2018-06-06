@@ -204,7 +204,7 @@ public class User extends SugarRecord {
 
     public List<DrivingSession> getAllDrivingSessions()
     {
-        return DrivingSession.find(DrivingSession.class, "user = ?", "" + getId());
+        return DrivingSession.findWithQuery(DrivingSession.class, "SELECT * FROM driving_session WHERE user = ? ORDER BY date_timestart DESC", "" + getId());
     }
 
 
