@@ -6,6 +6,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.GeneralClickAction;
 import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
@@ -73,6 +74,67 @@ public class DrivingSessionAfterwardsUiTest {
     @Before
     public void initValidString() {
         calendar = Calendar.getInstance();
+    }
+
+    @Test
+    public void testSave() {
+        onView(withText("Save"))
+                .check(matches(isDisplayed()))
+                .perform(new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled();
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click save button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                });
+        UiTestsHelper.setText(R.id.editTextRoute, "Paris - Dakar");
+        onView(withText("Save"))
+                .check(matches(isDisplayed()))
+                .perform(new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled();
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click save button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                });
+        UiTestsHelper.setText(R.id.editTextMileageStart, "0");
+        UiTestsHelper.setText(R.id.editTextMileageEnd, "100");
+        onView(withText("Save"))
+                .check(matches(isDisplayed()))
+                .perform(new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled();
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click save button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                });
     }
 
     @Test

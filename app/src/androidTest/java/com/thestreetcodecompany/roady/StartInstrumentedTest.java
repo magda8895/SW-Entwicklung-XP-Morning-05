@@ -100,7 +100,7 @@ public class StartInstrumentedTest {
         //get Data
         DBHandler dbh = new DBHandler();
         RoadyData rd = RoadyData.getInstance();
-        final List<DrivingSession> sessions = dbh.getAllDrivingSessions(rd.user);
+        final List<DrivingSession> sessions = rd.user.getAllDrivingSessions();
         onView(withId(R.id.start_list)).check(matches(isDisplayed()));
         onView(withId(R.id.start_list)).check(ViewAssertions.matches(Matchers.withListSize(sessions.size()+1)));
     }

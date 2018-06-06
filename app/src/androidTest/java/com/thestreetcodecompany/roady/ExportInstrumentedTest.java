@@ -64,9 +64,6 @@ public class ExportInstrumentedTest {
         onView(withId(R.id.editTextFileName)).perform(typeText("export_test"), closeSoftKeyboard());
 
         onView(withId(R.id.buttonShare)).perform(click());
-
-
-
     }
 
 }
