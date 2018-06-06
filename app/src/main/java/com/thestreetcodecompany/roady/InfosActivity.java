@@ -272,6 +272,7 @@ public class InfosActivity extends AppCompatActivity {
                     } else {
                         setMode(MODE.YEAR);
                     }
+                    timeForward.setClickable(false);
                 }
             }
 
