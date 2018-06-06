@@ -112,6 +112,8 @@ public class ExportActivity extends AppCompatActivity {
         shareButton = (Button) findViewById(R.id.buttonShare);
         textFieldFileName = (EditText) findViewById(R.id.editTextFileName);
 
+        if(rd.user==null) rd.user = new DBHandler().getUser();
+
         ListView listView = (ListView) findViewById(R.id.file_history_list);
         List<FileHistory> fileHistories = rd.user.getAllFileHistories();
         Log.i("Export", "Test " + fileHistories.size());
