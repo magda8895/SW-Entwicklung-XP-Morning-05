@@ -3,10 +3,13 @@ package com.thestreetcodecompany.roady;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thestreetcodecompany.roady.classes.DBHandler;
 import com.thestreetcodecompany.roady.classes.RoadyData;
@@ -32,9 +36,11 @@ import com.thestreetcodecompany.roady.classes.model.User;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.text.ParseException;
 
 import static com.thestreetcodecompany.roady.classes.Helper.MakeSnackbar;
 import static com.thestreetcodecompany.roady.classes.Helper.MakeToast;
+
 
 public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,6 +54,7 @@ public class StartActivity extends AppCompatActivity
     NavigationView navigationView;
     TextView percentage;
     com.github.clans.fab.FloatingActionMenu fab_menu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +70,7 @@ public class StartActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
 
         //get View Elements
@@ -184,6 +192,10 @@ public class StartActivity extends AppCompatActivity
     protected void onResume(){
         super.onResume();
 
+        if ( rd.user.getLastDrivingSession() != null ) {
+
+            unfinishedSession();
+        }
         User user = rd.getUser();
         //get all Driving Sessions
         final List<DrivingSession> sessions = user.getAllDrivingSessions();
@@ -291,6 +303,8 @@ public class StartActivity extends AppCompatActivity
                 }
 
 
+
+
                 return view;
             }
 
@@ -300,6 +314,63 @@ public class StartActivity extends AppCompatActivity
         return adapter;
 
     }
+
+
+    //if a Driving Session is left unfinished you will be asked if u want to finish it now or to stash it
+    public void unfinishedSession()
+    {
+        DrivingSession lastDrivingSession = rd.user.getLastDrivingSession();
+        //Toast.makeText(this, "" + lastDrivingSession.getActive() , Toast.LENGTH_SHORT).show();
+
+        //SimpleDateFormat format = new SimpleDateFormat("dd MM yyyy HH:mm ");
+
+        if(((lastDrivingSession.getActive()) == true )){
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(StartActivity.this);
+            mBuilder.setTitle("This should not happen!");
+            mBuilder.setMessage("Roady was quit unexpectedly. The last Driving Session is still unfinished. Should we stash?");
+            mBuilder.setPositiveButton("Stash it!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            mBuilder.setNegativeButton("Resume!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    dialogInterface.dismiss();
+                    Intent intent = new Intent(StartActivity.this,StopWatch.class);
+
+                    //prep. the dates from the last active driving Session for intent
+                    long lgStart = rd.user.getLastDrivingSession().getDateTimeStart();
+                    float KmStart = rd.user.getLastDrivingSession().getKmStart();
+                    int temp;
+                    temp =(int)KmStart;
+                    String stMileage = String.valueOf(temp);
+                    //String stStart = String.valueOf(lgStart);
+
+                    SimpleDateFormat df = new SimpleDateFormat("dd MM yyyy HH:mm");
+                    Date currentDate = new Date(lgStart);
+                    String stStart = df.format(currentDate);
+
+
+
+
+                    intent.putExtra("StartTime",stStart);
+                    intent.putExtra("from_NDS_to_SW",stMileage);
+                    intent.putExtra("StopWatchCrash",1);
+                    startActivity(intent);
+
+
+
+                }
+            });
+            AlertDialog alertDialog = mBuilder.create();
+            alertDialog.show();
+        }
+
+        }
+
 
 
 
