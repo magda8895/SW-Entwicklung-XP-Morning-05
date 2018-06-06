@@ -248,7 +248,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
 
                     Spinner carSpinner = findViewById(R.id.spinnerVehicle);
-                    Car car = Car.findById(Car.class, (long) carSpinner.getSelectedItemPosition());
+                    Car car = Car.listAll(Car.class).get(carSpinner.getSelectedItemPosition());
 
 
                     float km_start = -1;
@@ -278,7 +278,7 @@ public class DrivingSessionAfter extends AppCompatActivity {
                     }
 
                     Spinner coDriverSpinner = findViewById(R.id.spinnerCoDriver);
-                    CoDriver co_driver = CoDriver.findById(CoDriver.class, (long) coDriverSpinner.getSelectedItemPosition());
+                    CoDriver co_driver = CoDriver.listAll(CoDriver.class).get(coDriverSpinner.getSelectedItemPosition());
 
                     int weather = weatherSpinner.getSelectedItemPosition();
                     int street_condition = roadConditionsSpinner.getSelectedItemPosition();
@@ -561,104 +561,6 @@ public class DrivingSessionAfter extends AppCompatActivity {
 
                         achievements.get(i).save();
 
-                        /*
-                        switch (achievements.get(i).getType()) {
-                            case 0: // rain
-                                if (achievementRain) {
-                                    if (!achievements.get(i).getReached()) {
-                                        achievements.get(i).setReachedDate(now);
-                                    }
-                                } else {
-                                    if (achievements.get(i).getReached()) {
-                                        achievements.get(i).setReached("");
-                                    }
-                                }
-                                break;
-                            case 1: // snow
-                                if (achievementSnow) {
-                                    if (!achievements.get(i).getReached()) {
-                                        achievements.get(i).setReachedDate(now);
-                                    }
-                                } else {
-                                    if (achievements.get(i).getReached()) {
-                                        achievements.get(i).setReached("");
-                                    }
-                                }
-                                break;
-                            case 2: // ice
-                                if (achievementIce) {
-                                    if (!achievements.get(i).getReached()) {
-                                        achievements.get(i).setReachedDate(now);
-                                    }
-                                } else {
-                                    if (achievements.get(i).getReached()) {
-                                        achievements.get(i).setReached("");
-                                    }
-                                }
-                                break;
-                            case 3: // night
-                                if (achievementNight) {
-                                    if (!achievements.get(i).getReached()) {
-                                        achievements.get(i).setReachedDate(now);
-                                    }
-                                } else {
-                                    if (achievements.get(i).getReached()) {
-                                        achievements.get(i).setReached("");
-                                    }
-                                }
-                                break;
-                            case 4: // streak
-                                if (achievementLevelStreak > 0) {
-                                    if (!achievements.get(i).getReached()) {
-                                        achievements.get(i).setReachedDate(now);
-                                    }
-                                    achievementLevelStreak--;
-                                } else {
-                                    if (achievements.get(i).getReached()) {
-                                        achievements.get(i).setReached("");
-                                    }
-                                }
-                                break;
-                            case 5: // distance
-                                if ((int) rd.user.getDrivenKm() > achievements.get(i).getValue()) {
-                                    if (!achievements.get(i).getReached()) {
-                                        achievements.get(i).setReachedDate(now);
-                                    }
-                                } else {
-                                    if (achievements.get(i).getReached()) {
-                                        achievements.get(i).setReached("");
-                                    }
-                                }
-                                break;
-                            case 6: // time
-                                if (achievementLevelTime > 0) {
-                                    if (!achievements.get(i).getReached()) {
-                                        achievements.get(i).setReachedDate(now);
-                                    }
-                                    achievementLevelTime--;
-                                } else {
-                                    if (achievements.get(i).getReached()) {
-                                        achievements.get(i).setReached("");
-                                    }
-                                }
-                                break;
-                            case 7: // fast & furious
-                                if (achievementLevelFastFurious > 0) {
-                                    if (!achievements.get(i).getReached()) {
-                                        achievements.get(i).setReachedDate(now);
-                                    }
-                                    achievementLevelFastFurious--;
-                                } else {
-                                    if (achievements.get(i).getReached()) {
-                                        achievements.get(i).setReached("");
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        achievements.get(i).save();
-                        */
                     }
 
                     finish();
